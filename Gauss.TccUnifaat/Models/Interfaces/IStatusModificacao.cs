@@ -1,6 +1,6 @@
 ﻿namespace Gauss.TccUnifaat.Models.Interfaces
 {
-    public class IStatusModificacao
+    public interface IStatusModificacao
     {
         bool Excluido { get; set; }
 
