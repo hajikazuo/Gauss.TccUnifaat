@@ -28,7 +28,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.AccessDeniedPath = "/Forbidden/";
         options.LoginPath = "/Account/Login";
         options.LogoutPath = "/Account/Logout";
-        options.Cookie.Name = "Guass.Cookie";
+        options.Cookie.Name = "Gauss.Cookie";
         options.Cookie.HttpOnly = true;
     });
 

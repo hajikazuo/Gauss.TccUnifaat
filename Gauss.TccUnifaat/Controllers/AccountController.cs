@@ -33,11 +33,15 @@ namespace Gauss.TccUnifaat.Controllers
             ViewBag.Confirm = TempData["Confirm"];
             ViewData["ReturnUrl"] = returnUrl;
 
+
+            // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
             var model = new LoginViewModel();
             return View(model);
         }
+
+
 
         [HttpPost]
         [AllowAnonymous]
@@ -66,6 +70,7 @@ namespace Gauss.TccUnifaat.Controllers
                 return View(model);
             }
 
+            // If we got this far, something failed, redisplay form
             return View(model);
         }
 
@@ -89,5 +94,6 @@ namespace Gauss.TccUnifaat.Controllers
                 return RedirectToAction(nameof(HomeController.Index), "Home");
             }
         }
+
     }
 }
