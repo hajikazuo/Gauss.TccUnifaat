@@ -34,6 +34,21 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<Funcao>>();
+
+    if (!roleManager.RoleExistsAsync("Administrador").Result)
+    {
+        var adminRole = new Funcao
+        {
+            Name = "Administrador"
+        };
+
+        roleManager.CreateAsync(adminRole).Wait();
+    }
+}
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -54,9 +69,16 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-app.MapRazorPages();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+       name: "createfirstadmin",
+       pattern: "/Account/CreateAdmin",
+       defaults: new { controller = "Account", action = "CreateAdmin" });
+
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
+});
 
 app.Run();

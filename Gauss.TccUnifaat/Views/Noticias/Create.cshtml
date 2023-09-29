@@ -20,11 +20,11 @@
                 <label asp-for="CategoriaId" class="control-label"></label>
                 <select asp-for="CategoriaId" class ="form-control" asp-items="ViewBag.CategoriaId"></select>
             </div>
-            <div class="form-group">
+            @* <div class="form-group">
                 <label asp-for="TipoNoticia" class="control-label"></label>
                 <select asp-for="TipoNoticia" class="form-control"></select>
                 <span asp-validation-for="TipoNoticia" class="text-danger"></span>
-            </div>
+            </div> *@
             <div class="form-group">
                 <label asp-for="Titulo" class="control-label"></label>
                 <input asp-for="Titulo" class="form-control" />

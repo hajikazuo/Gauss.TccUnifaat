@@ -1,26 +1,38 @@
-﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+﻿﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Usuario> SignInManager
 
-<ul class="navbar-nav">
-@if (SignInManager.IsSignedIn(User))
+@if (SignInManager.IsSignedIn(User) && User.IsInRole("Administrador"))
 {
-    <li class="nav-item">
-        <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
-    </li>
-    <li class="nav-item">
-        <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+    <ul class="navbar-nav">
+        <form method="post" asp-controller="account" asp-action="logout">
+            <button type="submit" style="width:auto"
+                    class="nav-link btn btn-link py-0">
+                Logout @User.Identity.Name
+            </button>
         </form>
-    </li>
+    </ul>
+    <ul class="navbar-nav">
+        <a class="nav-link" asp-controller="account" asp-action="register">
+            REGISTRAR
+        </a>
+    </ul>
+}
+else if (SignInManager.IsSignedIn(User))
+{
+    <ul class="navbar-nav">
+        <form method="post" asp-controller="account" asp-action="logout">
+            <button type="submit" style="width:auto"
+                    class="nav-link btn btn-link py-0">
+                Logout @User.Identity.Name
+            </button>
+        </form>
+    </ul>
 }
 else
 {
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
-    </li>
+    <ul class="navbar-nav">       
+            <a class="btn btn-danger" asp-controller="account" asp-action="login">
+                ÁREA DO ALUNO
+            </a>       
+    </ul>
 }
-</ul>
