@@ -1,18 +1,22 @@
-﻿using Gauss.TccUnifaat.Models;
+﻿using Gauss.TccUnifaat.Data;
+using Gauss.TccUnifaat.Models;
+using Gauss.TccUnifaat.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace Gauss.TccUnifaat.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : ControllerBase
     {
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<Usuario> _userManager;
         public RT.Comb.ICombProvider _comb;
 
-        public HomeController(ILogger<HomeController> logger, UserManager<Usuario> userManager, RT.Comb.ICombProvider comb)
+        public HomeController(ILogger<HomeController> logger, UserManager<Usuario> userManager, RT.Comb.ICombProvider comb, ApplicationDbContext context)
+        : base(context, comb)
         {
             _logger = logger;
             _userManager = userManager;
@@ -21,6 +25,7 @@ namespace Gauss.TccUnifaat.Controllers
 
         public IActionResult Index()
         {
+
             return View();
         }
 

@@ -12,8 +12,6 @@ namespace Gauss.TccUnifaat.Models
         public Guid UsuarioId { get; set; }
         public Guid CategoriaId { get; set; }
 
-
-
         public TipoNoticia TipoNoticia { get; set; }
 
         [Required]
