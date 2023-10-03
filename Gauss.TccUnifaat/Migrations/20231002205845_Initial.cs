@@ -186,6 +186,7 @@ namespace Gauss.TccUnifaat.Migrations
                     Titulo = table.Column<string>(type: "nvarchar(70)", maxLength: 70, nullable: false),
                     Conteudo = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: false),
                     DataCadastro = table.Column<DateTime>(type: "datetime2(2)", nullable: false),
+                    Foto = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Excluido = table.Column<bool>(type: "bit", nullable: false),
                     DataExcluido = table.Column<DateTime>(type: "datetime2(2)", nullable: true),
                     DataUltimaModificacao = table.Column<DateTime>(type: "datetime2(2)", nullable: true)

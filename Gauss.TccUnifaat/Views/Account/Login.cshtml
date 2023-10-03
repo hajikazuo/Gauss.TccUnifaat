@@ -3,27 +3,27 @@
 @{
     Layout = "~/Views/Shared/_LayoutLogin.cshtml";
 }
-<div class="col-sm-12 col-md-6 col-lg-5 col-xl-4 ml-auto">
-    <h1 class="text-white fw-300 mb-3 d-sm-block d-md-none">
-        Login
-    </h1>
-    <div class="card p-4 rounded-plus bg-faded">
-        <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
-            <div class="form-group">
-                <label class="form-label" for="username">Usuário</label>
-                <input asp-for="UserName" class="form-control form-control-lg" placeholder="email@@email.com" required value="gauss@gauss.com.br" />
-                <div class="invalid-feedback">Não pode ser vazio.</div>
-            </div>
-            <div class="form-group">
-                <label class="form-label" for="password">Senha</label>
-                <input asp-for="Password" class="form-control form-control-lg" placeholder="password" required value="Gauss@2023">
-                <div class="invalid-feedback">Não pode ser vazio.</div>
-            </div>
-            <div class="row no-gutters">
-                <div class="col-lg-6 pl-lg-1 my-2">
-                    <button id="js-login-btn" type="submit" class="btn btn-danger btn-block btn-lg">Login</button>
+
+<div class="row justify-content-center align-items-center">
+    <div class="col-sm-12 col-md-6 col-lg-5 col-xl-4 ml-auto ">
+        <div class="card p-4">
+            <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+                <div class="form-group">
+                    <label class="form-label" for="username">Usuário</label>
+                    <input asp-for="UserName" class="form-control form-control-lg" placeholder="email@@email.com" required value="gauss@gauss.com.br" />
+                    <div class="invalid-feedback">Não pode ser vazio.</div>
                 </div>
-            </div>
-        </form>
+                <div class="form-group">
+                    <label class="form-label" for="password">Senha</label>
+                    <input asp-for="Password" class="form-control form-control-lg" placeholder="password" required value="Gauss@2023">
+                    <div class="invalid-feedback">Não pode ser vazio.</div>
+                </div>
+                <div class="row no-gutters">
+                    <div class="col-lg-6 pl-lg-1 my-2">
+                        <button id="js-login-btn" type="submit" class="btn btn-danger btn-block btn-lg">Login</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </div>

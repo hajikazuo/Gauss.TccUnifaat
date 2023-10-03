@@ -109,6 +109,9 @@ namespace Gauss.TccUnifaat.Migrations
                     b.Property<bool>("Excluido")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Foto")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("TipoNoticia")
                         .HasColumnType("int");
 

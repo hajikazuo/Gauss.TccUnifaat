@@ -25,6 +25,9 @@
                 @Html.DisplayNameFor(model => model.DataCadastro)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Foto)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Usuario)
             </th>
             <th>
@@ -47,6 +50,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DataCadastro)
+            </td>
+            <td>
+                <img src=".\fotos\@{ @item.Foto}" width="50" />
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Usuario.Id)

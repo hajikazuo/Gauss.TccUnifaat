@@ -2,17 +2,28 @@ html {
   font-size: 14px;
 }
 
-@media (min-width: 768px) {
+/*@media (min-width: 768px) {
   html {
-    font-size: 16px;
+    font-size: 14px;
   }
+}*/
+
+.imagem-carrossel {
+    object-fit: cover;
+    object-position: 0 80%;
+    width: 100%;
+    height: 400px;
+    filter: brightness(60%);
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+.title {
+    margin-top: 2%;
+    margin-bottom: 1%;
+    color: #ed1c24;
 }
 
-body {
-  margin-bottom: 60px;
+.text-container {
+    padding: 3%;
 }
+
+

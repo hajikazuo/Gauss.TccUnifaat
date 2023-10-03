@@ -12,7 +12,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/image/logo.png" /></a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/fotosEstaticas/logo.png" /></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -34,20 +34,86 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container-fluid">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - Gauss.TccUnifaat - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-3">
+                    <ul class="dados">
+                        <li><img src="~/fotosEstaticas/logo.png" /></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <ul class="dados">
+                        <li>
+                            <p><strong>Sobre</strong></p>
+                        </li>
+                        <li>
+                            <p>
+                                Lorem ipsum dolor sit amet. Ad nesciunt distinctio aut delectus doloremque aut necessitatibus nulla eum nesciunt perspiciatis
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <ul class="dados">
+                        <li>
+                            <p><strong>Siga-nos nas redes sociais:</strong></p>
+                        </li>
+                        <li>
+                            <a class="link" href="" target="_blank">
+                                <i class="fa-brands fa-instagram"></i> Instagram
+                            </a>
+                        </li>
+                        <li>
+                            <a class="link" href="" target="_blank">
+                                <i class="fa-brands fa-facebook"></i> Facebook
+                            </a>
+                        </li>
+                        <li>
+                            <a class="link" href="" target="_blank">
+                                <i class="fa-brands fa-youtube"></i> YouTube
+                            </a>
+                        </li>
+                    </ul>
+
+                </div>
+                <div class="col-md-3">
+                    <ul class="dados">
+                        <li>
+                            <p><strong>Endereço:</strong></p>
+                        </li>
+                        <li>
+                            <a class="link"
+                               href="https://www.google.com/maps/search/?api=1&query=Avenida Nove de Julho 288 Centro Atibaia SP"
+                               target="_blank">Avenida Nove de Julho, 288 - Centro Atibaia, SP 12940-580</a>
+                        </li>
+                        <li>
+                            <strong>Tel:</strong> <a class="link" href="tel:(11)44122730">(11) 4412-2730</a> <a class="link"
+                                                                                                                href="tel:(11)44112520">(11) 4411-2520</a>
+                        </li>
+                        <li>
+                            <strong>Whatsapp:</strong><a class="link"
+                                                         href="https://api.whatsapp.com/send?phone=551144122730" target="_blank">
+                                (11)
+                                4412-2730
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            </div>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://kit.fontawesome.com/433289bf12.js" crossorigin="anonymous"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

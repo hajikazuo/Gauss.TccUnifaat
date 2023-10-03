@@ -13,10 +13,12 @@ namespace Gauss.TccUnifaat.Controllers
 {
     public class NoticiasController : ControllerBase
     {
+        private string _filePath;
 
-        public NoticiasController(ApplicationDbContext context
+        public NoticiasController(ApplicationDbContext context, IWebHostEnvironment env
             , RT.Comb.ICombProvider comb) : base(context, comb)
         {
+            _filePath = env.WebRootPath;
         }
 
         // GET: Noticias
@@ -46,6 +48,41 @@ namespace Gauss.TccUnifaat.Controllers
             return View(noticia);
         }
 
+        public bool ValidaImagem(IFormFile anexo)
+        {
+            switch (anexo.ContentType)
+            {
+                case "image/jpeg":
+                    return true;
+                case "image/bmp":
+                    return true;
+                case "image/gif":
+                    return true;
+                case "image/png":
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        public string SalvarArquivo(IFormFile anexo)
+        {
+            var nome = Guid.NewGuid().ToString() + anexo.FileName;
+
+            var filePath = _filePath + "\\fotos";
+            if (!Directory.Exists(filePath))
+            {
+                Directory.CreateDirectory(filePath);
+            }
+
+            using (var stream = System.IO.File.Create(filePath + "\\" + nome))
+            {
+                anexo.CopyToAsync(stream);
+            }
+
+            return nome;
+        }
+
         // GET: Noticias/Create
         public IActionResult Create()
         {
@@ -54,24 +91,28 @@ namespace Gauss.TccUnifaat.Controllers
             return View();
         }
 
-
+        // POST: Noticias/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Noticia noticia)
+        public async Task<IActionResult> Create(Noticia noticia, IFormFile anexo)
         {
             var userId = Guid.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
-
             if (ModelState.IsValid)
             {
+                if (!ValidaImagem(anexo))
+                    return View(noticia);
+
+                var nome = SalvarArquivo(anexo);
+                noticia.Foto = nome;
                 noticia.NoticiaId = _comb.Create();
                 noticia.UsuarioId = userId;
                 noticia.TipoNoticia = Models.Enums.TipoNoticia.NoticiaPrincipal;
-                _context.Noticias.Add(noticia);
+                _context.Add(noticia);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-
-
             ViewData["CategoriaId"] = new SelectList(_context.Categoria, "CategoriaId", "CategoriaNome", noticia.CategoriaId);
             ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "Id", noticia.UsuarioId);
             return View(noticia);
@@ -100,7 +141,7 @@ namespace Gauss.TccUnifaat.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("NoticiaId,UsuarioId,CategoriaId,TipoNoticia,Titulo,Conteudo,DataCadastro")] Noticia noticia)
+        public async Task<IActionResult> Edit(Guid id, [Bind("NoticiaId,UsuarioId,CategoriaId,TipoNoticia,Titulo,Conteudo,DataCadastro,Foto")] Noticia noticia)
         {
             if (id != noticia.NoticiaId)
             {
@@ -166,14 +207,14 @@ namespace Gauss.TccUnifaat.Controllers
             {
                 _context.Noticias.Remove(noticia);
             }
-
+            
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool NoticiaExists(Guid id)
         {
-            return _context.Noticias.Any(e => e.NoticiaId == id);
+          return (_context.Noticias?.Any(e => e.NoticiaId == id)).GetValueOrDefault();
         }
     }
 }

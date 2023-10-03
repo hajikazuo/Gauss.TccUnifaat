@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Gauss.TccUnifaat.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230929000801_Initial")]
+    [Migration("20231002205845_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -110,6 +110,9 @@ namespace Gauss.TccUnifaat.Migrations
 
                     b.Property<bool>("Excluido")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Foto")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TipoNoticia")
                         .HasColumnType("int");

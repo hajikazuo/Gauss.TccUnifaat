@@ -30,6 +30,8 @@ namespace Gauss.TccUnifaat.Models
         [Display(Name = "Data Cadastro")]
         public DateTime DataCadastro { get; set; }
 
+        public string? Foto { get; set; }
+
         [ScaffoldColumn(false)]
         [Display(Name = "Excluído")]
         public bool Excluido { get; set; }
