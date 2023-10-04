@@ -26,7 +26,17 @@ namespace Gauss.TccUnifaat.Controllers
         public IActionResult Index()
         {
 
-            return View();
+            var noticiasDaCamadaDeDados = _context.Noticias.ToList();
+
+            var noticiasViewModel = noticiasDaCamadaDeDados.Select(noticia => new HomePageViewModel
+            {
+                Titulo = noticia.Titulo,
+                Conteudo = noticia.Conteudo,
+                DataCadastro = noticia.DataCadastro,
+                UrlImagem = Url.Content($"~/fotos/{noticia.Foto}"),
+            }).ToList();
+
+            return View(noticiasViewModel);
         }
 
     }

@@ -9,3 +9,60 @@
         Ea ipsum eligendi quo quos harum et quam iure qui sint aliquid qui impedit maxime! Est dicta voluptatem ad quia quia qui optio voluptatum aut laborum reprehenderit non iusto officia. Id libero tempore in quia quia et aperiam molestiae et nemo omnis! Non quaerat dolores est galisum alias sed quia recusandae sed necessitatibus aliquam sit nobis vero.
     </p>
 </div>
+
+<div class="container card-container">
+    <h1 class="title">Notícias</h1>
+    <div class="row">
+        @foreach (var noticia in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="@noticia.UrlImagem" class="card-img-top" alt="Imagem da Notícia">
+                    <div class="card-body">
+                        <h5 class="card-title">@noticia.Titulo</h5>
+                        <p class="card-text">@noticia.Conteudo</p>
+                        <p class="card-text"><small class="text-muted">@noticia.DataCadastro.ToString("dd/MM/yyyy")</small></p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="container card-container">
+    <h1 class="title">Sobre nós</h1>
+    <p>Lorem ipsum dolor sit amet. Ad nesciunt distinctio aut delectus doloremque aut necessitatibus nulla eum nesciunt perspiciatis aut placeat expedita eos expedita voluptas.</p>
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="~/fotosEstaticas/depoimento.jpg" style="height: 40vh;" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Depoimentos de ex-alunos</h5>
+                    <p class="card-text">Ao longo dos anos, centenas de vidas e famílias foram mudadas com a ajuda do Gauss. Conheça algumas histórias!</p>
+                    <a href="#" class="btn btn-danger">Saiba Mais</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="~/fotosEstaticas/unifaat.png" style="height: 40vh;" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Bolsas de Estudo para o Ensino Superior</h5>
+                    <p class="card-text">Somos a única entidade responsável pelas bolsas de estudo da Unifaat.</p>
+                    <a href="#" class="btn btn-danger">Saiba Mais</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="~/fotosEstaticas/cursinho.jpg" style="height: 40vh;" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Cursinho Pré-Vestibula</h5>
+                    <p class="card-text">O Cursinho Gauss atua desde 1999 na promoção de cursinho pré-vestibular aos finais de semana voltado para alunos de baixa renda.</p>
+                    <a href="#" class="btn btn-danger">Saiba Mais</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

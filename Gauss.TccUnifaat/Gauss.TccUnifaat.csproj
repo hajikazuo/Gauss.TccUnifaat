@@ -21,4 +21,8 @@
     <PackageReference Include="RT.Comb" Version="4.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\fotos\" />
+  </ItemGroup>
+
 </Project>
