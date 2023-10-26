@@ -90,7 +90,6 @@ namespace Gauss.TccUnifaat.Controllers
             ViewData["CategoriaId"] = new SelectList(_context.Categoria, "CategoriaId", "CategoriaNome");
             ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "Id");
 
-            // Crie uma lista de seleção para o enum TipoNoticia
             var tipoNoticiaOptions = Enum.GetValues(typeof(TipoNoticia))
                 .Cast<TipoNoticia>()
                 .Select(e => new SelectListItem
@@ -119,7 +118,6 @@ namespace Gauss.TccUnifaat.Controllers
                 noticia.NoticiaId = _comb.Create();
                 noticia.UsuarioId = userId;
 
-                // Converta o valor selecionado de volta para o enum TipoNoticia
                 noticia.TipoNoticia = (TipoNoticia)Enum.Parse(typeof(TipoNoticia), noticia.TipoNoticia.ToString());
 
                 _context.Add(noticia);
