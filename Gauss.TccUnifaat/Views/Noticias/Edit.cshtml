@@ -1,7 +1,15 @@
 ﻿@model Gauss.TccUnifaat.Models.Noticia
+@using Gauss.TccUnifaat.Models.Enums
 
 @{
     ViewData["Title"] = "Edit";
+    var tipoNoticiaOptions = Enum.GetValues(typeof(TipoNoticia))
+        .Cast<TipoNoticia>()
+        .Select(t => new SelectListItem
+                {
+                    Value = ((int)t).ToString(),
+                    Text = t.ToString()
+                });
 }
 
 <h1>Edit</h1>
@@ -23,11 +31,11 @@
                 <select asp-for="CategoriaId" class="form-control" asp-items="ViewBag.CategoriaId"></select>
                 <span asp-validation-for="CategoriaId" class="text-danger"></span>
             </div>
-            @* <div class="form-group">
+            <div class="form-group">
                 <label asp-for="TipoNoticia" class="control-label"></label>
-                <select asp-for="TipoNoticia" class="form-control"></select>
+                <select asp-for="TipoNoticia" asp-items="tipoNoticiaOptions" class="form-control"></select>
                 <span asp-validation-for="TipoNoticia" class="text-danger"></span>
-            </div> *@
+            </div>
             <div class="form-group">
                 <label asp-for="Titulo" class="control-label"></label>
                 <input asp-for="Titulo" class="form-control" />
@@ -60,5 +68,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

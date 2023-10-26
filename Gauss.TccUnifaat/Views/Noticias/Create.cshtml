@@ -1,7 +1,15 @@
 ﻿@model Gauss.TccUnifaat.Models.Noticia
+@using Gauss.TccUnifaat.Models.Enums
 
 @{
     ViewData["Title"] = "Create";
+    var tipoNoticiaOptions = Enum.GetValues(typeof(TipoNoticia))
+        .Cast<TipoNoticia>()
+        .Select(t => new SelectListItem
+        {
+            Value = ((int)t).ToString(),
+            Text = t.ToString()
+        });
 }
 
 <h1>Create</h1>
@@ -12,19 +20,15 @@
     <div class="col-md-4">
         <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @* <div class="form-group">
-                <label asp-for="UsuarioId" class="control-label"></label>
-                <select asp-for="UsuarioId" class ="form-control" asp-items="ViewBag.UsuarioId"></select>
-            </div> *@
             <div class="form-group">
                 <label asp-for="CategoriaId" class="control-label"></label>
-                <select asp-for="CategoriaId" class ="form-control" asp-items="ViewBag.CategoriaId"></select>
+                <select asp-for="CategoriaId" class="form-control" asp-items="ViewBag.CategoriaId"></select>
             </div>
-           @*  <div class="form-group">
+            <div class="form-group">
                 <label asp-for="TipoNoticia" class="control-label"></label>
-                <select asp-for="TipoNoticia" class="form-control"></select>
+                <select asp-for="TipoNoticia" asp-items="tipoNoticiaOptions" class="form-control"></select>
                 <span asp-validation-for="TipoNoticia" class="text-danger"></span>
-            </div> *@
+            </div> 
             <div class="form-group">
                 <label asp-for="Titulo" class="control-label"></label>
                 <input asp-for="Titulo" class="form-control" />

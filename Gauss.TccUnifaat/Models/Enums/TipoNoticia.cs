@@ -4,6 +4,7 @@
     {
         Nenhuma=0,
         NoticiaPrincipal=1,
-        Informativo=2
+        Informativo=2,
+        Relato=3
     }
 }

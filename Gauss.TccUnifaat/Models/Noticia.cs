@@ -12,14 +12,17 @@ namespace Gauss.TccUnifaat.Models
         public Guid UsuarioId { get; set; }
         public Guid CategoriaId { get; set; }
 
+        [Display(Name = "Categoria da Noticia")]
         public TipoNoticia TipoNoticia { get; set; }
 
         [Required]
         [MaxLength(70, ErrorMessage = "O {0} deve ter no máximo {1} caracteres")]
+        [Display(Name = "Título da Noticia")]
         public string Titulo { get; set; }
 
         [Required]
         [MaxLength(4000, ErrorMessage = "O {0} deve ter no máximo {1} caracteres")]
+        [Display(Name = "Conteúdo")]
         public string Conteudo { get; set; }
 
         #region Interface

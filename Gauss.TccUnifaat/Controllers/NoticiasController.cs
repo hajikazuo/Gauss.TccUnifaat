@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Gauss.TccUnifaat.Data;
 using Gauss.TccUnifaat.Models;
 using System.Security.Claims;
+using Gauss.TccUnifaat.Models.Enums;
 
 namespace Gauss.TccUnifaat.Controllers
 {
@@ -88,12 +89,21 @@ namespace Gauss.TccUnifaat.Controllers
         {
             ViewData["CategoriaId"] = new SelectList(_context.Categoria, "CategoriaId", "CategoriaNome");
             ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "Id");
+
+            // Crie uma lista de seleção para o enum TipoNoticia
+            var tipoNoticiaOptions = Enum.GetValues(typeof(TipoNoticia))
+                .Cast<TipoNoticia>()
+                .Select(e => new SelectListItem
+                {
+                    Text = e.ToString(),
+                    Value = ((int)e).ToString()
+                });
+            ViewData["TipoNoticiaOptions"] = tipoNoticiaOptions;
+
             return View();
         }
 
         // POST: Noticias/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Noticia noticia, IFormFile anexo)
@@ -108,15 +118,30 @@ namespace Gauss.TccUnifaat.Controllers
                 noticia.Foto = nome;
                 noticia.NoticiaId = _comb.Create();
                 noticia.UsuarioId = userId;
-                noticia.TipoNoticia = Models.Enums.TipoNoticia.NoticiaPrincipal;
+
+                // Converta o valor selecionado de volta para o enum TipoNoticia
+                noticia.TipoNoticia = (TipoNoticia)Enum.Parse(typeof(TipoNoticia), noticia.TipoNoticia.ToString());
+
                 _context.Add(noticia);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CategoriaId"] = new SelectList(_context.Categoria, "CategoriaId", "CategoriaNome", noticia.CategoriaId);
             ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "Id", noticia.UsuarioId);
+
+            // Recupere as opções do enum para renderizar no dropdown na exibição novamente
+            var tipoNoticiaOptions = Enum.GetValues(typeof(TipoNoticia))
+                .Cast<TipoNoticia>()
+                .Select(e => new SelectListItem
+                {
+                    Text = e.ToString(),
+                    Value = ((int)e).ToString()
+                });
+            ViewData["TipoNoticiaOptions"] = tipoNoticiaOptions;
+
             return View(noticia);
         }
+
 
         // GET: Noticias/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
