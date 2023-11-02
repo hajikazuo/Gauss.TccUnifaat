@@ -117,7 +117,8 @@ namespace Gauss.TccUnifaat.Controllers
                     noticia.NoticiaId = _comb.Create();
                     noticia.UsuarioId = userId;
 
-                    noticia.TipoNoticia = (TipoNoticia)Enum.Parse(typeof(TipoNoticia), noticia.TipoNoticia.ToString());
+                // Converta o valor selecionado de volta para o enum TipoNoticia
+                noticia.TipoNoticia = (TipoNoticia)Enum.Parse(typeof(TipoNoticia), noticia.TipoNoticia.ToString());
 
                     _context.Add(noticia);
                     await _context.SaveChangesAsync();
