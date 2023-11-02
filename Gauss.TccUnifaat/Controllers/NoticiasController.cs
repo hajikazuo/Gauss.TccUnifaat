@@ -22,7 +22,7 @@ namespace Gauss.TccUnifaat.Controllers
 
         public NoticiasController(ApplicationDbContext context, IWebHostEnvironment env, RT.Comb.ICombProvider comb) : base(context, comb)
         {
-            _filePath = Path.Combine(env.WebRootPath, "fotos");
+            _filePath = Path.Combine(env.WebRootPath, "img");
             _env = env;
         }
 
@@ -154,7 +154,6 @@ namespace Gauss.TccUnifaat.Controllers
             }
             ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "Id", noticia.UsuarioId);
 
-            // Recupere as opções do enum para renderizar no dropdown na edição
             var tipoNoticiaOptions = Enum.GetValues(typeof(TipoNoticia))
                 .Cast<TipoNoticia>()
                 .Select(e => new SelectListItem
@@ -198,7 +197,6 @@ namespace Gauss.TccUnifaat.Controllers
             }
             ViewData["UsuarioId"] = new SelectList(_context.Users, "Id", "Id", noticia.UsuarioId);
 
-            // Recupere as opções do enum para renderizar no dropdown na edição
             var tipoNoticiaOptions = Enum.GetValues(typeof(TipoNoticia))
                 .Cast<TipoNoticia>()
                 .Select(e => new SelectListItem
