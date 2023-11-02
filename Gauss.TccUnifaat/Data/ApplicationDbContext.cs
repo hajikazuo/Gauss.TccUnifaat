@@ -14,7 +14,6 @@ public class ApplicationDbContext : IdentityDbContext<Usuario, Funcao, Guid>
     {
     }
     public DbSet<Noticia> Noticias { get; set; }
-    public DbSet<Noticia> Categorias { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -69,6 +68,4 @@ public class ApplicationDbContext : IdentityDbContext<Usuario, Funcao, Guid>
         }
 
     }
-
-    public DbSet<Gauss.TccUnifaat.Models.Categoria> Categoria { get; set; }
 }

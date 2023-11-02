@@ -53,23 +53,6 @@ namespace Gauss.TccUnifaat.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Categoria",
-                columns: table => new
-                {
-                    CategoriaId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CategoriaNome = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Descricao = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    DataCadastro = table.Column<DateTime>(type: "datetime2(2)", nullable: false),
-                    Excluido = table.Column<bool>(type: "bit", nullable: false),
-                    DataExcluido = table.Column<DateTime>(type: "datetime2(2)", nullable: true),
-                    DataUltimaModificacao = table.Column<DateTime>(type: "datetime2(2)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Categoria", x => x.CategoriaId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -176,12 +159,11 @@ namespace Gauss.TccUnifaat.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Noticia",
+                name: "Noticias",
                 columns: table => new
                 {
                     NoticiaId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UsuarioId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CategoriaId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     TipoNoticia = table.Column<int>(type: "int", nullable: false),
                     Titulo = table.Column<string>(type: "nvarchar(70)", maxLength: 70, nullable: false),
                     Conteudo = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: false),
@@ -193,18 +175,12 @@ namespace Gauss.TccUnifaat.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Noticia", x => x.NoticiaId);
+                    table.PrimaryKey("PK_Noticias", x => x.NoticiaId);
                     table.ForeignKey(
-                        name: "FK_Noticia_AspNetUsers_UsuarioId",
+                        name: "FK_Noticias_AspNetUsers_UsuarioId",
                         column: x => x.UsuarioId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Noticia_Categoria_CategoriaId",
-                        column: x => x.CategoriaId,
-                        principalTable: "Categoria",
-                        principalColumn: "CategoriaId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -248,13 +224,8 @@ namespace Gauss.TccUnifaat.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Noticia_CategoriaId",
-                table: "Noticia",
-                column: "CategoriaId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Noticia_UsuarioId",
-                table: "Noticia",
+                name: "IX_Noticias_UsuarioId",
+                table: "Noticias",
                 column: "UsuarioId");
         }
 
@@ -276,16 +247,13 @@ namespace Gauss.TccUnifaat.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Noticia");
+                name: "Noticias");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "Categoria");
         }
     }
 }

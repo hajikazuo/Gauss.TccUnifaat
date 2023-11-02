@@ -10,7 +10,6 @@ namespace Gauss.TccUnifaat.Models
         public Guid NoticiaId { get; set; }
 
         public Guid UsuarioId { get; set; }
-        public Guid CategoriaId { get; set; }
 
         [Display(Name = "Categoria da Noticia")]
         public TipoNoticia TipoNoticia { get; set; }
@@ -53,7 +52,6 @@ namespace Gauss.TccUnifaat.Models
         [ForeignKey(nameof(UsuarioId))]
         public virtual Usuario? Usuario { get; set; }
 
-        public virtual Categoria? Categoria { get; set; }
     }
 }
 

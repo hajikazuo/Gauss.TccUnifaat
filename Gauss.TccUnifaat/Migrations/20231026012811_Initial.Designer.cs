@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Gauss.TccUnifaat.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231002205845_Initial")]
+    [Migration("20231026012811_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,39 +23,6 @@ namespace Gauss.TccUnifaat.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("Gauss.TccUnifaat.Models.Categoria", b =>
-                {
-                    b.Property<Guid>("CategoriaId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("CategoriaNome")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<DateTime>("DataCadastro")
-                        .HasColumnType("datetime2(2)");
-
-                    b.Property<DateTime?>("DataExcluido")
-                        .HasColumnType("datetime2(2)");
-
-                    b.Property<DateTime?>("DataUltimaModificacao")
-                        .HasColumnType("datetime2(2)");
-
-                    b.Property<string>("Descricao")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<bool>("Excluido")
-                        .HasColumnType("bit");
-
-                    b.HasKey("CategoriaId");
-
-                    b.ToTable("Categoria");
-                });
 
             modelBuilder.Entity("Gauss.TccUnifaat.Models.Funcao", b =>
                 {
@@ -91,9 +58,6 @@ namespace Gauss.TccUnifaat.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CategoriaId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Conteudo")
                         .IsRequired()
                         .HasMaxLength(4000)
@@ -127,11 +91,9 @@ namespace Gauss.TccUnifaat.Migrations
 
                     b.HasKey("NoticiaId");
 
-                    b.HasIndex("CategoriaId");
-
                     b.HasIndex("UsuarioId");
 
-                    b.ToTable("Noticia");
+                    b.ToTable("Noticias");
                 });
 
             modelBuilder.Entity("Gauss.TccUnifaat.Models.Usuario", b =>
@@ -323,19 +285,11 @@ namespace Gauss.TccUnifaat.Migrations
 
             modelBuilder.Entity("Gauss.TccUnifaat.Models.Noticia", b =>
                 {
-                    b.HasOne("Gauss.TccUnifaat.Models.Categoria", "Categoria")
-                        .WithMany("Noticias")
-                        .HasForeignKey("CategoriaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Gauss.TccUnifaat.Models.Usuario", "Usuario")
                         .WithMany("Noticias")
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Categoria");
 
                     b.Navigation("Usuario");
                 });
@@ -389,11 +343,6 @@ namespace Gauss.TccUnifaat.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Gauss.TccUnifaat.Models.Categoria", b =>
-                {
-                    b.Navigation("Noticias");
                 });
 
             modelBuilder.Entity("Gauss.TccUnifaat.Models.Usuario", b =>

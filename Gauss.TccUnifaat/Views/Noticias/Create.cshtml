@@ -12,18 +12,12 @@
         });
 }
 
-<h1>Create</h1>
-
-<h4>Noticia</h4>
+<h4> Cadastrar Noticia</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="CategoriaId" class="control-label"></label>
-                <select asp-for="CategoriaId" class="form-control" asp-items="ViewBag.CategoriaId"></select>
-            </div>
             <div class="form-group">
                 <label asp-for="TipoNoticia" class="control-label"></label>
                 <select asp-for="TipoNoticia" asp-items="tipoNoticiaOptions" class="form-control"></select>
@@ -49,16 +43,15 @@
                 <input class="form-control" type="file" name="anexo" id="formFile">
                 <span asp-validation-for="Foto" class="text-danger"></span>
             </div>
+            <br/>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Salvar" class="btn btn-secondary" />
+                <a class="btn btn-danger" asp-action="Index">Voltar para a lista</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

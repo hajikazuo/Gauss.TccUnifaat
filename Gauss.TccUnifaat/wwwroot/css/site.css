@@ -2,12 +2,6 @@ html {
   font-size: 14px;
 }
 
-/*@media (min-width: 768px) {
-  html {
-    font-size: 14px;
-  }
-}*/
-
 .imagem-carrossel {
     object-fit: cover;
     object-position: 0 80%;
@@ -26,4 +20,9 @@ html {
     padding: 3%;
 }
 
+.banner {
+    width: 100vw;
+    height: 400px;
+    background-color: #595959;
+}
 
