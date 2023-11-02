@@ -1,72 +1,145 @@
-﻿<partial name="_Carousel" />
-
-<div class="container-flex text-container">
-    <h1 class="title">O Projeto</h1>
-
-    <p>
-        Lorem ipsum dolor sit amet. Ad nesciunt distinctio aut delectus doloremque aut necessitatibus nulla eum nesciunt perspiciatis aut placeat expedita eos expedita voluptas. Et earum consectetur eos officiis iusto qui itaque quasi aut ipsum similique qui iusto fugiat et quia expedita. Sed veniam quia qui vero ratione ut aliquid similique sit dolor omnis qui aspernatur minus et dolore laboriosam et alias quia.
-    Sed repellendus veniam sed quia cupiditate hic veritatis reiciendis eum dolorem soluta et ullam quia et quis incidunt. Et omnis nobis 33 labore molestias non praesentium voluptatem eos corrupti laborum non dolor ipsam id molestiae labore ab voluptatum neque. Est maiores mollitia et aliquam molestiae non voluptas dolorem ut libero quasi. 
-        Ea ipsum eligendi quo quos harum et quam iure qui sint aliquid qui impedit maxime! Est dicta voluptatem ad quia quia qui optio voluptatum aut laborum reprehenderit non iusto officia. Id libero tempore in quia quia et aperiam molestiae et nemo omnis! Non quaerat dolores est galisum alias sed quia recusandae sed necessitatibus aliquam sit nobis vero.
-    </p>
+﻿<div id="carouselImages" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="./img/carrossel-img1.jpg" class="d-block w-100 imagem-carrossel" alt="...">
+            <div class="carousel-caption d-none d-md-block m-5">
+                <h2 class="font-titulo">Preparação para o Vestibular</h2>
+                <p>Mais de 20 anos auxiliando jovens e adultos a ingressar no Ensino Superior</p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="./img/carrossel-img2.jpg" class="d-block w-100 imagem-carrossel" alt="...">
+            <div class="carousel-caption d-none d-md-block m-5">
+                <h2 class="font-titulo">Bolsas de Estudo para o Ensino Superior</h2>
+                <p>Somos a única entidade responsável pelas bolsas de estudo da Unifaat</p>
+            </div>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselImages" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselImages" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
 </div>
-
-<div class="container card-container">
-    <h1 class="title">Notícias</h1>
-    <div class="row">
-        @foreach (var noticia in Model)
-        {
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="@noticia.UrlImagem" class="card-img-top" alt="Imagem da Notícia">
-                    <div class="card-body">
-                        <h5 class="card-title">@noticia.Titulo</h5>
-                        <p class="card-text">@noticia.Conteudo</p>
-                        <p class="card-text"><small class="text-muted">@noticia.DataCadastro.ToString("dd/MM/yyyy")</small></p>
+<!-- Features section-->
+<section class="py-5" id="features">
+    <div class="container px-5 my-5">
+        <div class="row gx-5">
+            <div class="col-lg-4 mb-5 mb-lg-0">
+                <h2 class="fw-bolder mb-0">Mudando vidas através da Educação</h2>
+            </div>
+            <div class="col-lg-8">
+                <div class="row gx-5 row-cols-1 row-cols-md-2">
+                    <div class="col mb-5 h-100">
+                        <div class="feature bg-danger bg-gradient text-white rounded-3 mb-3">
+                            <i class="fa-solid fa-book"></i>
+                        </div>
+                        <h2 class="h5">Cursinho Pré-Vestibular</h2>
+                        <p class="mb-0">
+                            O Cursinho Gauss atua desde 1999 na promoção de cursinho pré-vestibular
+                            aos finais de semana voltado para alunos de baixa renda.
+                        </p>
+                    </div>
+                    <div class="col mb-5 h-100">
+                        <div class="feature bg-secondary bg-gradient text-white rounded-3 mb-3">
+                            <i class="fa-solid fa-handshake-angle"></i>
+                        </div>
+                        <h2 class="h5">Voluntariado</h2>
+                        <p class="mb-0">
+                            Temos voluntários de todas as áreas: professores, contadores,
+                            adminstradores, etc. Quer fazer parte do nosso grupo?
+                        </p>
+                    </div>
+                    <div class="col mb-5 mb-md-0 h-100">
+                        <div class="feature bg-secondary bg-gradient text-white rounded-3 mb-3">
+                            <i class="fa-solid fa-bus"></i>
+                        </div>
+                        <h2 class="h5">Passeios Pedagógicos</h2>
+                        <p class="mb-0">
+                            Promovemos novas experiências aos nossos alunos através de passeios em
+                            universidades, parques e museus do Estado de São Paulo
+                        </p>
+                    </div>
+                    <div class="col h-100">
+                        <div class="feature bg-danger bg-gradient text-white rounded-3 mb-3">
+                            <i class="fa-solid fa-chalkboard-user"></i>
+                        </div>
+                        <h2 class="h5">Nossos professores</h2>
+                        <p class="mb-0">
+                            Contamos com professores dedicados e prepadados para auxiliar nossos
+                            alunos na jornada pelo conhecimento.
+                        </p>
                     </div>
                 </div>
             </div>
-        }
+        </div>
     </div>
-</div>
-
-<div class="banner">
-
-</div>
-
-<div class="container card-container">
-    <h1 class="title">Sobre nós</h1>
-    <p>Lorem ipsum dolor sit amet. Ad nesciunt distinctio aut delectus doloremque aut necessitatibus nulla eum nesciunt perspiciatis aut placeat expedita eos expedita voluptas.</p>
-    <div class="row">
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <img src="~/fotosEstaticas/depoimento.jpg" style="height: 40vh;" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Depoimentos de ex-alunos</h5>
-                    <p class="card-text">Ao longo dos anos, centenas de vidas e famílias foram mudadas com a ajuda do Gauss. Conheça algumas histórias!</p>
-                    <a href="#" class="btn btn-danger">Saiba Mais</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <img src="~/fotosEstaticas/unifaat.png" style="height: 40vh;" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Bolsas de Estudo para o Ensino Superior</h5>
-                    <p class="card-text">Somos a única entidade responsável pelas bolsas de estudo da Unifaat.</p>
-                    <a href="#" class="btn btn-danger">Saiba Mais</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <img src="~/fotosEstaticas/cursinho.jpg" style="height: 40vh;" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Cursinho Pré-Vestibula</h5>
-                    <p class="card-text">O Cursinho Gauss atua desde 1999 na promoção de cursinho pré-vestibular aos finais de semana voltado para alunos de baixa renda.</p>
-                    <a href="#" class="btn btn-danger">Saiba Mais</a>
+</section>
+<!-- Testimonial section-->
+<div class="py-5 bg-light">
+    <div class="container px-5 my-5">
+        <div class="row gx-5 justify-content-center">
+            <div class="col-lg-10 col-xl-7">
+                <div class="text-center">
+                    <div class="d-flex align-items-center justify-content-center">
+                        <div class="fw-bold">
+                            <h2>
+                                O Curso Comunitário Pré-Universitário Gauss é uma instituição sem fins
+                                lucrativos que promove educação de qualidade voltada para estudantes carentes
+                            </h2>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<!-- Blog preview section-->
+<section class="py-5">
+    <div class="container px-5 my-5">
+        <div class="row gx-5 justify-content-center">
+            <div class="col-lg-8 col-xl-6">
+                <div class="text-center">
+                    <h2 class="fw-bolder">Noticias</h2>
+                    <p class="lead fw-normal text-muted mb-5">
+                        Fique por dentro das últimas notícias, dicas de
+                        estudo, informações sobre inscrições e matrículas, depoimentos de alunos bem-sucedidos e
+                        muito mais.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="row gx-5">
+            @foreach (var noticia in Model)
+            {
+                <div class="col-lg-4 mb-5">
+                    <div class="card h-100 shadow border-0">
+                        <img class="card-img-top" src="@noticia.UrlImagem" alt="Imagem da Notícia" />
+                        <div class="card-body p-4">
+                            <a class="text-decoration-none link-dark stretched-link" href="#!">
+                                <h5 class="card-title mb-3">@noticia.Titulo</h5>
+                            </a>
+                            <p class="card-text mb-0">@noticia.Conteudo</p>
+                        </div>
+                        <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
+                            <div class="d-flex align-items-end justify-content-between">
+                                <div class="d-flex align-items-center">
+                                    <div class="small">
+                                        <div class="text-muted">@noticia.DataCadastro.ToString("dd/MM/yyyy")</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <!-- Call to action-->
+    </div>
+</section>
+
+
 

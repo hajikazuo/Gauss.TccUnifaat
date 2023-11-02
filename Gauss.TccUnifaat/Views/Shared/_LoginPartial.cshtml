@@ -1,23 +1,7 @@
 ﻿﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<Usuario> SignInManager
 
-@if (SignInManager.IsSignedIn(User) && User.IsInRole("Administrador"))
-{
-    <ul class="navbar-nav">
-        <form method="post" asp-controller="account" asp-action="logout">
-            <button type="submit" style="width:auto"
-                    class="nav-link btn btn-link py-0">
-                Logout @User.Identity.Name
-            </button>
-        </form>
-    </ul>
-    <ul class="navbar-nav">
-        <a class="nav-link" asp-controller="account" asp-action="register">
-            REGISTRAR
-        </a>
-    </ul>
-}
-else if (SignInManager.IsSignedIn(User))
+@if (SignInManager.IsSignedIn(User))
 {
     <ul class="navbar-nav">
         <form method="post" asp-controller="account" asp-action="logout">
@@ -30,9 +14,9 @@ else if (SignInManager.IsSignedIn(User))
 }
 else
 {
-    <ul class="navbar-nav">       
-            <a class="btn btn-danger loginButton" asp-controller="account" asp-action="login">
-                ÁREA DO ALUNO
+    <ul class="navbar-nav">
+        <a class="nav-link btn btn-link py-0" loginButton" asp-controller="account" asp-action="login">
+                Login
             </a>       
     </ul>
 }

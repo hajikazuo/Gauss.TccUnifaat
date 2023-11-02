@@ -4,26 +4,64 @@
     Layout = "~/Views/Shared/_LayoutLogin.cshtml";
 }
 
-<div class="row justify-content-center align-items-center">
-    <div class="col-sm-12 col-md-6 col-lg-5 col-xl-4 ml-auto ">
-        <div class="card p-4">
-            <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
-                <div class="form-group">
-                    <label class="form-label" for="username">Usuário</label>
-                    <input asp-for="UserName" class="form-control form-control-lg" placeholder="email@@email.com" required value="gauss@gauss.com.br" />
-                    <div class="invalid-feedback">Não pode ser vazio.</div>
+<section class="py-5">
+    <div class="container px-5">
+        <div class="rounded-3 py-5 px-4 px-md-5 mb-5 mx-auto">
+            <div class="text-center mb-5">
+                <img src="~/img/logo.png" alt="" class="responsive-image" />
+            </div>
+            <div class="row gx-5 justify-content-center">
+                <div class="col-lg-8 col-xl-6">
+                    <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+                        <div class="form-floating mb-3">
+                            <input asp-for="UserName" class="form-control" type="text" placeholder="nome@exemplo.com" data-sb-validations="required,username"
+                                   required value="gauss@gauss.com.br" />
+                            <label for="username">Usuário</label>
+                            <div class="invalid-feedback" data-sb-feedback="username:required">O usuário é obrigatório.</div>
+                            <div class="invalid-feedback" data-sb-feedback="username:username">usuário inválido</div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <input asp-for="Password" class="form-control" placeholder="Senha" id="Password" name="Password" 
+                                   required value="Gauss@2023" />
+                            <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                <i class="far fa-eye" id="eye"></i>
+                            </button>
+                        </div>
+                        <div class="d-grid">
+                            <button id="js-login-btn" type="submit" class="btn btn-danger btn-block btn-lg">Login</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <label class="form-label" for="password">Senha</label>
-                    <input asp-for="Password" class="form-control form-control-lg" placeholder="password" required value="Gauss@2023">
-                    <div class="invalid-feedback">Não pode ser vazio.</div>
-                </div>
-                <div class="row no-gutters">
-                    <div class="col-lg-6 pl-lg-1 my-2">
-                        <button id="js-login-btn" type="submit" class="btn btn-danger btn-block btn-lg">Login</button>
-                    </div>
-                </div>
-            </form>
+            </div>
         </div>
+
+        <div class="text-center mb-5">
+            <p class="lead fs-6 text-muted mb-0">Desenvolvido por <strong>Nilton Kazuo</strong> &amp; <strong>Paulo Araújo</strong></p>
+            <p class="lead fs-6 text-muted mb-0">&copy; 2023 - Todos os direitos reservados</p>
+        </div>
+
     </div>
-</div>
+</section>
+
+<script>
+    const senhaInput = document.getElementById('Password');
+    const eyeIcon = document.getElementById('eye');
+    const togglePasswordButton = document.getElementById('togglePassword');
+    let passwordVisible = false;
+
+    togglePasswordButton.addEventListener('click', function () {
+        if (passwordVisible) {
+            senhaInput.type = 'password';
+            eyeIcon.classList.remove('fa-eye-slash');
+            eyeIcon.classList.add('fa-eye');
+        } else {
+            senhaInput.type = 'text';
+            eyeIcon.classList.remove('fa-eye');
+            eyeIcon.classList.add('fa-eye-slash');
+        }
+
+        passwordVisible = !passwordVisible;
+    });
+
+</script>
+

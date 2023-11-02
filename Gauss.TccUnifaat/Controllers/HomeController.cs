@@ -9,6 +9,7 @@ using System.Diagnostics;
 
 namespace Gauss.TccUnifaat.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : ControllerBase
     {
         private readonly ILogger<HomeController> _logger;
@@ -33,10 +34,31 @@ namespace Gauss.TccUnifaat.Controllers
                 Titulo = noticia.Titulo,
                 Conteudo = noticia.Conteudo,
                 DataCadastro = noticia.DataCadastro,
-                UrlImagem = Url.Content($"~/fotos/{noticia.Foto}"),
+                UrlImagem = Url.Content($"~/img/{noticia.Foto}"),
             }).ToList();
 
             return View(noticiasViewModel);
+        }
+
+        public IActionResult Sobre()
+        {
+            return View();
+        }
+
+        public IActionResult Contato()
+        {
+            return View();
+        }
+
+
+        public IActionResult Cursinho()
+        {
+            return View();
+        }
+
+        public IActionResult Programacao()
+        {
+            return View();
         }
 
     }

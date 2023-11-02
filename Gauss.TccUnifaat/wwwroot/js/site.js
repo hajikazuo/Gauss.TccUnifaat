@@ -1,4 +1,14 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿$("#js-login-btn").click(function (event) {
 
-// Write your JavaScript code.
+    // Fetch form to apply custom Bootstrap validation
+    var form = $("#js-login")
+
+    if (form[0].checkValidity() === false) {
+        event.preventDefault()
+        event.stopPropagation()
+    }
+
+    form.addClass('was-validated');
+    // Perform ajax submit here...
+});
+
