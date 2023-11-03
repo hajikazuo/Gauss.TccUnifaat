@@ -1,0 +1,97 @@
+﻿<section class="py-5" id="contact">
+    <div class="container px-5">
+        <!-- Contact form-->
+        <div class="bg-light rounded-3 py-5 px-4 px-md-5 mb-5">
+            <div class="text-center mb-5">
+                <div class="feature bg-secondary bg-gradient text-white rounded-3 mb-3"><i class="fa-solid fa-envelope"></i></div>
+                <h1 class="fw-bolder">Entre em contato</h1>
+                <p class="lead fw-normal text-muted mb-0">Adoraríamos ouvir de você</p>
+            </div>
+            <div class="row gx-5 justify-content-center">
+                <div class="col-lg-8 col-xl-6">
+
+                    <form action="https://api.staticforms.xyz/submit" method="post">
+
+
+                        <input type="hidden" name="accessKey" value="bbc889fb-f363-4226-a964-892917536759">
+                        <input type="hidden" name="redirectTo" value="https://localhost:7022">
+
+                        <div class="form-floating mb-3">
+                            <input class="form-control" id="inputNome" name="name" required maxlength="25" minlength="6" type="text" placeholder="Nome completo">
+                            <label for="name">Nome completo</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input class="form-control" id="inputEmail" name="email" required maxlength="50" type="email" placeholder="Endereço de Email">
+                            <label for="email">Email</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input class="form-control" id="inputPhone" name="phone" required minlength="11" maxlength="11" type="tel" placeholder="Número de celular">
+                            <label for="phone">Telefone</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input class="form-control" id="inputAssunto" name="Subject" minlength="10" maxlength="50" required type="text" placeholder="Assunto">
+                            <label for="subject">Assunto</label>
+                        </div>
+                        <textarea class="form-control" name="message" id="textAreaMensagem" required maxlength="200" cols="30" rows="10" placeholder="Sua mensagem"></textarea>
+                        <br/>
+                        <input id="Btn" type="submit" value="Enviar Mensagem" class="btn btn-secondary">
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <!-- Contact cards-->
+        <div class="row gx-5 row-cols-2 row-cols-lg-4 py-5">
+            <div class="col">
+                <div class="feature bg-danger bg-gradient text-white rounded-3 mb-3"><i class="fa-regular fa-comment"></i></div>
+                <div class="h5 mb-2">Converse conosco</div>
+                <p class="text-muted mb-0">Nos envie sugestões, dicas e críticas.</p>
+            </div>
+            <div class="col">
+                <div class="feature bg-secondary bg-gradient text-white rounded-3 mb-3"><i class="fa-solid fa-laptop"></i></div>
+                <div class="h5">Siga-nos nas redes socias</div>
+                <p class="text-muted mb-0">Siga-nos para ficar por dentro de nossas atividades.</p>
+            </div>
+            <div class="col">
+                <div class="feature bg-danger bg-gradient text-white rounded-3 mb-3"><i class="fa-solid fa-envelope"></i></div>
+                <div class="h5">Nos envie um E-mail</div>
+                <p class="text-muted mb-0">Gostaria de falar conosco? envie um email para: teste@gmail.com</p>
+            </div>
+            <div class="col">
+                <div class="feature bg-secondary bg-gradient text-white rounded-3 mb-3"><i class="fa-brands fa-whatsapp"></i></div>
+                <div class="h5">Ligue para nós</div>
+                <p class="text-muted mb-0">Ligue durante o horário comercial para (11) 93892-9403.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+
+    let confir = document.querySelector('#Btn');
+    let nome = document.querySelector('#inputNome');
+    let email = document.querySelector('#inputEmail');
+    let phone = document.querySelector('#inputPhone');
+    let assunto = document.querySelector('#inputAssunto');
+    let areatexto = document.querySelector('#textAreaMensagem');
+
+
+
+    confir.addEventListener("click", () => {
+
+        if (nome.value === "" || email.value === "" || phone.value === "" || assunto.value === "" || areatexto.value === "") {
+
+
+            alert("Preencha os campos corretamente.");
+
+
+        } else {
+            alert("E-mail enviado com sucesso!");
+
+
+
+        }
+
+    })
+
+</script>
