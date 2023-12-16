@@ -18,4 +18,5 @@ O projeto terá:
 
 - Site institucional com gerenciamento de postagens por meio de um administrador, para divulgar atividades e a instituição em si.
 - Sistema web para cadastro de alunos e professores e funções de chamada e visualização de avisos
+- API para futura integração com parceiros ou desenvolvimento de uma aplicação mobile
 
