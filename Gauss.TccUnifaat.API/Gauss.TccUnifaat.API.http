@@ -1,0 +1,6 @@
+@Gauss.TccUnifaat.API_HostAddress = http://localhost:5032
+
+GET {{Gauss.TccUnifaat.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

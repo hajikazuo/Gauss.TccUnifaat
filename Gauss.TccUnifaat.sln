@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gauss.TccUnifaat", "Gauss.TccUnifaat\Gauss.TccUnifaat.csproj", "{7FB4629B-D2C4-41B6-9A2D-456747360FB6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gauss.TccUnifaat.MVC", "Gauss.TccUnifaat.MVC\Gauss.TccUnifaat.MVC.csproj", "{7FB4629B-D2C4-41B6-9A2D-456747360FB6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gauss.TccUnifaat.API", "Gauss.TccUnifaat.API\Gauss.TccUnifaat.API.csproj", "{BD7BE091-BC8A-4CDD-9971-E638186066EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gauss.TccUnifaat.Common", "Gauss.TccUnifaat.Common\Gauss.TccUnifaat.Common.csproj", "{D21109D0-4418-4FF2-9AEC-97C7AD839E1A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{7FB4629B-D2C4-41B6-9A2D-456747360FB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7FB4629B-D2C4-41B6-9A2D-456747360FB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7FB4629B-D2C4-41B6-9A2D-456747360FB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD7BE091-BC8A-4CDD-9971-E638186066EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD7BE091-BC8A-4CDD-9971-E638186066EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD7BE091-BC8A-4CDD-9971-E638186066EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD7BE091-BC8A-4CDD-9971-E638186066EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D21109D0-4418-4FF2-9AEC-97C7AD839E1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D21109D0-4418-4FF2-9AEC-97C7AD839E1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D21109D0-4418-4FF2-9AEC-97C7AD839E1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D21109D0-4418-4FF2-9AEC-97C7AD839E1A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
