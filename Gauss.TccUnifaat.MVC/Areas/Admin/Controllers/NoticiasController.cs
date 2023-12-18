@@ -82,21 +82,27 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Noticia noticia, IFormFile? anexo)
+        public async Task<IActionResult> Create(Noticia noticia, IFormFile anexo)
         {
             var userId = Guid.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
+
             if (ModelState.IsValid)
             {
                 noticia.NoticiaId = _comb.Create();
                 noticia.UsuarioId = userId;
+
+                noticia.Foto = SalvarArquivo(anexo);
+
                 _context.Noticias.Add(noticia);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["TipoNoticia"] = ControllerEnumsExtensions.MontarSelectListParaEnum2(noticia.TipoNoticia, true);
 
             return View(noticia);
         }
+
 
         // GET: Admin/Noticias/Edit/5
         public async Task<IActionResult> Edit(Guid? id)

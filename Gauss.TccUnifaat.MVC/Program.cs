@@ -53,6 +53,26 @@ using (var scope = app.Services.CreateScope())
 
         roleManager.CreateAsync(adminRole).Wait();
     }
+
+    if (!roleManager.RoleExistsAsync("Professor").Result)
+    {
+        var professorRole = new Funcao
+        {
+            Name = "Professor"
+        };
+
+        roleManager.CreateAsync(professorRole).Wait();
+    }
+
+    if (!roleManager.RoleExistsAsync("Aluno").Result)
+    {
+        var alunoRole = new Funcao
+        {
+            Name = "Aluno"
+        };
+
+        roleManager.CreateAsync(alunoRole).Wait();
+    }
 }
 
 // Configure the HTTP request pipeline.
