@@ -6,15 +6,22 @@ using Microsoft.AspNetCore.Mvc;
 namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class RegisterController : Controller
+    public class UsuariosController : Controller
     {
         private readonly UserManager<Usuario> _userManager;
         private readonly SignInManager<Usuario> _signInManager;
 
-        public RegisterController(UserManager<Usuario> userManager, SignInManager<Usuario> signInManager)
+        public UsuariosController(UserManager<Usuario> userManager, SignInManager<Usuario> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+        }
+
+        [HttpGet]
+        public IActionResult Index()
+        {
+            var users = _userManager.Users.OrderBy(u => u.NomeCompleto).ToList();
+            return View(users);
         }
 
         [HttpGet]
@@ -44,7 +51,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
                 {
                     await _userManager.AddToRoleAsync(user, model.SelectedRole);
 
-                    return RedirectToAction("Dashboard", "Home", new { area = "Admin" });
+                    return RedirectToAction("Index", new { area = "Admin" });
 
                 }
 

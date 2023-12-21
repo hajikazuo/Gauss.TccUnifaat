@@ -1,23 +1,30 @@
 ﻿@using Gauss.TccUnifaat.Common.Extensions;
 @model IEnumerable<Gauss.TccUnifaat.MVC.ViewModels.DashboardViewModel>
-<h1>Stats do sistema</h1>
+<h1>Dashboard</h1>
 
 
-<table>
-    <tr>
-        <td>Quantidade de usuários</td>
-        <td>12</td>
-    </tr>
-    @foreach    (var item in Model)
-    {
+<table class="table">
+    <thead>
         <tr>
-            <td>Quantidade de notícias</td>
-            <td>@item.qtd</td>
+            <th>Tipo de notícia</th>
+            <th>Quantidade</th>
         </tr>
-        <tr>
-            <td>Tipo notícias</td>
-            <td>@item.TipoNoticia.GetDisplayName()</td>
-        </tr>
-    }
-    </table>
-   
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.TipoNoticia.GetDisplayName()</td>
+                <td>@item.qtd</td>
+            </tr>
+        }
+    </tbody>
+    
+</table>
+
+
+
+
+
+
+

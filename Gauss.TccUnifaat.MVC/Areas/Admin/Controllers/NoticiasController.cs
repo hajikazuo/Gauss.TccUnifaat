@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Gauss.TccUnifaat.Common.Models;
-using Gauss.TccUnifaat.MVC.Data;
 using Gauss.TccUnifaat.Data;
 using System.Security.Claims;
 using Gauss.TccUnifaat.Common.Extensions;

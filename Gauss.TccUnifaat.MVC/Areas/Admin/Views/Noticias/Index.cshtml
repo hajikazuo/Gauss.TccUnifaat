@@ -57,9 +57,11 @@
                     @Html.DisplayFor(modelItem => item.Usuario.Id)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.NoticiaId">Editar</a> |
-                    <a asp-action="Details" asp-route-id="@item.NoticiaId">Detalhes</a> |
-                    <a asp-action="Delete" asp-route-id="@item.NoticiaId">Deletar</a>
+                    <div class="btn-group">
+                        <a asp-action="Edit" asp-route-id="@item.NoticiaId" class="btn btn-primary">Editar</a>
+                        <a asp-action="Details" asp-route-id="@item.NoticiaId" class="btn btn-secondary">Detalhes</a>
+                        <a asp-action="Delete" asp-route-id="@item.NoticiaId" class="btn btn-danger">Deletar</a>
+                    </div>
                 </td>
             </tr>
         }

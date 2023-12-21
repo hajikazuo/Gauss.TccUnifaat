@@ -1,0 +1,29 @@
+﻿@model List<Usuario>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Lista de Usuários</h1>
+
+<p>
+    <a class="btn btn-secondary" asp-action="Register">Cadastrar usuários</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nome Completo</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.NomeCompleto</td>
+                <td>@user.Email</td>
+            </tr>
+        }
+    </tbody>
+</table>

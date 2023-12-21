@@ -4,11 +4,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Gauss.TccUnifaat.MVC.Data;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<GaussTccUnifaatMVCContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("GaussTccUnifaatMVCContext") ?? throw new InvalidOperationException("Connection string 'GaussTccUnifaatMVCContext' not found.")));
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
