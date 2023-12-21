@@ -66,6 +66,11 @@ namespace Gauss.TccUnifaat.Controllers
                 var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                    if (await _userManager.IsInRoleAsync(user, "Administrador"))
+                    {
+                        return RedirectToAction("Index", "Home", new { area = "Admin" });
+                    }
+
                     var sessionId = this._comb.Create();
 
                     await this._context.SaveChangesAsync();
