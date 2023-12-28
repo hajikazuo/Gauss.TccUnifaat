@@ -14,6 +14,7 @@ public class ApplicationDbContext : IdentityDbContext<Usuario, Funcao, Guid>
     }
     public DbSet<Usuario> Usuarios { get; set; }
     public DbSet<Noticia> Noticias { get; set; }
+    public DbSet<Turma> Turmas { get; set; }  
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
