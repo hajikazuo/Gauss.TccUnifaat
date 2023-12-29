@@ -4,9 +4,8 @@
     ViewData["Title"] = "Details";
 }
 
-<h4>Detalhes</h4>
-
-<div>
+<div class="p-4">
+    <h3>Detalhes</h3>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -46,8 +45,9 @@
             @Html.DisplayFor(model => model.Usuario.NomeCompleto)
         </dd>
     </dl>
+    <div>
+        <a class="btn btn-danger" asp-action="Edit" asp-route-id="@Model?.NoticiaId">Editar</a>
+        <a class="btn btn-secondary" asp-action="Index">Voltar para a lista</a>
+    </div>
 </div>
-<div>
-    <a class="btn btn-danger" asp-action="Edit" asp-route-id="@Model?.NoticiaId">Editar</a>
-    <a class="btn btn-secondary" asp-action="Index">Voltar para a lista</a>
-</div>
+

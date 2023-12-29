@@ -1,0 +1,42 @@
+﻿@model Gauss.TccUnifaat.Common.Models.Turma
+
+<div class="row justify-content-center">
+    <div class="col-md-4 mt-4">
+
+        <h2>Adicionar Usuários à Turma</h2>
+
+        <p>
+            <strong>Turma:</strong> @Model.Nome
+        </p>
+
+        @using (Html.BeginForm())
+        {
+            <div class="form-group">
+                <label for="usuariosSelecionados">Selecione os Usuários:</label>
+
+                @if (ViewData["UsuariosDisponiveis"] is List<Usuario> usuariosDisponiveis && usuariosDisponiveis.Any())
+                {
+                    <select multiple class="form-control" id="usuariosSelecionados" name="usuariosSelecionados[]">
+                        @foreach (var usuario in usuariosDisponiveis.OrderBy(u => u.NomeCompleto))
+                        {
+                            <option value="@usuario.Id">@usuario.NomeCompleto</option>
+                        }
+                    </select>
+                }
+                else
+                {
+                    <p>Nenhum usuário disponível.</p>
+                }
+            </div>
+
+            <br />
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-danger">Adicionar Usuários</button>
+                <a class="btn btn-secondary" asp-action="Details" asp-route-id="@Model.TurmaId">Voltar para Detalhes da Turma</a>
+            </div>
+            
+        }
+
+    </div>
+</div>

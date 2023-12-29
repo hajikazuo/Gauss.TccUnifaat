@@ -2,9 +2,22 @@
 using Gauss.TccUnifaat.Common.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.SqlServer.Infrastructure.Internal;
 
 namespace Gauss.TccUnifaat.Data;
+
+public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
+{
+    public ApplicationDbContext CreateDbContext(string[] args)
+    {
+        var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
+        optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=aspnet-Gauss.TccUnifaat-ee3b3716-0578-47a0-a21c-95ad9422bc57;Trusted_Connection=True;MultipleActiveResultSets=true");
+
+        return new ApplicationDbContext(optionsBuilder.Options);
+    }
+}
 
 public class ApplicationDbContext : IdentityDbContext<Usuario, Funcao, Guid>
 {
@@ -69,4 +82,5 @@ public class ApplicationDbContext : IdentityDbContext<Usuario, Funcao, Guid>
         }
 
     }
+
 }

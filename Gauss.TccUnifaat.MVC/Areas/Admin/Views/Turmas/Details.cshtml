@@ -1,0 +1,48 @@
+﻿@model Gauss.TccUnifaat.Common.Models.Turma
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="p-4">
+    <h3>Detalhes</h3>
+    <hr />
+    <h4>Turma: @Html.DisplayFor(model => model.Nome)</h4>
+    @if (Model.Usuarios != null && Model.Usuarios.Any())
+    {
+        var usuariosOrdenados = Model.Usuarios.OrderBy(u => u.NomeCompleto).ToList();
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Nome Completo</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var usuario in usuariosOrdenados)
+                {
+                    <tr>
+                        <td>@usuario.NomeCompleto</td>
+                        <td>
+                            <a class="btn btn-danger" asp-action="RemoverUsuario" asp-route-turmaId="@Model.TurmaId" asp-route-usuarioId="@usuario.Id">Remover</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>Nenhum usuário na turma.</p>
+    }
+
+    <div>
+        <a class="btn btn-danger" asp-action="Edit" asp-route-id="@Model?.TurmaId">Editar</a>
+        <a class="btn btn-secondary" asp-action="Index">Voltar para a lista</a>
+        <a class="btn btn-primary" asp-action="AdicionarUsuarios" asp-route-id="@Model?.TurmaId">Adicionar usuários</a>
+    </div>
+
+</div>
+
+
