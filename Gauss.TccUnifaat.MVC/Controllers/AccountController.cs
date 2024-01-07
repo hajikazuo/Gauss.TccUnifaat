@@ -34,8 +34,6 @@ namespace Gauss.TccUnifaat.Controllers
             ViewBag.Confirm = TempData["Confirm"];
             ViewData["ReturnUrl"] = returnUrl;
 
-
-            // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
             var model = new LoginViewModel();
@@ -58,7 +56,7 @@ namespace Gauss.TccUnifaat.Controllers
             if (ModelState.IsValid)
             {
                 var user = await this._context.Users.FirstOrDefaultAsync(u => u.UserName == model.UserName);
-                if (user == default)
+                if (user == null)
                 {
                     ModelState.AddModelError(string.Empty, "CPF ou senha inválida.");
                     return View(model);
@@ -81,7 +79,6 @@ namespace Gauss.TccUnifaat.Controllers
                 return View(model);
             }
 
-            // If we got this far, something failed, redisplay form
             return View(model);
         }
 
@@ -142,6 +139,12 @@ namespace Gauss.TccUnifaat.Controllers
             }
 
             return Content("Erro ao criar o usuário administrador.");
+        }
+
+        [AllowAnonymous]
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
 
     }

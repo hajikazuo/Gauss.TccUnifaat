@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
 {
+    [Authorize(Policy = "RequireAdminRole")]
     [Area("Admin")]
-    [Authorize]
 
     public class HomeController : Controller
     {

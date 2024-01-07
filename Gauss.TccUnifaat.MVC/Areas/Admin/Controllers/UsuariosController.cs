@@ -1,10 +1,12 @@
 ﻿using Gauss.TccUnifaat.Common.Models;
 using Gauss.TccUnifaat.MVC.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
 {
+    [Authorize(Policy = "RequireAdminRole")]
     [Area("Admin")]
     public class UsuariosController : Controller
     {
@@ -42,7 +44,8 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
                     NomeCompleto = model.NomeCompleto,
                     Cpf = model.Cpf,
                     Telefone = model.Telefone,
-                    Idade = model.Idade
+                    Idade = model.Idade,
+                    EmailConfirmed = true
                 };
 
                 var result = await _userManager.CreateAsync(user, model.Password);

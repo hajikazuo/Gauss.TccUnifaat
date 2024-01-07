@@ -12471,3 +12471,7 @@ html {
     font-size: 13px;
 }
 
+.img-circle {
+    width: 250px;
+    height: 250px;
+}

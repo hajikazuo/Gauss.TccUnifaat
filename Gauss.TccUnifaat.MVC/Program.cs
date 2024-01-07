@@ -23,12 +23,19 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     {
         options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
         options.SlidingExpiration = true;
-        options.AccessDeniedPath = "/Forbidden/";
+        options.AccessDeniedPath = "/Account/Acess";
         options.LoginPath = "/Account/Login";
         options.LogoutPath = "/Account/Logout";
         options.Cookie.Name = "Gauss.Cookie";
         options.Cookie.HttpOnly = true;
     });
+
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Administrador"));
+});
+
 
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())

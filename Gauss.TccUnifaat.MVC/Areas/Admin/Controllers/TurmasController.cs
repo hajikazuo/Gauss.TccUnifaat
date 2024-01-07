@@ -8,10 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using Gauss.TccUnifaat.Common.Models;
 using Gauss.TccUnifaat.Data;
 using NuGet.Packaging;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
 {
+    [Authorize(Policy = "RequireAdminRole")]
     [Area("Admin")]
+
     public class TurmasController : Controller
     {
         private readonly ApplicationDbContext _context;

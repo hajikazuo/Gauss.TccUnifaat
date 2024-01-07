@@ -9,10 +9,13 @@ using Gauss.TccUnifaat.Common.Models;
 using Gauss.TccUnifaat.Data;
 using System.Security.Claims;
 using Gauss.TccUnifaat.Common.Extensions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
 {
+    [Authorize(Policy = "RequireAdminRole")]
     [Area("Admin")]
+
     public class NoticiasController : Controller
     {
         private readonly ApplicationDbContext _context;
