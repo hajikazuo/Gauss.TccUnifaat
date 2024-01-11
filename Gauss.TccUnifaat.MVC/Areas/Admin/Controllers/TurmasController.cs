@@ -217,27 +217,5 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
             return RedirectToAction(nameof(AdicionarUsuarios), new { id });
         }
 
-        public async Task<IActionResult> RemoverUsuario(Guid turmaId, Guid usuarioId)
-        {
-            var turma = await _context.Turmas.Include(t => t.Usuarios).FirstOrDefaultAsync(m => m.TurmaId == turmaId);
-
-            if (turma != null)
-            {
-                var usuarioParaRemover = turma.Usuarios.FirstOrDefault(u => u.Id == usuarioId);
-
-                if (usuarioParaRemover != null)
-                {
-                    turma.Usuarios.Remove(usuarioParaRemover);
-
-                    await _context.SaveChangesAsync();
-                }
-            }
-
-            return RedirectToAction("Details", new { id = turmaId });
-        }
-
-
-
-
     }
 }

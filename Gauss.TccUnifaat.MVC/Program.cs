@@ -36,6 +36,7 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Administrador"));
 });
 
+builder.Services.AddHttpClient();
 
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
@@ -98,9 +99,16 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+
+
 #pragma warning disable ASP0014 // Suggest using top level route registrations
 app.UseEndpoints(endpoints =>
 {
+    endpoints.MapControllerRoute(
+      name: "createfirstadmin",
+      pattern: "/Account/CreateAdmin",
+      defaults: new { controller = "Account", action = "CreateAdmin" });
+
     endpoints.MapControllerRoute(
         name: "areas",
         pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
@@ -110,9 +118,6 @@ app.UseEndpoints(endpoints =>
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}"
     );
-
-
-
 });
 #pragma warning restore ASP0014 // Suggest using top level route registrations
 

@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Gauss.TccUnifaat.Common.Models.Turma>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Turmas</title>
+</head>
+<body>
+    <h1>Lista de Turmas</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nome</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var turma in Model)
+            {
+                <tr>
+                    <td>@turma.TurmaId</td>
+                    <td>@turma.Nome</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>
