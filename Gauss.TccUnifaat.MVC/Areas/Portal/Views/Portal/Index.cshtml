@@ -13,6 +13,7 @@
             <tr>
                 <th>Id</th>
                 <th>Nome</th>
+                <th>Usuários</th>
             </tr>
         </thead>
         <tbody>
@@ -21,6 +22,21 @@
                 <tr>
                     <td>@turma.TurmaId</td>
                     <td>@turma.Nome</td>
+                    <td>
+                        @if(turma.Usuarios != null && turma.Usuarios.Any())
+                        {
+                            <ul>
+                                @foreach(var usuario in turma.Usuarios)
+                                {
+                                    <li>@usuario.NomeCompleto</li>
+                                }
+                            </ul>
+                        }
+                        else
+                        {
+                            <p>Não há usuários nessa turma</p>
+                        }
+                    </td>
                 </tr>
             }
         </tbody>

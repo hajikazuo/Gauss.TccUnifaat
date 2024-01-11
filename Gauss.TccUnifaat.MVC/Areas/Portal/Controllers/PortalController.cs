@@ -4,6 +4,9 @@ using Newtonsoft.Json;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 {
+    [Area("Portal")]
+    [Route("portal")]
+
     public class PortalController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
@@ -19,7 +22,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             var json = await httpClient.GetStringAsync("http://localhost:5032/api/Admin");
 
             List<Turma> turma = JsonConvert.DeserializeObject<List<Turma>>(json);
-            return View("Index", turma);
+            return View(turma);
 
         }
 

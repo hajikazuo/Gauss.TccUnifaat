@@ -169,20 +169,18 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var turma = await _context.Turmas.Include(t => t.Usuarios).FirstOrDefaultAsync(m => m.TurmaId == id);
+            var turma = await _context.Turmas.Include(t => t.Usuarios).SingleOrDefaultAsync(m => m.TurmaId == id);
             if (turma == null)
             {
                 return NotFound();
             }
 
-            var usuariosDaTurma = turma.Usuarios;
-
             var todosUsuarios = await _context.Usuarios.ToListAsync();
 
-            var usuariosDisponiveis = todosUsuarios.Except(usuariosDaTurma).ToList();
+            var usuariosDisponiveis = todosUsuarios.Except(turma.Usuarios ?? Enumerable.Empty<Usuario>()).ToList();
 
             ViewData["UsuariosDisponiveis"] = usuariosDisponiveis;
-            ViewData["UsuariosDaTurma"] = usuariosDaTurma;
+            ViewData["UsuariosDaTurma"] = turma.Usuarios;
 
             return View(turma);
         }
@@ -192,7 +190,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AdicionarUsuarios(Guid id, string[] usuariosSelecionados)
         {
-            var turma = await _context.Turmas.FindAsync(id);
+            var turma = await _context.Turmas.SingleOrDefaultAsync(t => t.TurmaId == id);
             if (turma == null)
             {
                 return NotFound();
@@ -208,8 +206,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
                     .Where(u => usuariosSelecionadosGuid.Contains(u.Id))
                     .ToListAsync();
 
-                turma.Usuarios ??= new List<Usuario>();
-                turma.Usuarios.AddRange(usuariosAssociados);
+                turma.Usuarios = usuariosAssociados;
 
                 await _context.SaveChangesAsync();
             }
