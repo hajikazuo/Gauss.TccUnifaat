@@ -14,15 +14,13 @@ namespace Gauss.TccUnifaat.Common.Models
         [MaxLength(50)]
         public string Nome { get; set; }
 
-        public virtual ICollection<Usuario>? Usuarios { get; set; }
+        public virtual ICollection<Usuario>? Usuarios { get; set; } = new List<Usuario>();
 
         #region Interface
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         [DataType(DataType.DateTime)]
         [Display(Name = "Data Cadastro")]
         public DateTime DataCadastro { get; set; }
-
-        public string? Foto { get; set; }
 
         [ScaffoldColumn(false)]
         [Display(Name = "Excluído")]

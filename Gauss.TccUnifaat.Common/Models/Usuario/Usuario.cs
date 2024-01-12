@@ -22,6 +22,7 @@ namespace Gauss.TccUnifaat.Common.Models
 
         public Guid? TurmaId { get; set; }
 
+        [JsonIgnore]
         public virtual Turma? Turma { get; set; }
     }
 }

@@ -24,7 +24,6 @@ namespace Gauss.TccUnifaat.Migrations
                     TurmaId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Nome = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     DataCadastro = table.Column<DateTime>(type: "datetime2(2)", nullable: false),
-                    Foto = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Excluido = table.Column<bool>(type: "bit", nullable: false),
                     DataExcluido = table.Column<DateTime>(type: "datetime2(2)", nullable: true),
                     DataUltimaModificacao = table.Column<DateTime>(type: "datetime2(2)", nullable: true)

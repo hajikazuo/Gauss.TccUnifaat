@@ -19,7 +19,7 @@ namespace Gauss.TccUnifaat.API.Controllers
         [HttpGet]
         public async Task<ActionResult<Turma>> GetTurmas()
         {
-            var turmas = await _context.Turmas.ToListAsync();
+            var turmas = await _context.Turmas.Include(t => t.Usuarios).ToListAsync();
 
             if (turmas.Count == 0)
             {
@@ -28,7 +28,5 @@ namespace Gauss.TccUnifaat.API.Controllers
 
             return Ok(turmas);
         }
-
-
     }
 }
