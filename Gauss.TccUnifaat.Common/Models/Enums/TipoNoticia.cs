@@ -6,11 +6,21 @@ namespace Gauss.TccUnifaat.Common.Models
     {
         [Display(Name = "Nenhum")]
         Nenhuma =0,
-        [Display(Name = "Notícias principais")]
+
+        [Display(Name = "Notícia da página principal")]
         NoticiaPrincipal =1,
+
         [Display(Name = "Informativos")]
         Informativo = 2,
+
         [Display(Name = "Relatos")]
-        Relato = 3
+        Relato = 3,
+
+        [Display(Name = "Notícia do Cursinho")]
+        Cursinho = 4,
+
+        [Display(Name = "Notícia do curso de Programação")]
+        Programacao = 5,
+
     }
 }

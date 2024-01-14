@@ -1,6 +1,6 @@
 ﻿namespace Gauss.TccUnifaat.ViewModels
 {
-    public class HomePageViewModel
+    public class NoticiasViewModel
     {
         public string Titulo { get; set; }
         public string Conteudo { get; set; }

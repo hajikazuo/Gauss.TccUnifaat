@@ -24,10 +24,9 @@ namespace Gauss.TccUnifaat.Controllers
 
         public IActionResult Index()
         {
-
             var noticiasDaCamadaDeDados = _context.Noticias.ToList();
 
-            var noticiasViewModel = noticiasDaCamadaDeDados.Select(noticia => new HomePageViewModel
+            var noticiasViewModel = noticiasDaCamadaDeDados.Select(noticia => new NoticiasViewModel
             {
                 Titulo = noticia.Titulo,
                 Conteudo = noticia.Conteudo,
@@ -51,13 +50,36 @@ namespace Gauss.TccUnifaat.Controllers
 
         public IActionResult Cursinho()
         {
-            return View();
+            var noticiasDaCamadaDeDados = _context.Noticias.ToList();
+
+            var noticiasViewModel = noticiasDaCamadaDeDados
+                .Where(n => n.TipoNoticia == TipoNoticia.Cursinho)
+                .Select(noticia => new NoticiasViewModel
+                {
+                    Titulo = noticia.Titulo,
+                    Conteudo = noticia.Conteudo,
+                    DataCadastro = noticia.DataCadastro,
+                    UrlImagem = Url.Content($"~/img/{noticia.Foto}"),
+                }).ToList();
+
+            return View(noticiasViewModel);
         }
 
         public IActionResult Programacao()
         {
-            return View();
-        }
+            var noticiasDaCamadaDeDados = _context.Noticias.ToList();
 
+            var noticiasViewModel = noticiasDaCamadaDeDados
+                .Where(n => n.TipoNoticia == TipoNoticia.Programacao)
+                .Select(noticia => new NoticiasViewModel
+                {
+                    Titulo = noticia.Titulo,
+                    Conteudo = noticia.Conteudo,
+                    DataCadastro = noticia.DataCadastro,
+                    UrlImagem = Url.Content($"~/img/{noticia.Foto}"),
+                }).ToList();
+
+            return View(noticiasViewModel);
+        }
     }
 }

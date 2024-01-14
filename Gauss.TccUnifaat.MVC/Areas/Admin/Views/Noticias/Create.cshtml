@@ -1,4 +1,5 @@
-﻿@model Gauss.TccUnifaat.Common.Models.Noticia
+﻿@using Gauss.TccUnifaat.Common.Extensions
+@model Gauss.TccUnifaat.Common.Models.Noticia
 
 @{
     ViewData["Title"] = "Create";
@@ -7,7 +8,7 @@
         .Select(t => new SelectListItem
         {
             Value = ((int)t).ToString(),
-            Text = t.ToString()
+            Text = t.GetDisplayName()
         });
 }
 
@@ -20,7 +21,7 @@
                 <label asp-for="TipoNoticia" class="control-label"></label>
                 <select asp-for="TipoNoticia" asp-items="tipoNoticiaOptions" class="form-control"></select>
                 <span asp-validation-for="TipoNoticia" class="text-danger"></span>
-            </div> 
+            </div>
             <div class="form-group">
                 <label asp-for="Titulo" class="control-label"></label>
                 <input asp-for="Titulo" class="form-control" />
@@ -41,7 +42,7 @@
                 <input class="form-control" type="file" name="anexo" id="formFile">
                 <span asp-validation-for="Foto" class="text-danger"></span>
             </div>
-            <br/>
+            <br />
             <div class="form-group">
                 <input type="submit" value="Salvar" class="btn btn-danger" />
                 <a class="btn btn-secondary" asp-action="Index">Voltar para a lista</a>
@@ -52,5 +53,7 @@
 
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
