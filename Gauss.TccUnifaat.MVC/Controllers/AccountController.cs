@@ -68,6 +68,10 @@ namespace Gauss.TccUnifaat.Controllers
                     {
                         return RedirectToAction("Index", "Home", new { area = "Admin" });
                     }
+                    else if (await _userManager.IsInRoleAsync(user, "Professor") || await _userManager.IsInRoleAsync(user, "Aluno"))
+                    {
+                        return RedirectToAction("Index", "Home", new { area = "Portal" });
+                    }
 
                     var sessionId = this._comb.Create();
 

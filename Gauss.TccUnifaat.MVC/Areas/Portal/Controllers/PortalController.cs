@@ -1,9 +1,11 @@
 ﻿using Gauss.TccUnifaat.Common.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 {
+    [Authorize]
     [Area("Portal")]
     [Route("portal")]
 
