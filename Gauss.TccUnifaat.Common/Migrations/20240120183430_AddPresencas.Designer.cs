@@ -4,6 +4,7 @@ using Gauss.TccUnifaat.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,13 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Gauss.TccUnifaat.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240120183430_AddPresencas")]
+    partial class AddPresencas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0")
+                .HasAnnotation("ProductVersion", "8.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -91,7 +94,46 @@ namespace Gauss.TccUnifaat.Migrations
 
                     b.HasIndex("UsuarioId");
 
-                    b.ToTable("Noticias", (string)null);
+                    b.ToTable("Noticias");
+                });
+
+            modelBuilder.Entity("Gauss.TccUnifaat.Common.Models.Presenca", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DataAula")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DataCadastro")
+                        .HasColumnType("datetime2(2)");
+
+                    b.Property<DateTime?>("DataExcluido")
+                        .HasColumnType("datetime2(2)");
+
+                    b.Property<DateTime?>("DataUltimaModificacao")
+                        .HasColumnType("datetime2(2)");
+
+                    b.Property<bool>("Excluido")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Presente")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("TurmaId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UsuarioId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TurmaId");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("Presencas");
                 });
 
             modelBuilder.Entity("Gauss.TccUnifaat.Common.Models.Turma", b =>
@@ -112,9 +154,6 @@ namespace Gauss.TccUnifaat.Migrations
                     b.Property<bool>("Excluido")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Foto")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -122,7 +161,7 @@ namespace Gauss.TccUnifaat.Migrations
 
                     b.HasKey("TurmaId");
 
-                    b.ToTable("Turmas", (string)null);
+                    b.ToTable("Turmas");
                 });
 
             modelBuilder.Entity("Gauss.TccUnifaat.Common.Models.Usuario", b =>
@@ -328,6 +367,25 @@ namespace Gauss.TccUnifaat.Migrations
                     b.Navigation("Usuario");
                 });
 
+            modelBuilder.Entity("Gauss.TccUnifaat.Common.Models.Presenca", b =>
+                {
+                    b.HasOne("Gauss.TccUnifaat.Common.Models.Turma", "Turma")
+                        .WithMany("Presencas")
+                        .HasForeignKey("TurmaId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Gauss.TccUnifaat.Common.Models.Usuario", "Usuario")
+                        .WithMany("Presencas")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Turma");
+
+                    b.Navigation("Usuario");
+                });
+
             modelBuilder.Entity("Gauss.TccUnifaat.Common.Models.Usuario", b =>
                 {
                     b.HasOne("Gauss.TccUnifaat.Common.Models.Turma", "Turma")
@@ -390,12 +448,16 @@ namespace Gauss.TccUnifaat.Migrations
 
             modelBuilder.Entity("Gauss.TccUnifaat.Common.Models.Turma", b =>
                 {
+                    b.Navigation("Presencas");
+
                     b.Navigation("Usuarios");
                 });
 
             modelBuilder.Entity("Gauss.TccUnifaat.Common.Models.Usuario", b =>
                 {
                     b.Navigation("Noticias");
+
+                    b.Navigation("Presencas");
                 });
 #pragma warning restore 612, 618
         }

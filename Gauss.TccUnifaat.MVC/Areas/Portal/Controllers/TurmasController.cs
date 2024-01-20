@@ -23,7 +23,6 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             _userManager = userManager;
         }
 
-        // GET: Portal/Turmas
         public async Task<IActionResult> Index()
         {
             var currentUser = await _userManager.GetUserAsync(User);
@@ -35,6 +34,45 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 
             return View(turmaDoUsuario);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> MarcarPresenca([FromForm] DateTime dataAula, [FromForm] Dictionary<string, bool> presenca)
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            foreach (var (usuarioId, presente) in presenca)
+            {
+                if (Guid.TryParse(usuarioId, out var parsedGuid))
+                {
+                    var novaPresenca = new Presenca
+                    {
+                        DataAula = dataAula,
+                        Presente = presente,
+                        TurmaId = currentUser.TurmaId ?? Guid.Empty,
+                        UsuarioId = parsedGuid
+                    };
+                    _context.Presencas.Add(novaPresenca);
+                }
+            }
+
+            await _context.SaveChangesAsync();
+
+            TempData["PresencaSalva"] = true;
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> ListaPresencas(Guid turmaId)
+        {
+            var presencasNaTurma = await _context.Presencas
+                .Where(p => p.TurmaId == turmaId)
+                .Include(p => p.Usuario)
+                .OrderBy(p => p.DataAula)
+                .ToListAsync();
+
+            return View(presencasNaTurma);
+        }
+
 
     }
 }

@@ -2,7 +2,16 @@
 
 @{
     ViewData["Title"] = "Index";
+    var presencaSalva = TempData["PresencaSalva"] as bool?;
     var minhaTurma = Model.FirstOrDefault();
+}
+
+@if (presencaSalva.HasValue && presencaSalva.Value)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        Presença salva com sucesso!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
 }
 
 <div class="p-3">
@@ -18,28 +27,46 @@
         }
     </h1>
 
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>
-                    Alunos
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var turma in Model)
-            {
-                @foreach (var usuario in turma.Usuarios)
+    <form method="post" action="@Url.Action("MarcarPresenca")">
+        <div class="form-group my-3">
+            <label for="dataAula" class="form-label">Data da Aula:</label>
+            <input type="date" id="dataAula" name="dataAula" class="form-control" required>
+        </div>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        Alunos
+                    </th>
+                    <th>
+                        Confirmar presença
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var turma in Model)
                 {
-                    <tr>
-                        <td>
-                            @usuario.NomeCompleto
-                        </td>
-                    </tr>
+                    @foreach (var usuario in turma.Usuarios)
+                    {
+                        <tr>
+                            <td>
+                                @usuario.NomeCompleto
+                            </td>
+                            <td>
+                                <input type="checkbox" class="form-check-input" name="presenca[@usuario.Id]" />
+                            </td>
+                        </tr>
+                    }
                 }
-            }
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+
+        <div class="btn-group">
+            <button type="submit" class="btn btn-primary">Salvar Presença</button>
+            <a class="btn btn-secondary" href="@Url.Action("ListaPresencas", "Turmas", new { turmaId = minhaTurma?.TurmaId })">Ver Presenças Salvas</a>
+        </div>
+    </form>
 
 
 </div>

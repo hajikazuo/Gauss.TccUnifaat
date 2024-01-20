@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.SqlServer.Infrastructure.Internal;
+using System.Reflection.Emit;
 
 namespace Gauss.TccUnifaat.Data;
 
@@ -27,12 +28,32 @@ public class ApplicationDbContext : IdentityDbContext<Usuario, Funcao, Guid>
     }
     public DbSet<Usuario> Usuarios { get; set; }
     public DbSet<Noticia> Noticias { get; set; }
-    public DbSet<Turma> Turmas { get; set; }  
+    public DbSet<Turma> Turmas { get; set; }
+    public DbSet<Presenca> Presencas { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
         builder.Entities<IStatusModificacao>(this, nameof(this.ModelStatusModificacao));
+
+        builder.Entity<Turma>().HasQueryFilter(t => !t.Excluido);
+
+        // Configurar o filtro global de consulta para Presenca
+        builder.Entity<Presenca>().HasQueryFilter(p => !p.Excluido);
+
+        // Configurar relacionamentos e chaves estrangeiras
+        builder.Entity<Presenca>()
+            .HasOne(p => p.Turma)
+            .WithMany(t => t.Presencas)
+            .HasForeignKey(p => p.TurmaId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Entity<Presenca>()
+            .HasOne(p => p.Usuario)
+            .WithMany(u => u.Presencas)
+            .HasForeignKey(p => p.UsuarioId)
+            .OnDelete(DeleteBehavior.Restrict);
+
     }
 
     private void ModelStatusModificacao<TEntity>(EntityTypeBuilder<TEntity> entity) where TEntity : class, IStatusModificacao

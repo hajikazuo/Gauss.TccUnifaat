@@ -20,6 +20,9 @@ namespace Gauss.TccUnifaat.Common.Models
         [JsonIgnore]
         public virtual ICollection<Noticia>? Noticias { get; set; }
 
+        [JsonIgnore]
+        public virtual ICollection<Presenca>? Presencas { get; set; }
+
         public Guid? TurmaId { get; set; }
 
         [JsonIgnore]
