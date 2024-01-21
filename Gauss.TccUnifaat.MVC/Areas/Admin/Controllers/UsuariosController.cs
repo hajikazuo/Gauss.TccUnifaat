@@ -3,6 +3,7 @@ using Gauss.TccUnifaat.MVC.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
 {
@@ -22,7 +23,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var users = _userManager.Users.OrderBy(u => u.NomeCompleto).ToList();
+            var users = _userManager.Users.Include(u => u.Turma).OrderBy(u => u.NomeCompleto).ToList();
             return View(users);
         }
 

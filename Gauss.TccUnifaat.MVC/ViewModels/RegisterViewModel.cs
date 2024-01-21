@@ -12,7 +12,7 @@ namespace Gauss.TccUnifaat.MVC.ViewModels
         [Display(Name = "Senha")]
         [DataType(DataType.Password)]
         [RegularExpression(@"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$",
-    ErrorMessage = "A senha deve conter pelo menos 8 caracteres, uma letra maiúscula, um número e um caractere especial.")]
+        ErrorMessage = "A senha deve conter pelo menos 8 caracteres, uma letra maiúscula, um número e um caractere especial.")]
         public string Password { get; set; }
 
         [Required(ErrorMessage = "O campo Confirme a senha é obrigatório.")]

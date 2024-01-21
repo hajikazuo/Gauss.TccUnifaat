@@ -16,7 +16,7 @@
             <thead>
                 <tr>
                     <th>Nome Completo</th>
-                    <th></th>
+                    <th>Login</th>
                 </tr>
             </thead>
             <tbody>
@@ -24,6 +24,7 @@
                 {
                     <tr>
                         <td>@usuario.NomeCompleto</td>
+                        <td>@usuario.Email</td>
                     </tr>
                 }
             </tbody>
@@ -35,9 +36,8 @@
     }
 
     <div>
-        <a class="btn btn-danger" asp-action="Edit" asp-route-id="@Model?.TurmaId">Editar</a>
-        <a class="btn btn-secondary" asp-action="Index">Voltar para a lista</a>
         <a class="btn btn-primary" asp-action="AdicionarUsuarios" asp-route-id="@Model?.TurmaId">Adicionar usuários</a>
+        <a class="btn btn-secondary" asp-action="Index">Voltar para a lista</a>    
     </div>
 
 </div>

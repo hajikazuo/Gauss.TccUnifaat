@@ -16,6 +16,7 @@
         <tr>
             <th>Nome Completo</th>
             <th>Email</th>
+            <th>Turma</th>
         </tr>
     </thead>
     <tbody>
@@ -24,6 +25,16 @@
             <tr>
                 <td>@user.NomeCompleto</td>
                 <td>@user.Email</td>
+                    <td>
+                        @if (user.Turma != null)
+                        {
+                            <text>@user.Turma.Nome</text>
+                        }
+                        else
+                        {
+                            <text>Sem turma cadastrada</text>
+                        }
+                    </td>
             </tr>
         }
     </tbody>

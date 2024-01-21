@@ -112,9 +112,6 @@ namespace Gauss.TccUnifaat.Migrations
                     b.Property<bool>("Excluido")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Foto")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasMaxLength(50)
