@@ -1,5 +1,6 @@
 using Gauss.TccUnifaat.Common.Models;
 using Gauss.TccUnifaat.Data;
+using Gauss.TccUnifaat.MVC.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,9 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddSingleton<RT.Comb.ICombProvider>(RT.Comb.Provider.Sql);
 builder.Services.AddIdentity<Usuario, Funcao>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
+
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -46,38 +50,38 @@ using (var scope = app.Services.CreateScope())
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     db.Database.Migrate();
 
-    //identity
-    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<Funcao>>();
+    ////identity
+    //var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<Funcao>>();
 
-    if (!roleManager.RoleExistsAsync("Administrador").Result)
-    {
-        var adminRole = new Funcao
-        {
-            Name = "Administrador"
-        };
+    //if (!roleManager.RoleExistsAsync("Administrador").Result)
+    //{
+    //    var adminRole = new Funcao
+    //    {
+    //        Name = "Administrador"
+    //    };
 
-        roleManager.CreateAsync(adminRole).Wait();
-    }
+    //    roleManager.CreateAsync(adminRole).Wait();
+    //}
 
-    if (!roleManager.RoleExistsAsync("Professor").Result)
-    {
-        var professorRole = new Funcao
-        {
-            Name = "Professor"
-        };
+    //if (!roleManager.RoleExistsAsync("Professor").Result)
+    //{
+    //    var professorRole = new Funcao
+    //    {
+    //        Name = "Professor"
+    //    };
 
-        roleManager.CreateAsync(professorRole).Wait();
-    }
+    //    roleManager.CreateAsync(professorRole).Wait();
+    //}
 
-    if (!roleManager.RoleExistsAsync("Aluno").Result)
-    {
-        var alunoRole = new Funcao
-        {
-            Name = "Aluno"
-        };
+    //if (!roleManager.RoleExistsAsync("Aluno").Result)
+    //{
+    //    var alunoRole = new Funcao
+    //    {
+    //        Name = "Aluno"
+    //    };
 
-        roleManager.CreateAsync(alunoRole).Wait();
-    }
+    //    roleManager.CreateAsync(alunoRole).Wait();
+    //}
 }
 
 // Configure the HTTP request pipeline.
@@ -95,20 +99,26 @@ else
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+CriarPerfisUsuarios(app);
+
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-
+void CriarPerfisUsuarios(WebApplication app)
+{
+    var scopedFactory = app.Services.GetService<IServiceScopeFactory>();
+    using (var scope = scopedFactory.CreateScope())
+    {
+        var service = scope.ServiceProvider.GetService<ISeedUserRoleInitial>();
+        service.SeedRoles();
+        service.SeedUsers();
+    }
+}
 
 #pragma warning disable ASP0014 // Suggest using top level route registrations
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapControllerRoute(
-      name: "createfirstadmin",
-      pattern: "/Account/CreateAdmin",
-      defaults: new { controller = "Account", action = "CreateAdmin" });
-
     endpoints.MapControllerRoute(
         name: "areas",
         pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"

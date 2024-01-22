@@ -13,7 +13,7 @@
 </head>
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-        <a class="navbar-brand ps-3" href="index.html">Gauss</a>
+        <a class="navbar-brand ps-3" href="/portal"><img class="logo" src="~/img/logo.png" /></a>
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
         <ul class="navbar-nav ms-auto">
             <li class="nav-item dropdown">
@@ -54,14 +54,10 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                             Turma
                         </a>
-                        @* <a class="nav-link" asp-area="admin" asp-controller="Usuarios" asp-action="Index">
-                            <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
-                            Usuários
+                        <a class="nav-link" asp-area="portal" asp-controller="Turmas" asp-action="Index">
+                            <div class="sb-nav-link-icon"><i class="fas fa-play"></i></div>
+                            GaussTube
                         </a>
-                        <a class="nav-link" asp-area="admin" asp-controller="Turmas" asp-action="Index">
-                            <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
-                            Turmas
-                        </a> *@
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">
