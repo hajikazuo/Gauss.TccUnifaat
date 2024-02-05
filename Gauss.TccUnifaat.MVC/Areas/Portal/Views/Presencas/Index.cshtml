@@ -54,7 +54,8 @@
                                 @usuario.NomeCompleto
                             </td>
                             <td>
-                                <input type="checkbox" class="form-check-input" name="presenca[@usuario.Id]" />
+                                <input type="checkbox" class="form-check-input" name="presenca[@usuario.Id]" value="true" />
+                                <input type="hidden" name="presenca[@usuario.Id]" value="false" />
                             </td>
                         </tr>
                     }
@@ -64,7 +65,7 @@
 
         <div class="btn-group">
             <button type="submit" class="btn btn-primary">Salvar Presença</button>
-            <a class="btn btn-secondary" href="@Url.Action("ListaPresencas", "Turmas", new { turmaId = minhaTurma?.TurmaId })">Ver Presenças Salvas</a>
+            <a class="btn btn-secondary" href="@Url.Action("ListaPresencas", "Presencas", new { turmaId = minhaTurma?.TurmaId })">Ver Presenças Salvas</a>
         </div>
     </form>
 

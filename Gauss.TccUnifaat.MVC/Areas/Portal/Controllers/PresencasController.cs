@@ -12,12 +12,12 @@ using Microsoft.AspNetCore.Identity;
 namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 {
     [Area("Portal")]
-    public class TurmasController : Controller
+    public class PresencasController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<Usuario> _userManager;
 
-        public TurmasController(ApplicationDbContext context, UserManager<Usuario> userManager)
+        public PresencasController(ApplicationDbContext context, UserManager<Usuario> userManager)
         {
             _context = context;
             _userManager = userManager;
@@ -44,7 +44,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             {
                 if (Guid.TryParse(usuarioId, out var parsedGuid))
                 {
-                    var novaPresenca = new Presenca
+                    var novaPresenca = new Common.Models.Presenca
                     {
                         DataAula = dataAula,
                         Presente = presente,

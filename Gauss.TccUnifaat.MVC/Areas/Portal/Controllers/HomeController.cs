@@ -8,6 +8,11 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
     {
         public IActionResult Index()
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Redirect("/Account/Login");
+            }
+
             return View();
         }
     }
