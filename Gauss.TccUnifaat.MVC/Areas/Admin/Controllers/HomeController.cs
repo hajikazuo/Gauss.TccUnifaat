@@ -22,10 +22,15 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
         public IActionResult Index()
         {
             //Dapper
-            var sql = Gauss.TccUnifaat.Common.Resources.querys.noticias_dashboard;
+            var sqlNoticias = Gauss.TccUnifaat.Common.Resources.querys.noticias_dashboard;
             var conn = _context.Database.GetDbConnection();
-            var noticias = conn.Query<DashboardViewModel>(sql);
+            var noticias = conn.Query<DashboardViewModel>(sqlNoticias);
 
+            var sqlUsuarios = Gauss.TccUnifaat.Common.Resources.querys.usuarios_dashboard;
+            var conn2 = _context.Database.GetDbConnection();
+            var usuarios = conn2.Query<DashboardUsuariosViewModel>(sqlUsuarios);
+
+            ViewBag.Usuarios = usuarios;
 
             return View(noticias);
         }

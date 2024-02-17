@@ -30,6 +30,8 @@ public class ApplicationDbContext : IdentityDbContext<Usuario, Funcao, Guid>
     public DbSet<Noticia> Noticias { get; set; }
     public DbSet<Turma> Turmas { get; set; }
     public DbSet<Presenca> Presencas { get; set; }
+    public DbSet<Disciplina> Disciplinas { get; set; }  
+    public DbSet<MaterialApoio> MateriaisApoio { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

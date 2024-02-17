@@ -3,26 +3,45 @@
 
 <div class="p-3">
 
-<h1>Dashboard</h1>
-
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Tipo de notícia</th>
-            <th>Quantidade</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+    <!-- Tabela de Notícias -->
+    <h2>Notícias</h2>
+    <table class="table table-bordered">
+        <thead>
             <tr>
-                <td>@item.TipoNoticia.GetDisplayName()</td>
-                <td>@item.qtd</td>
+                <th>Tipo de Notícia</th>
+                <th>Quantidade</th>
             </tr>
-        }
-    </tbody>
-    
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.TipoNoticia.GetDisplayName()</td>
+                    <td>@item.qtd</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- Tabela de Usuários -->
+    <h2>Usuários</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Função</th>
+                <th>Quantidade</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.Usuarios)
+            {
+                <tr>
+                    <td>@item.Funcao</td>
+                    <td>@item.QuantidadeUsuarios</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
 </div>
 

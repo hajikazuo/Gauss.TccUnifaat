@@ -121,4 +121,7 @@
   <data name="noticias_dashboard" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>SQL\noticias_dashboard.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="usuarios_dashboard" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>SQL\usuarios_dashboard.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
 </root>

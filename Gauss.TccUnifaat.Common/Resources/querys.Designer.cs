@@ -71,5 +71,18 @@ namespace Gauss.TccUnifaat.Common.Resources {
                 return ResourceManager.GetString("noticias_dashboard", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT r.Name as Funcao, COUNT(ur.UserId) as QuantidadeUsuarios
+        ///    FROM AspNetRoles r
+        ///    LEFT JOIN AspNetUserRoles ur ON r.Id = ur.RoleId
+        ///    GROUP BY r.Name
+        ///    ORDER BY QuantidadeUsuarios DESC;.
+        /// </summary>
+        public static string usuarios_dashboard {
+            get {
+                return ResourceManager.GetString("usuarios_dashboard", resourceCulture);
+            }
+        }
     }
 }

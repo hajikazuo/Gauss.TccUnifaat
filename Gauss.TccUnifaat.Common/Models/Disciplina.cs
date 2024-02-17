@@ -7,16 +7,18 @@ using System.Threading.Tasks;
 
 namespace Gauss.TccUnifaat.Common.Models
 {
-    public class Turma : IStatusModificacao
+    public class Disciplina : IStatusModificacao
     {
-        public Guid TurmaId { get; set; }
+        public Guid DisciplinaId { get; set; }
 
         [MaxLength(50)]
         public string Nome { get; set; }
 
-        public virtual ICollection<Usuario>? Usuarios { get; set; } = new List<Usuario>();
-        public virtual ICollection<Disciplina>? Disciplinas { get; set; } = new List<Disciplina>();
-        public virtual ICollection<Presenca>? Presencas { get; set; } = new List<Presenca>();
+        public Guid? TurmaId { get; set; }
+        public virtual Turma? Turma { get; set; }
+
+        public virtual ICollection<MaterialApoio>? MateriaisApoio { get; set; } = new List<MaterialApoio>();
+
 
         #region Interface
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
