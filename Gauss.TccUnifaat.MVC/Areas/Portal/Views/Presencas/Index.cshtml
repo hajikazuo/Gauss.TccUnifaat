@@ -28,42 +28,50 @@
     </h1>
 
     <form method="post" action="@Url.Action("MarcarPresenca")">
-        <div class="form-group my-3">
-            <label for="dataAula" class="form-label">Data da Aula:</label>
-            <input type="date" id="dataAula" name="dataAula" class="form-control" required>
-        </div>
 
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>
-                        Alunos
-                    </th>
-                    <th>
-                        Confirmar presença
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var turma in Model)
-                {
-                    @foreach (var usuario in turma.Usuarios)
-                    {
+        <div class="row">
+            <div class="col-2">
+                <div class="form-group my-3">
+                    <label for="dataAula" class="form-label">Data da Aula:</label>
+                    <input type="date" id="dataAula" name="dataAula" class="form-control" required>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <table class="table table-bordered">
+                    <thead>
                         <tr>
-                            <td>
-                                @usuario.NomeCompleto
-                            </td>
-                            <td>
-                                <input type="checkbox" class="form-check-input" name="presenca[@usuario.Id]" />
-                            </td>
+                            <th>
+                                Alunos
+                            </th>
+                            <th>
+                                Confirmar presença
+                            </th>
                         </tr>
-                    }
-                }
-            </tbody>
-        </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var turma in Model)
+                        {
+                            @foreach (var usuario in turma.Usuarios)
+                            {
+                                <tr>
+                                    <td>
+                                        @usuario.NomeCompleto
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" class="form-check-input" name="presenca[@usuario.Id]" value="true" />
+                                        <input type="hidden" name="presenca[@usuario.Id]" value="false" />
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
 
-        <div class="btn-group">
-            <button type="submit" class="btn btn-primary">Salvar Presença</button>
+            <div class="col-2">
+                <button type="submit" class="btn btn-primary">Salvar Presença</button>
+            </div>
         </div>
     </form>
 
