@@ -23,20 +23,44 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(DateTime? dataFiltro = null)
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            var turmaIdDoUsuario = currentUser.TurmaId;
+            var dataAtual = DateTime.Today;
+
+            if (dataFiltro == null)
+            {
+                dataFiltro = dataAtual;
+            }
+
+            var presencasNaTurma = await _context.Presencas
+                .Where(p => p.TurmaId == turmaIdDoUsuario && p.DataAula.Date == dataFiltro.Value.Date)
+                .Include(p => p.Usuario)
+                .OrderBy(p => p.DataAula)
+                .ToListAsync();
+
+            ViewBag.DataAtual = dataAtual;
+            ViewBag.DataFiltro = dataFiltro;
+            return View(presencasNaTurma);
+        }
+
+
+        public async Task<IActionResult> Create(DateTime dataAula)
         {
             var currentUser = await _userManager.GetUserAsync(User);
 
             var turmaDoUsuario = await _context.Turmas
-            .Include(t => t.Usuarios)
-            .Where(t => t.Usuarios.Any(u => u.Id == currentUser.Id))
-            .ToListAsync();
+                .Include(t => t.Usuarios)
+                .Where(t => t.Usuarios.Any(u => u.Id == currentUser.Id))
+                .ToListAsync();
 
+            ViewData["DataAula"] = dataAula;
             return View(turmaDoUsuario);
         }
 
         [HttpPost]
-        public async Task<IActionResult> MarcarPresenca([FromForm] DateTime dataAula, [FromForm] Dictionary<string, bool> presenca)
+        public async Task<IActionResult> Create(DateTime dataAula, [FromForm] Dictionary<string, bool> presenca)
         {
             var currentUser = await _userManager.GetUserAsync(User);
 
@@ -59,29 +83,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 
             TempData["PresencaSalva"] = true;
 
-            return RedirectToAction(nameof(Index));
-        }
-
-        public async Task<IActionResult> ListaPresencas(DateTime? dataFiltro = null)
-        {
-            var currentUser = await _userManager.GetUserAsync(User);
-            var turmaIdDoUsuario = currentUser.TurmaId;
-            var dataAtual = DateTime.Today;
-
-            if (dataFiltro == null)
-            {
-                dataFiltro = dataAtual;
-            }
-    
-            var presencasNaTurma = await _context.Presencas
-                .Where(p => p.TurmaId == turmaIdDoUsuario && p.DataAula.Date == dataFiltro.Value.Date)
-                .Include(p => p.Usuario)
-                .OrderBy(p => p.DataAula)
-                .ToListAsync();
-
-            ViewBag.DataAtual = dataAtual;
-            ViewBag.DataFiltro = dataFiltro;
-            return View(presencasNaTurma);
+            return RedirectToAction(nameof(Create));
         }
 
     }

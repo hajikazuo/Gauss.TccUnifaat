@@ -1,80 +1,38 @@
-﻿@model IEnumerable<Gauss.TccUnifaat.Common.Models.Turma>
+﻿@model List<Presenca>
 
-@{
-    ViewData["Title"] = "Index";
-    var presencaSalva = TempData["PresencaSalva"] as bool?;
-    var minhaTurma = Model.FirstOrDefault();
-}
-
-@if (presencaSalva.HasValue && presencaSalva.Value)
-{
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        Presença salva com sucesso!
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-}
+<h1>Lista de Presenças</h1>
 
 <div class="p-3">
 
-    <h1>
-        @if (minhaTurma != null)
-        {
-            @minhaTurma.Nome
-        }
-        else
-        {
-            <text>Você não está cadastrado em uma turma</text>
-        }
-    </h1>
-
-    <form method="post" action="@Url.Action("MarcarPresenca")">
-
-        <div class="row">
-            <div class="col-2">
-                <div class="form-group my-3">
-                    <label for="dataAula" class="form-label">Data da Aula:</label>
-                    <input type="date" id="dataAula" name="dataAula" class="form-control" required>
-                </div>
-            </div>
-
-            <div class="col-12">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>
-                                Alunos
-                            </th>
-                            <th>
-                                Confirmar presença
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var turma in Model)
-                        {
-                            @foreach (var usuario in turma.Usuarios)
-                            {
-                                <tr>
-                                    <td>
-                                        @usuario.NomeCompleto
-                                    </td>
-                                    <td>
-                                        <input type="checkbox" class="form-check-input" name="presenca[@usuario.Id]" value="true" />
-                                        <input type="hidden" name="presenca[@usuario.Id]" value="false" />
-                                    </td>
-                                </tr>
-                            }
-                        }
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="col-2">
-                <button type="submit" class="btn btn-primary">Salvar Presença</button>
-            </div>
+    <form method="get" class="mb-3">
+        <div class="form-group">
+            <label for="dataFiltro">Selecione a data:</label>
+            <input type="date" id="dataFiltro" name="dataFiltro" value="@ViewBag.DataFiltro.ToString("yyyy-MM-dd")">
+            <button type="submit" class="btn btn-primary">Filtrar</button>
         </div>
     </form>
 
+    <p>Data Atual: @ViewBag.DataAtual.ToString("dd/MM/yyyy")</p>
+    <p>Data do Filtro: @ViewBag.DataFiltro.ToString("dd/MM/yyyy")</p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Data da Aula</th>
+                <th>Nome do Aluno</th>
+                <th>Presente</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var presenca in Model)
+            {
+                <tr>
+                    <td>@presenca.DataAula.ToString("dd/MM/yyyy")</td>
+                    <td>@presenca.Usuario.NomeCompleto</td>
+                    <td>@(presenca.Presente ? "Sim" : "Não")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
 </div>
-
