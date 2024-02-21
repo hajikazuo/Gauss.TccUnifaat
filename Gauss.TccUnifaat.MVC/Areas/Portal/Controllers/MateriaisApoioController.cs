@@ -57,6 +57,14 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
         // GET: Portal/MateriaisApoio/Create
         public IActionResult Create()
         {
+            var disciplinas = _context.Disciplinas.ToList();
+
+            if (disciplinas.Count == 0)
+            {
+                TempData["Message"] = "Não há disciplinas cadastradas. Por favor, cadastre uma disciplina antes de adicionar materiais de apoio.";
+                return RedirectToAction(nameof(Index)); 
+            }
+
             ViewData["DisciplinaId"] = new SelectList(_context.Disciplinas, "DisciplinaId", "Nome");
             return View();
         }

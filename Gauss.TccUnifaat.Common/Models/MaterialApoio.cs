@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gauss.TccUnifaat.Common.Resources;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -11,10 +12,12 @@ namespace Gauss.TccUnifaat.Common.Models
     {
         public Guid MaterialApoioId { get; set; }
 
+        [Required(ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.Required))]
         [MaxLength(100)]
         [Display(Name = "Nome do Material/Atividade")]
         public string Nome { get; set; }
 
+        [Required(ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.Required))]
         [MaxLength(500)]
         [Display(Name = "Descrição")]
         public string Descricao { get; set; }
