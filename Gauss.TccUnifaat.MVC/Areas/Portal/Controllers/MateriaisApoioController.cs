@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Gauss.TccUnifaat.Common.Models;
 using Gauss.TccUnifaat.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 {
@@ -14,17 +15,24 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
     public class MateriaisApoioController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<Usuario> _userManager;
 
-        public MateriaisApoioController(ApplicationDbContext context)
+        public MateriaisApoioController(ApplicationDbContext context, UserManager<Usuario> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Portal/MateriaisApoio
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.MateriaisApoio.Include(m => m.Disciplina);
-            return View(await applicationDbContext.ToListAsync());
+            var currentUser = await _userManager.GetUserAsync(User);
+            var materiaisApoioDaTurma = await _context.MateriaisApoio
+           .Where(m => m.Disciplina.TurmaId == currentUser.TurmaId)
+           .Include(m => m.Disciplina)
+           .ToListAsync();
+
+            return View(materiaisApoioDaTurma);
         }
 
         // GET: Portal/MateriaisApoio/Details/5

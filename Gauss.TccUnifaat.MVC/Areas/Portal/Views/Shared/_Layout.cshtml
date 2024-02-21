@@ -50,10 +50,28 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-book"></i></div>
                             Material de apoio
                         </a>
-                        <a class="nav-link" asp-area="portal" asp-controller="Turmas" asp-action="Index">
+
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                             <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
-                            Turma
+                            Presenças
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
+                        <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" asp-area="portal" asp-controller="Presencas" asp-action="Index">
+                                    <div class="sb-nav-link-icon"></div>
+                                    Cadastrar 
+                                </a>
+                                <a class="nav-link" asp-area="portal" asp-controller="Presencas" asp-action="ListaPresencas">
+                                    <div class="sb-nav-link-icon"></div>
+                                    Listar 
+                                </a>
+
+                               
+                            </nav>
+                        </div>
+
+                        
                         <a class="nav-link" asp-area="portal" asp-controller="Turmas" asp-action="Index">
                             <div class="sb-nav-link-icon"><i class="fas fa-play"></i></div>
                             GaussTube

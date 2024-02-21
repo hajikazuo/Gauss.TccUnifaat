@@ -12,12 +12,12 @@ using Microsoft.AspNetCore.Identity;
 namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 {
     [Area("Portal")]
-    public class TurmasController : Controller
+    public class PresencasController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<Usuario> _userManager;
 
-        public TurmasController(ApplicationDbContext context, UserManager<Usuario> userManager)
+        public PresencasController(ApplicationDbContext context, UserManager<Usuario> userManager)
         {
             _context = context;
             _userManager = userManager;
@@ -62,17 +62,27 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> ListaPresencas(Guid turmaId)
+        public async Task<IActionResult> ListaPresencas(DateTime? dataFiltro = null)
         {
+            var currentUser = await _userManager.GetUserAsync(User);
+            var turmaIdDoUsuario = currentUser.TurmaId;
+            var dataAtual = DateTime.Today;
+
+            if (dataFiltro == null)
+            {
+                dataFiltro = dataAtual;
+            }
+    
             var presencasNaTurma = await _context.Presencas
-                .Where(p => p.TurmaId == turmaId)
+                .Where(p => p.TurmaId == turmaIdDoUsuario && p.DataAula.Date == dataFiltro.Value.Date)
                 .Include(p => p.Usuario)
                 .OrderBy(p => p.DataAula)
                 .ToListAsync();
 
+            ViewBag.DataAtual = dataAtual;
+            ViewBag.DataFiltro = dataFiltro;
             return View(presencasNaTurma);
         }
-
 
     }
 }
