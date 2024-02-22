@@ -23,13 +23,13 @@ namespace Gauss.TccUnifaat.Common.Models
         [Display(Name = "Conteúdo")]
         public string Conteudo { get; set; }
 
+        public string? Foto { get; set; }
+
         #region Interface
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         [DataType(DataType.DateTime)]
         [Display(Name = "Data Cadastro")]
         public DateTime DataCadastro { get; set; }
-
-        public string? Foto { get; set; }
 
         [ScaffoldColumn(false)]
         [Display(Name = "Excluído")]
