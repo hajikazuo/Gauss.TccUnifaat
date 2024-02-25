@@ -11,14 +11,17 @@ namespace Gauss.TccUnifaat.Common.Models
     {
         public Guid DisciplinaId { get; set; }
 
+        [Display(Name = "Nome da Disciplina")]
         [MaxLength(50)]
         public string Nome { get; set; }
 
+        [Display(Name = "Turma")]
         public Guid? TurmaId { get; set; }
         public virtual Turma? Turma { get; set; }
 
         public virtual ICollection<MaterialApoio>? MateriaisApoio { get; set; } = new List<MaterialApoio>();
 
+        public virtual ICollection<Video> Videos { get; set; } = new List<Video>();
 
         #region Interface
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Gauss.TccUnifaat.Common.Models
 {
-    public class MaterialApoio
+    public class MaterialApoio : IStatusModificacao
     {
         public Guid MaterialApoioId { get; set; }
 
@@ -28,5 +28,24 @@ namespace Gauss.TccUnifaat.Common.Models
         [Display(Name = "Disciplina")]
         public Guid DisciplinaId { get; set; }
         public virtual Disciplina? Disciplina { get; set; }
+
+        #region Interface
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [DataType(DataType.DateTime)]
+        [Display(Name = "Data Cadastro")]
+        public DateTime DataCadastro { get; set; }
+
+        [ScaffoldColumn(false)]
+        [Display(Name = "Excluído")]
+        public bool Excluido { get; set; }
+
+        [ScaffoldColumn(false)]
+        [Display(Name = "Data Excluído")]
+        public DateTime? DataExcluido { get; set; }
+
+        [ScaffoldColumn(false)]
+        [Display(Name = "Data Últ. Modificação")]
+        public DateTime? DataUltimaModificacao { get; set; }
+        #endregion
     }
 }

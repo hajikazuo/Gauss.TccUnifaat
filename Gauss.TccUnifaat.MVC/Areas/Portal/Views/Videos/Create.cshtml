@@ -1,0 +1,40 @@
+﻿@model Gauss.TccUnifaat.Common.Models.Video
+
+@{
+    ViewData["Title"] = "Criar";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-4 mt-4">
+        <h1>Cadastrar vídeo</h1>
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Titulo" class="control-label"></label>
+                <input asp-for="Titulo" class="form-control" />
+                <span asp-validation-for="Titulo" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3">
+                <label asp-for="LinkYouTube" class="control-label"></label>
+                <input asp-for="LinkYouTube" class="form-control" />
+                <span asp-validation-for="LinkYouTube" class="text-danger"></span>
+                <small id="linkYouTubeHelp" class="form-text text-muted">
+                    Insira apenas o ID do vídeo do YouTube, encontrado após "v=" no link.
+                    Por exemplo, para "https://www.youtube.com/watch?v=MfTsFI_m1NY", insira apenas "MfTsFI_m1NY".
+                </small>
+            </div>
+            <div class="form-group mt-3">
+                <label asp-for="DisciplinaId" class="control-label"></label>
+                <select asp-for="DisciplinaId" class ="form-control" asp-items="ViewBag.DisciplinaId"></select>
+            </div>
+            <div class="form-group mt-3">
+                <input type="submit" value="Salvar" class="btn btn-danger" />
+                <a class="btn btn-secondary" asp-action="Index">Voltar para a lista</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

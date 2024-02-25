@@ -7,29 +7,27 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Gauss.TccUnifaat.Common.Models;
 using Gauss.TccUnifaat.Data;
-using Microsoft.AspNetCore.Authorization;
 
-namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
+namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 {
-    [Authorize(Policy = "RequireAdminRole")]
-    [Area("Admin")]
-    public class DisciplinasController : Controller
+    [Area("Portal")]
+    public class VideosController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public DisciplinasController(ApplicationDbContext context)
+        public VideosController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Admin/Disciplinas
+        // GET: Portal/Videos
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Disciplinas.Include(d => d.Turma);
+            var applicationDbContext = _context.Videos.Include(v => v.Disciplina);
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Admin/Disciplinas/Details/5
+        // GET: Portal/Videos/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -37,43 +35,52 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var disciplina = await _context.Disciplinas
-                .Include(d => d.Turma)
-                .FirstOrDefaultAsync(m => m.DisciplinaId == id);
-            if (disciplina == null)
+            var video = await _context.Videos
+                .Include(v => v.Disciplina)
+                .FirstOrDefaultAsync(m => m.VideoId == id);
+            if (video == null)
             {
                 return NotFound();
             }
 
-            return View(disciplina);
+            return View(video);
         }
 
-        // GET: Admin/Disciplinas/Create
+        // GET: Portal/Videos/Create
         public IActionResult Create()
         {
-            ViewData["TurmaId"] = new SelectList(_context.Turmas, "TurmaId", "Nome");
+            var disciplinas = _context.Disciplinas.ToList();
+
+            if (disciplinas.Count == 0)
+            {
+                TempData["Message"] = "Não há disciplinas cadastradas. Por favor, cadastre uma disciplina antes de adicionar videos.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            ViewData["DisciplinaId"] = new SelectList(_context.Disciplinas, "DisciplinaId", "Nome");
             return View();
         }
 
-        // POST: Admin/Disciplinas/Create
+        // POST: Portal/Videos/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("DisciplinaId,Nome,TurmaId")] Disciplina disciplina)
+        public async Task<IActionResult> Create([Bind("VideoId,Titulo,LinkYouTube,DisciplinaId")] Video video)
         {
             if (ModelState.IsValid)
             {
-                disciplina.DisciplinaId = Guid.NewGuid();
-                _context.Add(disciplina);
+                video.VideoId = Guid.NewGuid();
+                video.DataCadastro = DateTime.Now;
+                _context.Add(video);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TurmaId"] = new SelectList(_context.Turmas, "TurmaId", "Nome", disciplina.TurmaId);
-            return View(disciplina);
+            ViewData["DisciplinaId"] = new SelectList(_context.Disciplinas, "DisciplinaId", "Nome", video.DisciplinaId);
+            return View(video);
         }
 
-        // GET: Admin/Disciplinas/Edit/5
+        // GET: Portal/Videos/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -81,23 +88,23 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var disciplina = await _context.Disciplinas.FindAsync(id);
-            if (disciplina == null)
+            var video = await _context.Videos.FindAsync(id);
+            if (video == null)
             {
                 return NotFound();
             }
-            ViewData["TurmaId"] = new SelectList(_context.Turmas, "TurmaId", "Nome", disciplina.TurmaId);
-            return View(disciplina);
+            ViewData["DisciplinaId"] = new SelectList(_context.Disciplinas, "DisciplinaId", "Nome", video.DisciplinaId);
+            return View(video);
         }
 
-        // POST: Admin/Disciplinas/Edit/5
+        // POST: Portal/Videos/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("DisciplinaId,Nome,TurmaId")] Disciplina disciplina)
+        public async Task<IActionResult> Edit(Guid id, [Bind("VideoId,Titulo,LinkYouTube,DisciplinaId,DataCadastro")] Video video)
         {
-            if (id != disciplina.DisciplinaId)
+            if (id != video.VideoId)
             {
                 return NotFound();
             }
@@ -106,12 +113,12 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(disciplina);
+                    _context.Update(video);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DisciplinaExists(disciplina.DisciplinaId))
+                    if (!VideoExists(video.VideoId))
                     {
                         return NotFound();
                     }
@@ -122,11 +129,11 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TurmaId"] = new SelectList(_context.Turmas, "TurmaId", "Nome", disciplina.TurmaId);
-            return View(disciplina);
+            ViewData["DisciplinaId"] = new SelectList(_context.Disciplinas, "DisciplinaId", "Nome", video.DisciplinaId);
+            return View(video);
         }
 
-        // GET: Admin/Disciplinas/Delete/5
+        // GET: Portal/Videos/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -134,35 +141,35 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var disciplina = await _context.Disciplinas
-                .Include(d => d.Turma)
-                .FirstOrDefaultAsync(m => m.DisciplinaId == id);
-            if (disciplina == null)
+            var video = await _context.Videos
+                .Include(v => v.Disciplina)
+                .FirstOrDefaultAsync(m => m.VideoId == id);
+            if (video == null)
             {
                 return NotFound();
             }
 
-            return View(disciplina);
+            return View(video);
         }
 
-        // POST: Admin/Disciplinas/Delete/5
+        // POST: Portal/Videos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var disciplina = await _context.Disciplinas.FindAsync(id);
-            if (disciplina != null)
+            var video = await _context.Videos.FindAsync(id);
+            if (video != null)
             {
-                _context.Disciplinas.Remove(disciplina);
+                _context.Videos.Remove(video);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool DisciplinaExists(Guid id)
+        private bool VideoExists(Guid id)
         {
-            return _context.Disciplinas.Any(e => e.DisciplinaId == id);
+            return _context.Videos.Any(e => e.VideoId == id);
         }
     }
 }

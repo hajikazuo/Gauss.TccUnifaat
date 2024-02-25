@@ -38,6 +38,11 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Administrador"));
+
+    options.AddPolicy("RequireProfessorRole", policy => policy.RequireRole("Professor"));
+
+    options.AddPolicy("RequireAdminOrProfessorRole", policy =>
+        policy.RequireRole("Administrador", "Professor"));
 });
 
 builder.Services.AddHttpClient();

@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Gauss.TccUnifaat.Common.Models.Video>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["Message"]
+    </div>
+}
+
+<div class="p-3">
+    <div class="row text-center">
+        
+        <h1>GaussTube</h1>
+
+        @if (User.Identity.IsAuthenticated && (User.IsInRole("Administrador") || User.IsInRole("Professor")))
+        {
+            <p>
+                <a asp-action="Create">Create New</a>
+            </p>
+        }
+
+        @foreach (var video in Model)
+        {
+            @if (!string.IsNullOrEmpty(video.LinkYouTube))
+            {
+                <div class="col-12 p-5">
+                    <h1>@video.Titulo</h1>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/@video.LinkYouTube" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            }
+            else
+            {
+                <p>Nenhum vídeo disponível</p>
+            }
+
+            @if (User.Identity.IsAuthenticated && (User.IsInRole("Administrador") || User.IsInRole("Professor")))
+
+            {
+                <div>
+                    <a asp-action="Edit" asp-route-id="@video.VideoId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@video.VideoId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@video.VideoId">Delete</a>
+                </div>
+            }
+
+
+        }
+
+    </div>
+</div>
