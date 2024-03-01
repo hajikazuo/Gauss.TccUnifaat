@@ -3,9 +3,9 @@
 @{
     ViewData["Title"] = "Index";
 }
-<div class="p-3">
+<div class="container-fluid">
 
-<h1>Lista de Noticias</h1>
+    <h1>Lista de Noticias</h1>
 
 <p>
     <a class="btn btn-dark" asp-action="Create">Criar noticia</a>
@@ -53,20 +53,20 @@
                 <td>
                     <img src="~/img/@item.Foto" width="50" />
 
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Usuario.Id)
-                </td>
-                <td>
-                    <div class="btn-group">
-                        <a asp-action="Edit" asp-route-id="@item.NoticiaId" class="btn btn-primary">Editar</a>
-                        <a asp-action="Details" asp-route-id="@item.NoticiaId" class="btn btn-secondary">Detalhes</a>
-                        <a asp-action="Delete" asp-route-id="@item.NoticiaId" class="btn btn-danger">Deletar</a>
-                    </div>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Usuario.NomeCompleto)
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <a asp-action="Edit" asp-route-id="@item.NoticiaId" class="btn btn-primary">Editar</a>
+                            <a asp-action="Details" asp-route-id="@item.NoticiaId" class="btn btn-secondary">Detalhes</a>
+                            <a asp-action="Delete" asp-route-id="@item.NoticiaId" class="btn btn-danger">Deletar</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
 </div>
