@@ -3,70 +3,72 @@
 @{
     ViewData["Title"] = "Index";
 }
-<div class="p-3">
+<div class="container-fluid">
 
-<h1>Lista de Noticias</h1>
+    <h1>Lista de Noticias</h1>
 
-<p>
-    <a class="btn btn-dark" asp-action="Create">Criar noticia</a>
-</p>
-    <table id="myTable" class="table table-bordered">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.TipoNoticia)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Titulo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Conteudo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DataCadastro)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Foto)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Usuario)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+    <p>
+        <a class="btn btn-secondary" asp-action="Create">Criar noticia</a>
+    </p>
+    <table class="table table-bordered">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TipoNoticia)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Titulo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Conteudo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DataCadastro)
-                </td>
-                <td>
-                    <img src="~/img/@item.Foto" width="50" />
-
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Usuario.Id)
-                </td>
-                <td>
-                    <div class="btn-group">
-                        <a asp-action="Edit" asp-route-id="@item.NoticiaId" class="btn btn-primary">Editar</a>
-                        <a asp-action="Details" asp-route-id="@item.NoticiaId" class="btn btn-secondary">Detalhes</a>
-                        <a asp-action="Delete" asp-route-id="@item.NoticiaId" class="btn btn-danger">Deletar</a>
-                    </div>
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.TipoNoticia)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Titulo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Conteudo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DataCadastro)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Foto)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Usuario)
+                </th>
+                <th>
+                    Ações
+                </th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TipoNoticia)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Titulo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Conteudo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DataCadastro)
+                    </td>
+                    <td>
+                        <img src="~/img/@item.Foto" width="50" />
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Usuario.NomeCompleto)
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <a asp-action="Edit" asp-route-id="@item.NoticiaId" class="btn btn-primary">Editar</a>
+                            <a asp-action="Details" asp-route-id="@item.NoticiaId" class="btn btn-secondary">Detalhes</a>
+                            <a asp-action="Delete" asp-route-id="@item.NoticiaId" class="btn btn-danger">Deletar</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
 </div>
