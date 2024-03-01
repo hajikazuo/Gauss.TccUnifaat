@@ -12,14 +12,12 @@ namespace Gauss.TccUnifaat.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<Usuario> _userManager;
-        public RT.Comb.ICombProvider _comb;
 
         public HomeController(ILogger<HomeController> logger, UserManager<Usuario> userManager, RT.Comb.ICombProvider comb, ApplicationDbContext context)
         : base(context, comb)
         {
             _logger = logger;
             _userManager = userManager;
-            _comb = comb;
         }
 
         public IActionResult Index()

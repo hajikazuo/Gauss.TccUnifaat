@@ -1,6 +1,7 @@
 using Gauss.TccUnifaat.Common.Models;
 using Gauss.TccUnifaat.Data;
 using Gauss.TccUnifaat.MVC.Services;
+using Gauss.TccUnifaat.MVC.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
