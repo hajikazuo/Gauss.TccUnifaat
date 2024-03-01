@@ -16,7 +16,7 @@ namespace Gauss.TccUnifaat.Common.Models
         public string Nome { get; set; }
 
         [Display(Name = "Turma")]
-        public Guid? TurmaId { get; set; }
+        public Guid TurmaId { get; set; }
         public virtual Turma? Turma { get; set; }
 
         public virtual ICollection<MaterialApoio>? MateriaisApoio { get; set; } = new List<MaterialApoio>();

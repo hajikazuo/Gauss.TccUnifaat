@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gauss.TccUnifaat.Common.Resources;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -7,17 +8,26 @@ using System.Threading.Tasks;
 
 namespace Gauss.TccUnifaat.Common.Models
 {
-    public class Presenca : IStatusModificacao
+    public class Aviso
     {
-        public Guid PresencaId { get; set; }
-        public DateTime DataAula { get; set; }
-        public bool Presente { get; set; }
+        public Guid AvisoId { get; set; }
 
+        [Required(ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.Required))]
+        [MaxLength(100)]
+        [Display(Name = "Titulo")]
+        public string Titulo { get; set; }
+
+        [Required(ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.Required))]
+        [MaxLength(500)]
+        [Display(Name = "Descrição")]
+        public string Descricao { get; set; }
+
+        [Display(Name = "Data do aviso")]
+        public DateTime DataAviso { get; set; }
+
+        [Display(Name = "Turma")]
         public Guid TurmaId { get; set; }
         public virtual Turma? Turma { get; set; }
-
-        public Guid UsuarioId { get; set; }
-        public virtual Usuario? Usuario { get; set; }
 
         #region Interface
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]

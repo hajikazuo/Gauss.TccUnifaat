@@ -17,6 +17,7 @@ namespace Gauss.TccUnifaat.Common.Models
         public virtual ICollection<Usuario>? Usuarios { get; set; } = new List<Usuario>();
         public virtual ICollection<Disciplina>? Disciplinas { get; set; } = new List<Disciplina>();
         public virtual ICollection<Presenca>? Presencas { get; set; } = new List<Presenca>();
+        public virtual ICollection<Aviso>? Avisos { get; set; } = new List<Aviso>();
 
         #region Interface
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
