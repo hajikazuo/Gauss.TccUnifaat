@@ -1,9 +1,20 @@
 ﻿@using Gauss.TccUnifaat.Common.Extensions;
 @model IEnumerable<Gauss.TccUnifaat.MVC.ViewModels.DashboardViewModel>
 
-<div class="p-3">
+@{
+    var pageName = "Dashboard";
+    ViewData["Title"] = pageName;
+}
 
+<div class="container-fluid mt-3">
+
+    <div class="card mb-4">
+        <div class="card-header">
             <h2>Notícias</h2>
+        </div>
+        <div class="card-body">
+
+
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -21,6 +32,17 @@
                     }
                 </tbody>
             </table>
+
+        </div>
+    </div>
+
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2>Notícias</h2>
+        </div>
+        <div class="card-body">
+
 
             <h2>Usuários</h2>
             <table class="table table-bordered">
@@ -40,7 +62,10 @@
                     }
                 </tbody>
             </table>
-       
+
+        </div>
+    </div>
+
 </div>
 
 

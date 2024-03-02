@@ -33,6 +33,7 @@ public class ApplicationDbContext : IdentityDbContext<Usuario, Funcao, Guid>
     public DbSet<Disciplina> Disciplinas { get; set; }  
     public DbSet<MaterialApoio> MateriaisApoio { get; set; }
     public DbSet<Video> Videos { get; set; }
+    public DbSet<Aviso> Avisos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

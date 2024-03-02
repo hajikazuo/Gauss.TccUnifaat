@@ -21,7 +21,7 @@ builder.Services.AddIdentity<Usuario, Funcao>(options => options.SignIn.RequireC
 
 builder.Services.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
@@ -56,38 +56,6 @@ using (var scope = app.Services.CreateScope())
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     db.Database.Migrate();
 
-    ////identity
-    //var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<Funcao>>();
-
-    //if (!roleManager.RoleExistsAsync("Administrador").Result)
-    //{
-    //    var adminRole = new Funcao
-    //    {
-    //        Name = "Administrador"
-    //    };
-
-    //    roleManager.CreateAsync(adminRole).Wait();
-    //}
-
-    //if (!roleManager.RoleExistsAsync("Professor").Result)
-    //{
-    //    var professorRole = new Funcao
-    //    {
-    //        Name = "Professor"
-    //    };
-
-    //    roleManager.CreateAsync(professorRole).Wait();
-    //}
-
-    //if (!roleManager.RoleExistsAsync("Aluno").Result)
-    //{
-    //    var alunoRole = new Funcao
-    //    {
-    //        Name = "Aluno"
-    //    };
-
-    //    roleManager.CreateAsync(alunoRole).Wait();
-    //}
 }
 
 // Configure the HTTP request pipeline.
