@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Gauss.TccUnifaat.Common.Models;
 using Gauss.TccUnifaat.Data;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 {
@@ -58,11 +59,12 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AvisoId,Titulo,Descricao,DataAviso,TurmaId,DataCadastro")] Aviso aviso)
+        public async Task<IActionResult> Create([Bind("AvisoId,Titulo,Descricao,DataAviso,TurmaId")] Aviso aviso)
         {
             if (ModelState.IsValid)
             {
                 aviso.AvisoId = Guid.NewGuid();
+                aviso.DataCadastro = DateTime.Now;
                 _context.Add(aviso);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
