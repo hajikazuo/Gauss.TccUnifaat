@@ -6,6 +6,13 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Hangfire;
+using Gauss.TccUnifaat.Migrations;
+using static System.Net.Mime.MediaTypeNames;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Diagnostics.Metrics;
+using System.Drawing;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,11 +42,19 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.Cookie.HttpOnly = true;
     });
 
+// Configuração do Hangfire usando o SQL Server
+var hangfireConnectionString = builder.Configuration.GetConnectionString("HangfireConnection");
+builder.Services.AddHangfire(configuration => configuration
+    .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)  // Define o nível de compatibilidade dos dados.
+    .UseSimpleAssemblyNameTypeSerializer()  // Utiliza um serializador simples de nomes de assemblies.
+    .UseRecommendedSerializerSettings()  // Configurações recomendadas para o serializador.
+    .UseSqlServerStorage(hangfireConnectionString));  // Armazenamento no SQL Server.
+builder.Services.AddHangfireServer();
+
 
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Administrador"));
-
     options.AddPolicy("RequireProfessorRole", policy => policy.RequireRole("Professor"));
 
     options.AddPolicy("RequireAdminOrProfessorRole", policy =>
@@ -57,6 +72,9 @@ using (var scope = app.Services.CreateScope())
     db.Database.Migrate();
 
 }
+
+// Configuração do painel de controle do Hangfire
+app.UseHangfireDashboard();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -76,6 +94,7 @@ app.UseStaticFiles();
 CriarPerfisUsuarios(app);
 
 app.UseRouting();
+app.MapHangfireDashboard(); // Endpoint do painel de controle: /hangfire
 app.UseAuthentication();
 app.UseAuthorization();
 
