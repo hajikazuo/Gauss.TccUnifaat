@@ -1,11 +1,39 @@
-﻿<div id="carouselImages" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-            <img src="./img/carrossel-img3.jpg" class="d-block w-100 imagem-carrossel" alt="...">
+﻿@model IEnumerable<Gauss.TccUnifaat.MVC.ViewModels.AvisosViewModel>
+
+@{
+    var pageName = "Home";
+    ViewData["Title"] = pageName;
+}
+
+<div class="container-fluid mt-3">
+
+    <p><strong>Olá, @User.Identity.Name!</strong></p>
+    <h1 class="text-center py-5">Seja bem-vindo ao portal do Gauss!!</h1>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h1>Avisos</h1>
+        </div>
+        <div class="card-body">
+            <div class="row">
+
+                @foreach (var aviso in Model)
+                {
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card bg-primary text-white mb-4 h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">@aviso.Titulo</h5>
+                                <p class="card-text">@aviso.Descricao</p>
+                            </div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                <p class="card-text">Data do Aviso: @aviso.DataAviso.ToShortDateString()</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
         </div>
     </div>
 </div>
-<div class="p-3">
-    <p><strong>Olá, @User.Identity.Name!</strong></p>
-    <h2 class="text-center">Seja bem-vindo ao portal do Gauss!!</h2>
-</div>
+
