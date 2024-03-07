@@ -25,7 +25,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
 
         public NoticiasController(ApplicationDbContext context, RT.Comb.ICombProvider comb, IWebHostEnvironment env)
         {
-            _filePath = Path.Combine(env.WebRootPath, "img");
+            _filePath = Path.Combine(env.WebRootPath, "imgNoticias");
             _context = context;
             _comb = comb;
         }
@@ -56,24 +56,6 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
             return View(noticia);
         }
 
-        public string SalvarArquivo(IFormFile anexo)
-        {
-
-
-            if (anexo != null && anexo.Length > 0)
-            {
-                var nome = Guid.NewGuid().ToString() + Path.GetExtension(anexo.FileName);
-                var filePath = Path.Combine(_filePath, nome);
-
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    anexo.CopyTo(stream);
-                }
-
-                return nome;
-            }
-            return null;
-        }
         // GET: Admin/Noticias/Create
         public IActionResult Create()
         {
@@ -90,11 +72,14 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
+                if (anexo != null && anexo.Length > 0)
+                {
+                    noticia.Foto = await SalvarArquivo(anexo);
+                }
+
                 noticia.NoticiaId = _comb.Create();
                 noticia.DataCadastro = DateTime.Now;
                 noticia.UsuarioId = userId;
-
-                noticia.Foto = SalvarArquivo(anexo);
 
                 _context.Noticias.Add(noticia);
                 await _context.SaveChangesAsync();
@@ -129,7 +114,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("NoticiaId,UsuarioId,TipoNoticia,Titulo,Conteudo,DataCadastro,Foto")] Noticia noticia)
+        public async Task<IActionResult> Edit(Guid id, [Bind("NoticiaId,UsuarioId,TipoNoticia,Titulo,Conteudo,Foto")] Noticia noticia, IFormFile anexo)
         {
             if (id != noticia.NoticiaId)
             {
@@ -140,6 +125,19 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
             {
                 try
                 {
+                    if (anexo != null && anexo.Length > 0)
+                    {
+                        noticia.Foto = await SalvarArquivo(anexo);
+                    }
+                    else
+                    {
+                        var fotoExistente = await _context.Noticias.FindAsync(id);
+                        if (fotoExistente != null)
+                        {
+                            noticia.Foto = fotoExistente.Foto;
+                        }
+                    }
+
                     _context.Update(noticia);
                     await _context.SaveChangesAsync();
                 }
@@ -197,6 +195,23 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
         private bool NoticiaExists(Guid id)
         {
             return _context.Noticias.Any(e => e.NoticiaId == id);
+        }
+
+        private async Task<string> SalvarArquivo(IFormFile anexo)
+        {
+            if (anexo != null && anexo.Length > 0)
+            {
+                var nome = Guid.NewGuid().ToString() + Path.GetExtension(anexo.FileName);
+                var filePath = Path.Combine(_filePath, nome);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await anexo.CopyToAsync(stream);
+                }
+
+                return nome;
+            }
+            return null;
         }
     }
 }

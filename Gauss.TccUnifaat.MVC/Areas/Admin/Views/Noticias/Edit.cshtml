@@ -14,7 +14,7 @@
 <div class="row justify-content-center">
     <div class="col-md-4 mt-4">
         <h4>Editar</h4>
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="NoticiaId" />
             <div class="form-group">
@@ -38,13 +38,8 @@
                 <span asp-validation-for="Conteudo" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DataCadastro" class="control-label"></label>
-                <input asp-for="DataCadastro" class="form-control" />
-                <span asp-validation-for="DataCadastro" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="Foto" class="control-label"></label>
-                <input asp-for="Foto" class="form-control" />
+                <input class="form-control" type="file" name="anexo" id="formFile">
                 <span asp-validation-for="Foto" class="text-danger"></span>
             </div>
             <br />

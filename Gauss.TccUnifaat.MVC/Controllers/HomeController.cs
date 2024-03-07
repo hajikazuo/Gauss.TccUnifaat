@@ -29,7 +29,7 @@ namespace Gauss.TccUnifaat.Controllers
                 Titulo = noticia.Titulo,
                 Conteudo = noticia.Conteudo,
                 DataCadastro = noticia.DataCadastro,
-                UrlImagem = Url.Content($"~/img/{noticia.Foto}"),
+                UrlImagem = Url.Content($"~/imgNoticias/{noticia.Foto}"),
             }).ToList();
 
             return View(noticiasViewModel);
@@ -57,7 +57,7 @@ namespace Gauss.TccUnifaat.Controllers
                     Titulo = noticia.Titulo,
                     Conteudo = noticia.Conteudo,
                     DataCadastro = noticia.DataCadastro,
-                    UrlImagem = Url.Content($"~/img/{noticia.Foto}"),
+                    UrlImagem = Url.Content($"~/imgNoticias/{noticia.Foto}"),
                 }).ToList();
 
             return View(noticiasViewModel);
@@ -74,7 +74,7 @@ namespace Gauss.TccUnifaat.Controllers
                     Titulo = noticia.Titulo,
                     Conteudo = noticia.Conteudo,
                     DataCadastro = noticia.DataCadastro,
-                    UrlImagem = Url.Content($"~/img/{noticia.Foto}"),
+                    UrlImagem = Url.Content($"~/imgNoticias/{noticia.Foto}"),
                 }).ToList();
 
             return View(noticiasViewModel);

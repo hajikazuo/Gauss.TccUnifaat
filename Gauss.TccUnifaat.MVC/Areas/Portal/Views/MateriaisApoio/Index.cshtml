@@ -43,9 +43,16 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Descricao)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Arquivo)
-            </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.Arquivo))
+                    {
+                        <a href="@Url.Content("~/files/" + item.Arquivo)" target="_blank">Abrir/Download</a>
+                    }
+                    else
+                    {
+                        <p>Arquivo não disponível</p>
+                    }
+                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Disciplina.Nome)
             </td>

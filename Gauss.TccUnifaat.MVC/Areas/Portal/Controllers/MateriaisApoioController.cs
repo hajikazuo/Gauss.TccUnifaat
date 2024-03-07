@@ -15,12 +15,18 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
     public class MateriaisApoioController : Controller
     {
         private readonly ApplicationDbContext _context;
+        public RT.Comb.ICombProvider _comb;
         private readonly UserManager<Usuario> _userManager;
+        private readonly string _filePath;
+        private readonly IWebHostEnvironment _env;
 
-        public MateriaisApoioController(ApplicationDbContext context, UserManager<Usuario> userManager)
+        public MateriaisApoioController(ApplicationDbContext context, RT.Comb.ICombProvider comb, UserManager<Usuario> userManager, IWebHostEnvironment env)
         {
             _context = context;
+            _comb = comb;
             _userManager = userManager;
+            _env = env;
+            _filePath = Path.Combine(_env.WebRootPath, "files");
         }
 
         // GET: Portal/MateriaisApoio
@@ -74,11 +80,16 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MaterialApoioId,Nome,Descricao,Arquivo,DisciplinaId")] MaterialApoio materialApoio)
+        public async Task<IActionResult> Create([Bind("MaterialApoioId,Nome,Descricao,Arquivo,DisciplinaId")] MaterialApoio materialApoio, IFormFile arquivo)
         {
             if (ModelState.IsValid)
             {
-                materialApoio.MaterialApoioId = Guid.NewGuid();
+                if (arquivo != null && arquivo.Length > 0)
+                {
+                    materialApoio.Arquivo = await SalvarArquivo(arquivo);
+                }
+
+                materialApoio.MaterialApoioId = _comb.Create();
                 _context.Add(materialApoio);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -109,7 +120,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("MaterialApoioId,Nome,Descricao,Arquivo,DisciplinaId")] MaterialApoio materialApoio)
+        public async Task<IActionResult> Edit(Guid id, [Bind("MaterialApoioId,Nome,Descricao,Arquivo,DisciplinaId")] MaterialApoio materialApoio, IFormFile arquivo)
         {
             if (id != materialApoio.MaterialApoioId)
             {
@@ -120,6 +131,19 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             {
                 try
                 {
+                    if (arquivo != null && arquivo.Length > 0)
+                    {
+                        materialApoio.Arquivo = await SalvarArquivo(arquivo);
+                    }
+                    else
+                    {
+                        var materialApoioExistente = await _context.MateriaisApoio.FindAsync(id);
+                        if (materialApoioExistente != null)
+                        {
+                            materialApoio.Arquivo = materialApoioExistente.Arquivo;
+                        }
+                    }
+
                     _context.Update(materialApoio);
                     await _context.SaveChangesAsync();
                 }
@@ -177,6 +201,23 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
         private bool MaterialApoioExists(Guid id)
         {
             return _context.MateriaisApoio.Any(e => e.MaterialApoioId == id);
+        }
+
+        private async Task<string> SalvarArquivo(IFormFile arquivo)
+        {
+            if (arquivo != null && arquivo.Length > 0)
+            {
+                var nome = Guid.NewGuid().ToString() + Path.GetExtension(arquivo.FileName);
+                var filePath = Path.Combine(_filePath, nome);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await arquivo.CopyToAsync(stream);
+                }
+
+                return nome;
+            }
+            return null;
         }
     }
 }
