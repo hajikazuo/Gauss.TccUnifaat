@@ -25,9 +25,15 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
 
         public NoticiasController(ApplicationDbContext context, RT.Comb.ICombProvider comb, IWebHostEnvironment env)
         {
-            _filePath = Path.Combine(env.WebRootPath, "imgNoticias");
             _context = context;
             _comb = comb;
+            _env = env;
+
+            _filePath = Path.Combine(env.WebRootPath, "imgNoticias");
+            if (!Directory.Exists(_filePath))
+            {
+                Directory.CreateDirectory(_filePath);
+            }         
         }
 
         // GET: Admin/Noticias

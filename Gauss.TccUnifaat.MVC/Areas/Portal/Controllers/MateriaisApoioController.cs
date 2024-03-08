@@ -27,6 +27,10 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             _userManager = userManager;
             _env = env;
             _filePath = Path.Combine(_env.WebRootPath, "files");
+            if (!Directory.Exists(_filePath))
+            {
+                Directory.CreateDirectory(_filePath);
+            }
         }
 
         // GET: Portal/MateriaisApoio

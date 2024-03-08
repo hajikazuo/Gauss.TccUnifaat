@@ -27,6 +27,5 @@
     <Folder Include="Areas\Portal\Data\" />
     <Folder Include="Areas\Portal\Models\" />
     <Folder Include="wwwroot\files\" />
-    <Folder Include="wwwroot\imgNoticias\" />
   </ItemGroup>
 </Project>
