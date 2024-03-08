@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Gauss.TccUnifaat.Common.Resources;
+using System.ComponentModel.DataAnnotations;
 
 namespace Gauss.TccUnifaat.Common.Models;
 
@@ -6,11 +7,11 @@ public class Video : IStatusModificacao
 {
     public Guid VideoId { get; set; }
 
-    [Required]
+    [Required(ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.Required))]
     [Display(Name = "Título")]
     public string Titulo { get; set; }
 
-    [Required]
+    [Required(ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.Required))]
     [Display(Name = "ID do YouTube")]
     public string LinkYouTube { get; set; }
 

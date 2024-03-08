@@ -78,7 +78,6 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
                 }
 
                 noticia.NoticiaId = _comb.Create();
-                noticia.DataCadastro = DateTime.Now;
                 noticia.UsuarioId = userId;
 
                 _context.Noticias.Add(noticia);

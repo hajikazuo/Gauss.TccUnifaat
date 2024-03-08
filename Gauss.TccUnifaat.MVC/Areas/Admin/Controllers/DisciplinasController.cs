@@ -15,11 +15,14 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
     [Area("Admin")]
     public class DisciplinasController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        public readonly ApplicationDbContext _context;
+        public RT.Comb.ICombProvider _comb;
 
-        public DisciplinasController(ApplicationDbContext context)
+        public DisciplinasController(ApplicationDbContext context, RT.Comb.ICombProvider comb)
         {
+            _comb = comb;
             _context = context;
+
         }
 
         // GET: Admin/Disciplinas
@@ -64,7 +67,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                disciplina.DisciplinaId = Guid.NewGuid();
+                disciplina.DisciplinaId = _comb.Create();
                 _context.Add(disciplina);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

@@ -22,6 +22,7 @@ namespace Gauss.TccUnifaat.Common.Models
         [Display(Name = "Descrição")]
         public string Descricao { get; set; }
 
+        [Required(ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.Required))]
         [MaxLength(250)]
         public string? Arquivo { get; set; }
 

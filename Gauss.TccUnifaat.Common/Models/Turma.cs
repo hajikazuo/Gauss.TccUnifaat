@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gauss.TccUnifaat.Common.Resources;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace Gauss.TccUnifaat.Common.Models
     {
         public Guid TurmaId { get; set; }
 
+        [Required(ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.Required))]
         [MaxLength(50)]
         public string Nome { get; set; }
 

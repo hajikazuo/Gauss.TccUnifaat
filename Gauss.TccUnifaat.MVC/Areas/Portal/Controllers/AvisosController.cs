@@ -64,7 +64,6 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             if (ModelState.IsValid)
             {
                 aviso.AvisoId = Guid.NewGuid();
-                aviso.DataCadastro = DateTime.Now;
                 _context.Add(aviso);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

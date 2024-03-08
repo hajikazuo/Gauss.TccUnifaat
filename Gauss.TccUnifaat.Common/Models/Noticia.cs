@@ -23,6 +23,7 @@ namespace Gauss.TccUnifaat.Common.Models
         [Display(Name = "Conteúdo")]
         public string Conteudo { get; set; }
 
+        [MaxLength(70, ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.MaxLength))]
         public string? Foto { get; set; }
 
         #region Interface

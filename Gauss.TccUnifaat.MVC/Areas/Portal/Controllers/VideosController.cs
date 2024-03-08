@@ -71,7 +71,6 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             if (ModelState.IsValid)
             {
                 video.VideoId = Guid.NewGuid();
-                video.DataCadastro = DateTime.Now;
                 _context.Add(video);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
