@@ -1,7 +1,7 @@
 ﻿@model Gauss.TccUnifaat.Common.Models.Disciplina
 
 @{
-    var pageName = "Cadastrar disciplina";
+    var pageName = "Cadastrar";
     ViewData["Title"] = pageName;
 }
 
@@ -25,12 +25,9 @@
                 </div>
                 <div class="form-group mt-3">
                     <input type="submit" value="Salvar" class="btn btn-secondary" />
+                    <a class="btn btn-outline-secondary" asp-action="Index">Voltar para lista</a>
                 </div>
             </form>
-            <hr />
-            <div>
-                <a asp-action="Index">Voltar para lista</a>
-            </div>
         </div>
     </div>
 </div>

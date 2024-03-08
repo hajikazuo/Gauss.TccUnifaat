@@ -72,7 +72,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             if (disciplinas.Count == 0)
             {
                 TempData["Message"] = "Não há disciplinas cadastradas. Por favor, cadastre uma disciplina antes de adicionar materiais de apoio.";
-                return RedirectToAction(nameof(Index)); 
+                return RedirectToAction(nameof(Index));
             }
 
             ViewData["DisciplinaId"] = new SelectList(_context.Disciplinas, "DisciplinaId", "Nome");
@@ -131,9 +131,11 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            try
             {
-                try
+                var materialApoioExistente = await _context.MateriaisApoio.FindAsync(id);
+
+                if (materialApoioExistente != null)
                 {
                     if (arquivo != null && arquivo.Length > 0)
                     {
@@ -141,31 +143,29 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
                     }
                     else
                     {
-                        var materialApoioExistente = await _context.MateriaisApoio.FindAsync(id);
-                        if (materialApoioExistente != null)
-                        {
-                            materialApoio.Arquivo = materialApoioExistente.Arquivo;
-                        }
+                        materialApoio.Arquivo = materialApoioExistente.Arquivo;
                     }
 
-                    _context.Update(materialApoio);
+                    _context.Entry(materialApoioExistente).CurrentValues.SetValues(materialApoio);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    if (!MaterialApoioExists(materialApoio.MaterialApoioId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    return NotFound();
                 }
-                return RedirectToAction(nameof(Index));
             }
-            ViewData["DisciplinaId"] = new SelectList(_context.Disciplinas, "DisciplinaId", "Nome", materialApoio.DisciplinaId);
-            return View(materialApoio);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!MaterialApoioExists(materialApoio.MaterialApoioId))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
         }
 
         // GET: Portal/MateriaisApoio/Delete/5

@@ -14,7 +14,7 @@ namespace Gauss.TccUnifaat.Common.Models
 
         [Required(ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.Required))]
         [Display(Name = "Nome da Disciplina")]
-        [MaxLength(50)]
+        [MaxLength(50, ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.MaxLength))]
         public string Nome { get; set; }
 
 

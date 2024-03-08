@@ -1,6 +1,8 @@
-﻿using Gauss.TccUnifaat.Data;
+﻿using Gauss.TccUnifaat.Common.Models;
+using Gauss.TccUnifaat.Data;
 using Gauss.TccUnifaat.MVC.ViewModels;
 using Gauss.TccUnifaat.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,14 +13,19 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
     public class HomeController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public HomeController(ApplicationDbContext context)
+        private readonly UserManager<Usuario> _userManager;
+        public HomeController(ApplicationDbContext context, UserManager<Usuario> userManager)
         {
+            _userManager = userManager;
             _context = context;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
-            var avisos = _context.Avisos.ToList();
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            var avisos = await _context.Avisos
+            .Where(aviso => aviso.TurmaId == currentUser.TurmaId)
+            .ToListAsync();
 
             var avisosViewModel = avisos.Select(aviso => new AvisosViewModel
             {

@@ -1,72 +1,82 @@
 ﻿@model IEnumerable<Gauss.TccUnifaat.Common.Models.Noticia>
 
+
 @{
-    ViewData["Title"] = "Index";
+    var pageName = "Noticias";
+    ViewData["Title"] = pageName;
 }
-<div class="container-fluid">
 
-    <h1>Lista de Noticias</h1>
+<div class="container-fluid mt-3">
 
-<p>
-    <a class="btn btn-secondary" asp-action="Create">Criar noticia</a>
-</p>
-    <table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.TipoNoticia)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Titulo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Conteudo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DataCadastro)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Foto)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Usuario)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TipoNoticia)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Titulo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Conteudo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DataCadastro)
-                </td>
-                <td>
-                    <img src="~/imgNoticias/@item.Foto" width="50" />
+    <div class="card mb-4">
+        <div class="card-header">
+            <h1>@pageName</h1>
+        </div>
+        <div class="card-body">
 
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Usuario.NomeCompleto)
-                    </td>
-                    <td>
-                        <div class="btn-group">
-                            <a asp-action="Edit" asp-route-id="@item.NoticiaId" class="btn btn-primary">Editar</a>
-                            <a asp-action="Details" asp-route-id="@item.NoticiaId" class="btn btn-secondary">Detalhes</a>
-                            <a asp-action="Delete" asp-route-id="@item.NoticiaId" class="btn btn-danger">Deletar</a>
-                        </div>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+            <p>
+                <a class="btn btn-secondary" asp-action="Create">Cadastrar nova</a>
+            </p>
 
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TipoNoticia)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Titulo)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Conteudo)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.DataCadastro)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Foto)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Usuario)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TipoNoticia)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Titulo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Conteudo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DataCadastro)
+                            </td>
+                            <td>
+                                <img src="~/imgNoticias/@item.Foto" width="50" />
+
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Usuario.NomeCompleto)
+                            </td>
+                            <td>
+                                <div class="btn-group">            
+                                    <a asp-action="Details" asp-route-id="@item.NoticiaId" class="btn btn-primary"><i class="fa-solid fa-circle-info"></i></a>
+                                    <a asp-action="Edit" asp-route-id="@item.NoticiaId" class="btn btn-secondary"><i class="fa-solid fa-pen-to-square"></i></a>
+                                    <a asp-action="Delete" asp-route-id="@item.NoticiaId" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
 </div>

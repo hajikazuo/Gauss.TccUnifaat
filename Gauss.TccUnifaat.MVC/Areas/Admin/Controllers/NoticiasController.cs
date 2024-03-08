@@ -126,9 +126,11 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            try
             {
-                try
+                var noticiaExistente = await _context.Noticias.FindAsync(id);
+
+                if (noticiaExistente != null)
                 {
                     if (anexo != null && anexo.Length > 0)
                     {
@@ -136,32 +138,31 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
                     }
                     else
                     {
-                        var fotoExistente = await _context.Noticias.FindAsync(id);
-                        if (fotoExistente != null)
-                        {
-                            noticia.Foto = fotoExistente.Foto;
-                        }
+                        noticia.Foto = noticiaExistente.Foto;
                     }
 
-                    _context.Update(noticia);
+                    _context.Entry(noticiaExistente).CurrentValues.SetValues(noticia);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    if (!NoticiaExists(noticia.NoticiaId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    return NotFound();
                 }
-                return RedirectToAction(nameof(Index));
             }
-            ViewData["UsuarioId"] = new SelectList(_context.Set<Usuario>(), "Id", "Cpf", noticia.UsuarioId);
-            return View(noticia);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!NoticiaExists(noticia.NoticiaId))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
         }
+
 
         // GET: Admin/Noticias/Delete/5
         public async Task<IActionResult> Delete(Guid? id)

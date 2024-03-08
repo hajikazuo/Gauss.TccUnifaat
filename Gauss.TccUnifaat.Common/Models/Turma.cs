@@ -13,7 +13,7 @@ namespace Gauss.TccUnifaat.Common.Models
         public Guid TurmaId { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.Required))]
-        [MaxLength(50)]
+        [MaxLength(50, ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.MaxLength))]
         public string Nome { get; set; }
 
         public virtual ICollection<Usuario>? Usuarios { get; set; } = new List<Usuario>();
