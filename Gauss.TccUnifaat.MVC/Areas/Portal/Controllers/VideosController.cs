@@ -14,10 +14,12 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
     public class VideosController : Controller
     {
         private readonly ApplicationDbContext _context;
+        public RT.Comb.ICombProvider _comb;
 
-        public VideosController(ApplicationDbContext context)
+        public VideosController(ApplicationDbContext context, RT.Comb.ICombProvider comb)
         {
             _context = context;
+            _comb = comb;
         }
 
         // GET: Portal/Videos
@@ -70,7 +72,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
         {
             if (ModelState.IsValid)
             {
-                video.VideoId = Guid.NewGuid();
+                video.VideoId = _comb.Create();
                 _context.Add(video);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

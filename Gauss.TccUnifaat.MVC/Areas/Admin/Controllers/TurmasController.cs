@@ -18,10 +18,12 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
     public class TurmasController : Controller
     {
         private readonly ApplicationDbContext _context;
+        public RT.Comb.ICombProvider _comb;
 
-        public TurmasController(ApplicationDbContext context)
+        public TurmasController(ApplicationDbContext context, RT.Comb.ICombProvider comb)
         {
             _context = context;
+            _comb = comb;
         }
 
         // GET: Admin/Turmas
@@ -65,7 +67,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                turma.TurmaId = Guid.NewGuid();
+                turma.TurmaId = _comb.Create();
                 _context.Add(turma);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
