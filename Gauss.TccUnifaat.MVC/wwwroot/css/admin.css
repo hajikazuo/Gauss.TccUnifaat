@@ -12879,3 +12879,6 @@ body {
     filter: brightness(60%);
 }
 
+.table {
+    width: 100% !important;
+}

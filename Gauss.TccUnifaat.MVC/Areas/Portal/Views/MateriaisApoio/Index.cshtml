@@ -1,7 +1,8 @@
 ﻿@model IEnumerable<Gauss.TccUnifaat.Common.Models.MaterialApoio>
 
 @{
-    ViewData["Title"] = "Index";
+    var pageName = "Material de apoio";
+    ViewData["Title"] = pageName;
 }
 
 @if (TempData["Message"] != null)
@@ -11,57 +12,71 @@
     </div>
 }
 
-<h1>Index</h1>
+<div class="container-fluid mt-3">
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nome)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Descricao)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Arquivo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Disciplina)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descricao)
-            </td>
-                <td>
-                    @if (!string.IsNullOrEmpty(item.Arquivo))
+    <div class="card mb-4">
+        <div class="card-header">
+            <h1>@pageName</h1>
+        </div>
+        <div class="card-body">
+
+            <p>
+                <a class="btn btn-secondary" asp-action="Create">Cadastrar nova</a>
+            </p>
+
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Nome)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Descricao)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Arquivo)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Disciplina)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
                     {
-                        <a href="@Url.Content("~/files/" + item.Arquivo)" target="_blank">Abrir/Download</a>
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nome)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Descricao)
+                            </td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(item.Arquivo))
+                                {
+                                    <a href="@Url.Content("~/files/" + item.Arquivo)" target="_blank">Abrir/Download</a>
+                                }
+                                else
+                                {
+                                    <p>Arquivo não disponível</p>
+                                }
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Disciplina.Nome)
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                    <a asp-action="Details" asp-route-id="@item.MaterialApoioId" class="btn btn-primary"><i class="fa-solid fa-circle-info"></i></a>
+                                    <a asp-action="Edit" asp-route-id="@item.MaterialApoioId" class="btn btn-secondary"><i class="fa-solid fa-pen-to-square"></i></a>
+                                    <a asp-action="Delete" asp-route-id="@item.MaterialApoioId" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                                </div>
+                            </td>
+                        </tr>
                     }
-                    else
-                    {
-                        <p>Arquivo não disponível</p>
-                    }
-                </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Disciplina.Nome)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.MaterialApoioId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MaterialApoioId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MaterialApoioId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
