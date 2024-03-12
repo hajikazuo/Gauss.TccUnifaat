@@ -48,13 +48,6 @@ namespace Gauss.TccUnifaat.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Logout()
-        {
-            await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "home");
-        }
-
-        [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl = null)
@@ -91,6 +84,13 @@ namespace Gauss.TccUnifaat.Controllers
             }
 
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "home");
         }
 
         private string GetIP()
@@ -131,7 +131,7 @@ namespace Gauss.TccUnifaat.Controllers
                 {
                     var usuario = await _userManager.FindByEmailAsync(dados.Email);
                     var token = await _userManager.GeneratePasswordResetTokenAsync(usuario);
-                    var urlConfirmacao = Url.Action(nameof(RedefinirSenha), "Usuario", new { token }, Request.Scheme);
+                    var urlConfirmacao = Url.Action(nameof(RedefinirSenha), "Account", new { token }, Request.Scheme);
                     var mensagem = new StringBuilder();
                     mensagem.Append($"<p>Olá, {usuario.NomeCompleto}.</p>");
                     mensagem.Append("<p>Houve uma solicitação de redefinição de senha para seu usuário em nosso site. Se não foi você que fez a solicitação, ignore essa mensagem. Caso tenha sido você, clique no link abaixo para criar sua nova senha:</p>");
@@ -143,8 +143,8 @@ namespace Gauss.TccUnifaat.Controllers
                 }
                 else
                 {
-                    this.MostrarMensagem(
-                            $"Usuário/e-mail <b>{dados.Email}</b> não encontrado.");
+                    this.MostrarMensagem($"Usuário/e-mail <b>{dados.Email}</b> não encontrado.", erro: true);
+
                     return View();
                 }
             }
@@ -167,6 +167,33 @@ namespace Gauss.TccUnifaat.Controllers
             var modelo = new RedefinirSenhaViewModel();
             modelo.Token = token;
             return View(modelo);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> RedefinirSenha([FromForm] RedefinirSenhaViewModel dados)
+        {
+            if (ModelState.IsValid)
+            {
+                var usuario = await _userManager.FindByEmailAsync(dados.Email);
+                var resultado = await _userManager.ResetPasswordAsync(
+                    usuario, dados.Token, dados.NovaSenha);
+                if (resultado.Succeeded)
+                {
+                    this.MostrarMensagem(
+                       $"Senha redefinida com sucesso! Agora você já pode fazer login com a nova senha.");
+                    return View(nameof(Login));
+                }
+                else
+                {
+                    this.MostrarMensagem($"Não foi possível redefinir a senha. Verifique se preencheu a senha corretamente. Se o problema persistir, entre em contato com o suporte.",  erro: true);
+                    return View(dados);
+                }
+            }
+            else
+            {
+                return View(dados);
+            }
         }
 
 
