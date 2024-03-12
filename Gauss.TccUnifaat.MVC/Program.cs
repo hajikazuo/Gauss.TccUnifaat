@@ -2,6 +2,7 @@ using Gauss.TccUnifaat.Common.Models;
 using Gauss.TccUnifaat.Data;
 using Gauss.TccUnifaat.MVC.Services;
 using Gauss.TccUnifaat.MVC.Services.Interfaces;
+using Gauss.TccUnifaat.MVC.Settings;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -15,9 +16,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+builder.Services.Configure<SendGridSettings>(builder.Configuration.GetSection("SendGridSettings"));
+builder.Services.AddSingleton<IEmailService, SendGridService>();
 builder.Services.AddSingleton<RT.Comb.ICombProvider>(RT.Comb.Provider.Sql);
 builder.Services.AddIdentity<Usuario, Funcao>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
 
 builder.Services.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
 

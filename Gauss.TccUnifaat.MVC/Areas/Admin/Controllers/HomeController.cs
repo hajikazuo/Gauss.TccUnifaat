@@ -24,7 +24,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
             //Dapper
             var sqlNoticias = Gauss.TccUnifaat.Common.Resources.querys.noticias_dashboard;
             var conn = _context.Database.GetDbConnection();
-            var noticias = conn.Query<DashboardViewModel>(sqlNoticias);
+            var noticias = conn.Query<DashboardNoticiasViewModel>(sqlNoticias);
 
             var sqlUsuarios = Gauss.TccUnifaat.Common.Resources.querys.usuarios_dashboard;
             var conn2 = _context.Database.GetDbConnection();

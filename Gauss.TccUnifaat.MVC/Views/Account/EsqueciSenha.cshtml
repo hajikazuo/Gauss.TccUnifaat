@@ -1,0 +1,35 @@
+﻿@using Gauss.TccUnifaat.MVC.ViewModels
+
+@model EsqueciSenhaViewModel
+
+<partial name="_MensagemPartial" />
+
+<section class="py-5">
+    <div class="container px-5">
+        <div class="rounded-3 py-5 px-4 px-md-5 mb-5 mx-auto">
+            <div class="text-center mb-5">
+                <img src="~/img/logo.png" alt="" class="responsive-image" />
+            </div>
+            <div class="row gx-5 justify-content-center">
+                <div class="col-lg-8 col-xl-6">
+                    <form asp-action="EsqueciSenha">
+                        <div class="form-floating mb-3">                   
+                            <input asp-for="@Model.Email" class="form-control" autofocus autocomplete="off" />
+                            <label asp-for="@Model.Email"></label>
+                        </div>
+                        <span asp-validation-for="@Model.Email" class="text-danger"></span>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-danger btn-block btn-lg">Redefinir senha</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mb-5">
+            <p class="lead fs-6 text-muted mb-0">Desenvolvido por <strong>Nilton Kazuo</strong> &amp; <strong>Paulo Araújo</strong></p>
+            <p class="lead fs-6 text-muted mb-0">&copy; 2023 - Todos os direitos reservados</p>
+        </div>
+
+    </div>
+</section>
