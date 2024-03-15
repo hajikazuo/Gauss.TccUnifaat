@@ -53,9 +53,11 @@
                                 @Html.DisplayFor(modelItem => item.DataCadastro)
                             </td>
                             <td>
-                                <a asp-action="Edit" asp-route-id="@item.DisciplinaId">Edit</a> |
-                                <a asp-action="Details" asp-route-id="@item.DisciplinaId">Details</a> |
-                                <a asp-action="Delete" asp-route-id="@item.DisciplinaId">Delete</a>
+                                <div class="btn-group">
+                                    <a asp-action="Details" asp-route-id="@item.DisciplinaId" class="btn btn-primary"><i class="fa-solid fa-circle-info"></i></a>
+                                    <a asp-action="Edit" asp-route-id="@item.DisciplinaId" class="btn btn-secondary"><i class="fa-solid fa-pen-to-square"></i></a>
+                                    <a asp-action="Delete" asp-route-id="@item.DisciplinaId" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                                </div>
                             </td>
                         </tr>
                     }

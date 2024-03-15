@@ -14,6 +14,7 @@ namespace Gauss.TccUnifaat.Common.Models
 
         [Required(ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.Required))]
         [MaxLength(50, ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.MaxLength))]
+        [Display(Name = "Nome da turma")]
         public string Nome { get; set; }
 
         public virtual ICollection<Usuario>? Usuarios { get; set; } = new List<Usuario>();
