@@ -54,6 +54,14 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
         // GET: Admin/Disciplinas/Create
         public IActionResult Create()
         {
+            var turmas = _context.Turmas.ToList();
+
+            if (turmas.Count == 0)
+            {
+                TempData["Message"] = "Não há turmas cadastradas. Por favor, cadastre uma turma antes de adicionar disciplinas.";
+                return RedirectToAction(nameof(Index));
+            }
+
             ViewData["TurmaId"] = new SelectList(_context.Turmas, "TurmaId", "Nome");
             return View();
         }

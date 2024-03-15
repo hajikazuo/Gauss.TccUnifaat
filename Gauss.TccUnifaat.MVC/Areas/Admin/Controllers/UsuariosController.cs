@@ -1,9 +1,12 @@
-﻿using Gauss.TccUnifaat.Common.Models;
+﻿using Dapper;
+using Gauss.TccUnifaat.Common.Models;
+using Gauss.TccUnifaat.Data;
 using Gauss.TccUnifaat.MVC.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SendGrid.Helpers.Mail;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
 {
@@ -13,18 +16,23 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
     {
         private readonly UserManager<Usuario> _userManager;
         private readonly SignInManager<Usuario> _signInManager;
+        public readonly ApplicationDbContext _context;
 
-        public UsuariosController(UserManager<Usuario> userManager, SignInManager<Usuario> signInManager)
+        public UsuariosController(UserManager<Usuario> userManager, SignInManager<Usuario> signInManager, ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _context = context;
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var users = _userManager.Users.Include(u => u.Turma).OrderBy(u => u.NomeCompleto).ToList();
-            return View(users);
+            var sqlUsuarios = Common.Resources.querys.usuarios;
+            var conn = _context.Database.GetDbConnection();
+            var Usuarios = conn.Query<UsuariosViewModel>(sqlUsuarios);
+
+            return View(Usuarios);
         }
 
         [HttpGet]

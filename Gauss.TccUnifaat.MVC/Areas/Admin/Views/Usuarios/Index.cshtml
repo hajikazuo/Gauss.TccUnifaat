@@ -1,43 +1,45 @@
-﻿@model List<Usuario>
+﻿@using Gauss.TccUnifaat.Common.Extensions;
+@model IEnumerable<Gauss.TccUnifaat.MVC.ViewModels.UsuariosViewModel>
 
 @{
-    ViewData["Title"] = "Index";
+    var pageName = "Lista de usuários";
+    ViewData["Title"] = pageName;
 }
-<div class="p-3">
 
-<h1>Lista de Usuários</h1>
+<div class="container-fluid mt-3">
 
-<p>
-    <a class="btn btn-secondary" asp-action="Register">Cadastrar usuários</a>
-</p>
+    <div class="card mb-4">
+        <div class="card-header">
+            <h1>@pageName</h1>
+        </div>
+        <div class="card-body">
 
-    <table id="myTable" class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Nome Completo</th>
-            <th>Email</th>
-            <th>Turma</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in Model)
-        {
-            <tr>
-                <td>@user.NomeCompleto</td>
-                <td>@user.Email</td>
-                    <td>
-                        @if (user.Turma != null)
-                        {
-                            <text>@user.Turma.Nome</text>
-                        }
-                        else
-                        {
-                            <text>Sem turma cadastrada</text>
-                        }
-                    </td>
-            </tr>
-        }
-    </tbody>
-</table>
+            <p>
+                <a class="btn btn-secondary" asp-action="Register">Cadastrar nova</a>
+            </p>
 
+            <table id="myTable" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Nome Completo</th>
+                        <th>Email</th>
+                        <th>Turma</th>
+                        <th>Função</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var usuario in Model)
+                    {
+                        <tr>
+                            <td>@usuario.NomeCompleto</td>
+                            <td>@usuario.Email</td>
+                            <td>@usuario.Turma</td>
+                            <td>@usuario.Funcao</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
 </div>
