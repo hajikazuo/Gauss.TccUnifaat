@@ -7,35 +7,15 @@
 }
 
 <div class="container-fluid mt-3">
-
     <div class="card mb-4">
         <div class="card-header">
             <h2>Notícias</h2>
         </div>
         <div class="card-body">
 
-
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Tipo de Notícia</th>
-                        <th>Quantidade</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>@item.TipoNoticia.GetDisplayName()</td>
-                            <td>@item.qtd</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-
+            <canvas id="chartNoticias" width="400" height="200"></canvas>
         </div>
     </div>
-
 
     <div class="card mb-4">
         <div class="card-header">
@@ -43,31 +23,71 @@
         </div>
         <div class="card-body">
 
-     
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Função</th>
-                        <th>Quantidade</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in ViewBag.Usuarios)
-                    {
-                        <tr>
-                            <td>@item.Funcao</td>
-                            <td>@item.QuantidadeUsuarios</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-
+            <canvas id="chartUsuarios" width="400" height="200"></canvas>
         </div>
     </div>
-
 </div>
 
+@section Scripts {
+    <script>
+        var titulosNoticias = [];
+        var quantidadesNoticias = [];
+        @foreach (var item in Model)
+        {
+            <text>titulosNoticias.push('@item.TipoNoticia.GetDisplayName()');</text>
+            <text>quantidadesNoticias.push('@item.qtd');</text>
+        }
 
+        var ctxNoticias = document.getElementById('chartNoticias').getContext('2d');
+        var chartNoticias = new Chart(ctxNoticias, {
+            type: 'bar',
+            data: {
+                labels: titulosNoticias,
+                datasets: [{
+                    label: 'Quantidade de Notícias',
+                    data: quantidadesNoticias,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
 
+        var funcoesUsuarios = [];
+        var quantidadesUsuarios = [];
+        @foreach (var item in ViewBag.Usuarios)
+        {
+            <text>funcoesUsuarios.push('@item.Funcao');</text>
+            <text>quantidadesUsuarios.push('@item.QuantidadeUsuarios');</text>
+        }
 
-
+        var ctxUsuarios = document.getElementById('chartUsuarios').getContext('2d');
+        var chartUsuarios = new Chart(ctxUsuarios, {
+            type: 'bar',
+            data: {
+                labels: funcoesUsuarios,
+                datasets: [{
+                    label: 'Quantidade de Usuários',
+                    data: quantidadesUsuarios,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+}
