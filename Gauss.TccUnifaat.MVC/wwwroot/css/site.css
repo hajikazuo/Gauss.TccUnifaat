@@ -12478,3 +12478,7 @@ html {
     height: 12rem;
 }
 
+.imagem {
+    width: 50rem;
+    height: auto;
+}

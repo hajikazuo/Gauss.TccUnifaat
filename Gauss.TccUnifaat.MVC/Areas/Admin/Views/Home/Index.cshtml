@@ -7,7 +7,9 @@
 }
 
 <div class="container-fluid mt-3">
-    <div class="card mb-4">
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-4">
         <div class="card-header">
             <h2>Notícias</h2>
         </div>
@@ -16,7 +18,10 @@
             <canvas id="chartNoticias" width="400" height="200"></canvas>
         </div>
     </div>
+    </div>
 
+    <div class="col-md-6">
+        
     <div class="card mb-4">
         <div class="card-header">
             <h2>Usuários</h2>
@@ -26,6 +31,8 @@
             <canvas id="chartUsuarios" width="400" height="200"></canvas>
         </div>
     </div>
+    </div>
+</div>
 </div>
 
 @section Scripts {
@@ -34,7 +41,7 @@
         var quantidadesNoticias = [];
         @foreach (var item in Model)
         {
-            <text>titulosNoticias.push('@item.TipoNoticia.GetDisplayName()');</text>
+            <text>titulosNoticias.push('@item.TipoNoticia');</text>
             <text>quantidadesNoticias.push('@item.qtd');</text>
         }
 
