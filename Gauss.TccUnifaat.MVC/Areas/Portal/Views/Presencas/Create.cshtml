@@ -1,7 +1,8 @@
 ﻿@model IEnumerable<Gauss.TccUnifaat.Common.Models.Turma>
 
 @{
-    ViewData["Title"] = "Index";
+    var pageName = "Cadastrar";
+    ViewData["Title"] = pageName;
     var presencaSalva = TempData["PresencaSalva"] as bool?;
     var minhaTurma = Model.FirstOrDefault();
 }
@@ -14,66 +15,73 @@
     </div>
 }
 
-<div class="p-3">
 
-    <h1>
-        @if (minhaTurma != null)
-        {
-            @minhaTurma.Nome
-        }
-        else
-        {
-            <text>Você não está cadastrado em uma turma</text>
-        }
-    </h1>
+<div class="container-fluid mt-3">
 
-    <form method="post" action="@Url.Action("Create")">
-
-        <div class="row">
-            <div class="col-2">
-                <div class="form-group my-3">
-                    <label for="dataAula" class="form-label">Data da Aula:</label>
-                    <input type="date" id="dataAula" name="dataAula" class="form-control" required>
-                </div>
-            </div>
-
-            <div class="col-12">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>
-                                Alunos
-                            </th>
-                            <th>
-                                Confirmar presença
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var turma in Model)
-                        {
-                            @foreach (var usuario in turma.Usuarios)
-                            {
-                                <tr>
-                                    <td>
-                                        @usuario.NomeCompleto
-                                    </td>
-                                    <td>
-                                        <input type="checkbox" class="form-check-input" name="presenca[@usuario.Id]" value="true" />
-                                        <input type="hidden" name="presenca[@usuario.Id]" value="false" />
-                                    </td>
-                                </tr>
-                            }
-                        }
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="col-2">
-                <button type="submit" class="btn btn-primary">Salvar</button>
-            </div>
+    <div class="card mb-4">
+        <div class="card-header">
+            <h1>@pageName</h1>
         </div>
-    </form>
+        <div class="card-body">
 
+            <h1>Turma:
+                @if (minhaTurma != null)
+                {
+                    @minhaTurma.Nome
+                }
+                else
+                {
+                    <text>Você não está cadastrado em uma turma</text>
+                }
+            </h1>
 
+            <form method="post" action="@Url.Action("Create")">
+
+                <div class="row">
+                    <div class="col-2">
+                        <div class="form-group my-3">
+                            <label for="dataAula" class="form-label">Data da Aula:</label>
+                            <input type="date" id="dataAula" name="dataAula" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Alunos
+                                    </th>
+                                    <th>
+                                        Confirmar presença
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var turma in Model)
+                                {
+                                    @foreach (var usuario in turma.Usuarios)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @usuario.NomeCompleto
+                                            </td>
+                                            <td>
+                                                <input type="checkbox" class="form-check-input" name="presenca[@usuario.Id]" value="true" />
+                                                <input type="hidden" name="presenca[@usuario.Id]" value="false" />
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="col-2">
+                        <button type="submit" class="btn btn-secondary">Salvar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
