@@ -84,7 +84,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MaterialApoioId,Nome,Descricao,Arquivo,DisciplinaId")] MaterialApoio materialApoio, IFormFile arquivo)
+        public async Task<IActionResult> Create(MaterialApoio materialApoio, IFormFile arquivo)
         {
             if (ModelState.IsValid)
             {
