@@ -123,7 +123,7 @@ namespace Gauss.TccUnifaat.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> EsqueciSenha([FromForm] EsqueciSenhaViewModel dados)
+        public async Task<IActionResult> EsqueciSenha(EsqueciSenhaViewModel dados)
         {
             if (ModelState.IsValid)
             {
@@ -143,7 +143,7 @@ namespace Gauss.TccUnifaat.Controllers
                 }
                 else
                 {
-                    this.MostrarMensagem($"Usuário/e-mail <b>{dados.Email}</b> não encontrado.", erro: true);
+                    this.MostrarMensagem($"E-mail {dados.Email} não encontrado.", erro: true);
 
                     return View();
                 }
@@ -171,7 +171,7 @@ namespace Gauss.TccUnifaat.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> RedefinirSenha([FromForm] RedefinirSenhaViewModel dados)
+        public async Task<IActionResult> RedefinirSenha(RedefinirSenhaViewModel dados)
         {
             if (ModelState.IsValid)
             {

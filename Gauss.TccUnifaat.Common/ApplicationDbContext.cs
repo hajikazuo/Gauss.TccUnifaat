@@ -34,6 +34,7 @@ public class ApplicationDbContext : IdentityDbContext<Usuario, Funcao, Guid>
     public DbSet<MaterialApoio> MateriaisApoio { get; set; }
     public DbSet<Video> Videos { get; set; }
     public DbSet<Aviso> Avisos { get; set; }
+    public DbSet<Horario> Horarios { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
