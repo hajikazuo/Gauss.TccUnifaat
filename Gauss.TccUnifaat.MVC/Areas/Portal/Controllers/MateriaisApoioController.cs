@@ -84,13 +84,13 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(MaterialApoio materialApoio, IFormFile arquivo)
+        public async Task<IActionResult> Create([Bind("MaterialApoioId,Nome,Descricao,Arquivo,DisciplinaId")] MaterialApoio materialApoio, IFormFile anexo)
         {
             if (ModelState.IsValid)
             {
-                if (arquivo != null && arquivo.Length > 0)
+                if (anexo != null && anexo.Length > 0)
                 {
-                    materialApoio.Arquivo = await SalvarArquivo(arquivo);
+                    materialApoio.Arquivo = await SalvarArquivo(anexo);
                 }
 
                 materialApoio.MaterialApoioId = _comb.Create();
@@ -207,16 +207,16 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             return _context.MateriaisApoio.Any(e => e.MaterialApoioId == id);
         }
 
-        private async Task<string> SalvarArquivo(IFormFile arquivo)
+        private async Task<string> SalvarArquivo(IFormFile anexo)
         {
-            if (arquivo != null && arquivo.Length > 0)
+            if (anexo != null && anexo.Length > 0)
             {
-                var nome = Guid.NewGuid().ToString() + Path.GetExtension(arquivo.FileName);
+                var nome = Guid.NewGuid().ToString() + Path.GetExtension(anexo.FileName);
                 var filePath = Path.Combine(_filePath, nome);
 
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
-                    await arquivo.CopyToAsync(stream);
+                    await anexo.CopyToAsync(stream);
                 }
 
                 return nome;
