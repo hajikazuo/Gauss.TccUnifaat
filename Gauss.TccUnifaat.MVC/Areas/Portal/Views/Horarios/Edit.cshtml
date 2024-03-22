@@ -15,8 +15,8 @@
             <form asp-action="Edit">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="HorarioId" />
-                <div class="form-group mt-3">
-                    <label asp-for="UsuarioId" class="control-label" style="display: none"></label>
+                <div class="form-group mt-3" style="display: none">
+                    <label asp-for="UsuarioId" class="control-label"></label>
                     <select asp-for="UsuarioId" class="form-control" asp-items="ViewBag.UsuarioId"></select>
                     <span asp-validation-for="UsuarioId" class="text-danger"></span>
                 </div>

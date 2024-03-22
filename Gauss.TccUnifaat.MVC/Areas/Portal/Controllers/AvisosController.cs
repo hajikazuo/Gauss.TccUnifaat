@@ -15,10 +15,12 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
     public class AvisosController : Controller
     {
         private readonly ApplicationDbContext _context;
+        public RT.Comb.ICombProvider _comb;
 
-        public AvisosController(ApplicationDbContext context)
+        public AvisosController(ApplicationDbContext context, RT.Comb.ICombProvider comb)
         {
             _context = context;
+            _comb = comb;
         }
 
         // GET: Portal/Avisos
@@ -63,7 +65,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
         {
             if (ModelState.IsValid)
             {
-                aviso.AvisoId = Guid.NewGuid();
+                aviso.AvisoId = _comb.Create();
                 _context.Add(aviso);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

@@ -26,8 +26,14 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
         // GET: Portal/Horarios
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Horarios.Include(h => h.Disciplina).Include(h => h.Usuario);
-            return View(await applicationDbContext.ToListAsync());
+
+            var userId = Guid.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            var userHorarios = _context.Horarios
+                .Include(h => h.Disciplina)
+                .Where(h => h.UsuarioId == userId);
+
+            return View(await userHorarios.ToListAsync());
         }
 
         // GET: Portal/Horarios/Details/5
