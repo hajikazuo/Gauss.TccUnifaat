@@ -25,9 +25,14 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
         // GET: Portal/Videos
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Videos.Include(v => v.Disciplina);
-            return View(await applicationDbContext.ToListAsync());
+            var videosPorDisciplina = await _context.Videos
+                .Include(v => v.Disciplina)
+                .GroupBy(v => v.Disciplina.Nome) 
+                .ToListAsync();
+
+            return View(videosPorDisciplina);
         }
+
 
         // GET: Portal/Videos/Details/5
         public async Task<IActionResult> Details(Guid? id)

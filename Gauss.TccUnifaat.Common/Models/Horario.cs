@@ -12,8 +12,10 @@ namespace Gauss.TccUnifaat.Common.Models
     {
         public Guid HorarioId { get; set; }
 
+        [Display(Name = "Professor")]
         public Guid UsuarioId { get; set; }
 
+        [Display(Name = "Disciplina")]
         public Guid DisciplinaId { get; set; }
 
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]

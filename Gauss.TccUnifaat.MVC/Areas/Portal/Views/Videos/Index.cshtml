@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Gauss.TccUnifaat.Common.Models.Video>
+﻿@model IEnumerable<IGrouping<string, Gauss.TccUnifaat.Common.Models.Video>>
 
 @{
     var pageName = "GaussTube";
@@ -11,8 +11,8 @@
         @TempData["Message"]
     </div>
 }
-<div class="container-fluid mt-3">
 
+<div class="container-fluid mt-3">
     <h1 class="text-center py-5">GaussTube</h1>
 
     @if (User.Identity.IsAuthenticated && (User.IsInRole("Administrador") || User.IsInRole("Professor")))
@@ -24,38 +24,39 @@
 </div>
 
 <div class="container-fluid mt-3">
+    @foreach (var group in Model)
+    {
+        <div class="card mb-4">
+            <div class="card-header">
+                <h2>@group.Key</h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    @foreach (var video in group)
+                    {
+                        <div class="col-md-4 mb-4">
+                            @if (!string.IsNullOrEmpty(video.LinkYouTube))
+                            {
+                                <h3>@video.Titulo</h3>
+                                <iframe width="100%" height="200" src="https://www.youtube.com/embed/@video.LinkYouTube" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            }
+                            else
+                            {
+                                <p>Nenhum vídeo disponível</p>
+                            }
 
-    <div class="card mb-4">
-        <div class="card-header">
-            <h1>@pageName</h1>
+                            @if (User.Identity.IsAuthenticated && (User.IsInRole("Administrador") || User.IsInRole("Professor")))
+                            {
+                                <div class="btn-group">
+                                    <a asp-action="Details" asp-route-id="@video.VideoId" class="btn btn-primary"><i class="fa-solid fa-circle-info"></i></a>
+                                    <a asp-action="Edit" asp-route-id="@video.VideoId" class="btn btn-secondary"><i class="fa-solid fa-pen-to-square"></i></a>
+                                    <a asp-action="Delete" asp-route-id="@video.VideoId" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
-        <div class="card-body">
-
-            @foreach (var video in Model)
-            {
-                @if (!string.IsNullOrEmpty(video.LinkYouTube))
-                {
-                    <div class="col-12 p-5">
-                        <h1>@video.Titulo</h1>
-                        <iframe width="560" height="315" src="https://www.youtube.com/embed/@video.LinkYouTube" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-                }
-                else
-                {
-                    <p>Nenhum vídeo disponível</p>
-                }
-
-                @if (User.Identity.IsAuthenticated && (User.IsInRole("Administrador") || User.IsInRole("Professor")))
-
-                {
-                    <div class="btn-group">
-                        <a asp-action="Details" asp-route-id="@video.VideoId" class="btn btn-primary"><i class="fa-solid fa-circle-info"></i></a>
-                        <a asp-action="Edit" asp-route-id="@video.VideoId" class="btn btn-secondary"><i class="fa-solid fa-pen-to-square"></i></a>
-                        <a asp-action="Delete" asp-route-id="@video.VideoId" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
-                    </div>
-                }
-            }
-
-        </div>
-    </div>
+    }
 </div>

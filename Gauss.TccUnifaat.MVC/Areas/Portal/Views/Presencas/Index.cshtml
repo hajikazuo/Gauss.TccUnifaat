@@ -11,9 +11,10 @@
         <form method="get" class="mb-3">
             <div class="form-group">
                 <label for="dataFiltro">Selecione a data:</label>
-                 <label for="dataAula" class="form-label">Data da Aula:</label>
-                <input type="date" id="dataFiltro" name="dataFiltro" value="@ViewBag.DataFiltro.ToString("yyyy-MM-dd")">
-                <button type="submit" class="btn btn-secondary">Filtrar</button>
+                <div class="input-group">
+                    <input type="date" id="dataFiltro" name="dataFiltro" class="form-control" value="@ViewBag.DataFiltro.ToString("yyyy-MM-dd")">
+                    <button type="submit" class="btn btn-secondary">Filtrar</button>
+                </div>
             </div>
         </form>
 
@@ -29,7 +30,6 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Data da Aula</th>
                         <th>Nome do Aluno</th>
                         <th>Presente</th>
                     </tr>
@@ -38,7 +38,6 @@
                     @foreach (var presenca in Model)
                     {
                         <tr>
-                            <td>@presenca.DataAula.ToString("dd/MM/yyyy")</td>
                             <td>@presenca.Usuario.NomeCompleto</td>
                             <td>@(presenca.Presente ? "Sim" : "Não")</td>
                         </tr>
