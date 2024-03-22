@@ -25,9 +25,8 @@ namespace Gauss.TccUnifaat.MVC.ViewModels
         [Display(Name = "Nome Completo")]
         public string NomeCompleto { get; set; }
 
-        [Required(ErrorMessage = "O Cpf é obrigatório.")]
         [Display(Name = "CPF")]
-        public string Cpf { get; set; }
+        public string? Cpf { get; set; }
 
         [Required(ErrorMessage = "O telefone é obrigatório.")]
         [Display(Name = "Número do telefone")]

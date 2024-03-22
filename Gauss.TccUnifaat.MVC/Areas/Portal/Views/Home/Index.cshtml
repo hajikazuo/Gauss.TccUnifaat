@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Gauss.TccUnifaat.MVC.ViewModels.AvisosViewModel>
+﻿@model Gauss.TccUnifaat.MVC.ViewModels.HomePortalViewModel
 
 @{
     var pageName = "Home";
@@ -17,7 +17,7 @@
         <div class="card-body">
             <div class="row">
 
-                @foreach (var aviso in Model)
+                @foreach (var aviso in Model.Avisos)
                 {
                     <div class="col-xl-3 col-md-6 mb-4">
                         <div class="card bg-primary bg-opacity-50 text-white mb-4 h-100">
@@ -27,6 +27,30 @@
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
                                 <p class="card-text">Data do Aviso: @aviso.DataAviso.ToShortDateString()</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h1>Horários</h1>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                @foreach (var horario in Model.Horarios)
+                {
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card bg-secondary bg-opacity-50 text-white mb-4 h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">Professor: @horario.Usuario</h5>
+                                <p class="card-text">Disciplina: @horario.Disciplina</p>
+                            </div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                <p class="card-text">Data: @horario.DataAula.ToShortDateString()</p>
                             </div>
                         </div>
                     </div>

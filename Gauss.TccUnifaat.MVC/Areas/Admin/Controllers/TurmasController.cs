@@ -172,14 +172,16 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
             }
 
             var turma = await _context.Turmas.Include(t => t.Usuarios).SingleOrDefaultAsync(m => m.TurmaId == id);
+
             if (turma == null)
             {
                 return NotFound();
             }
 
-            var todosUsuarios = await _context.Usuarios.ToListAsync();
+            var usuariosDisponiveis = await _context.Usuarios
+                .Where(u => u.TurmaId == null && !turma.Usuarios.Contains(u)) 
+                .ToListAsync();
 
-            var usuariosDisponiveis = todosUsuarios.Except(turma.Usuarios ?? Enumerable.Empty<Usuario>()).ToList();
 
             ViewData["UsuariosDisponiveis"] = usuariosDisponiveis;
             ViewData["UsuariosDaTurma"] = turma.Usuarios;
@@ -215,6 +217,31 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
 
             return RedirectToAction(nameof(AdicionarUsuarios), new { id });
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoverUsuario(Guid turmaId, Guid usuarioId)
+        {
+            var turma = await _context.Turmas
+                .Include(t => t.Usuarios)
+                .FirstOrDefaultAsync(t => t.TurmaId == turmaId);
+
+            if (turma == null)
+            {
+                return NotFound();
+            }
+
+            var removerUsuario = turma.Usuarios.FirstOrDefault(u => u.Id == usuarioId);
+            if (removerUsuario != null)
+            {
+                turma.Usuarios.Remove(removerUsuario);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(Details), new { id = turmaId });
+        }
+
+
 
     }
 }
