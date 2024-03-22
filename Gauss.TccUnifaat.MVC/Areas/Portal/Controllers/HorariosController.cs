@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Gauss.TccUnifaat.Common.Models;
 using Gauss.TccUnifaat.Data;
+using System.Security.Claims;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 {
@@ -14,10 +15,12 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
     public class HorariosController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly Guid _roleIdProfessor = new Guid("a4d12734-6157-46e3-ed16-08dc42b57abc");
-        public HorariosController(ApplicationDbContext context)
+        public RT.Comb.ICombProvider _comb;
+
+        public HorariosController(ApplicationDbContext context, RT.Comb.ICombProvider comb)
         {
             _context = context;
+            _comb = comb;
         }
 
         // GET: Portal/Horarios
@@ -48,19 +51,10 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
         }
 
         // GET: Portal/Horarios/Create
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
-            var professoresIds = await _context.UserRoles
-                .Where(ur => ur.RoleId.Equals(_roleIdProfessor))
-                .Select(ur => ur.UserId)
-                .ToListAsync();
-
-            var professores = await _context.Users
-                .Where(u => professoresIds.Contains(u.Id))
-                .ToListAsync();
-
-            ViewData["UsuarioId"] = new SelectList(professores, "Id", "NomeCompleto");
             ViewData["DisciplinaId"] = new SelectList(_context.Disciplinas, "DisciplinaId", "Nome");
+            ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "Id", "NomeCompleto");
             return View();
         }
 
@@ -69,28 +63,21 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("HorarioId,UsuarioId,DisciplinaId,DataAula")] Horario horario)
+        public async Task<IActionResult> Create([Bind("HorarioId,DisciplinaId,DataAula,DataCadastro")] Horario horario)
         {
+            var userId = Guid.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
+
             if (ModelState.IsValid)
             {
-                horario.HorarioId = Guid.NewGuid();
+                horario.HorarioId = _comb.Create();
+                horario.UsuarioId = userId;
+
                 _context.Add(horario);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-
-            var professoresIds = await _context.UserRoles
-                .Where(ur => ur.RoleId.Equals(_roleIdProfessor))
-                .Select(ur => ur.UserId)
-                .ToListAsync();
-
-            var professores = await _context.Users
-                .Where(u => professoresIds.Contains(u.Id))
-                .ToListAsync();
-
-            ViewData["UsuarioId"] = new SelectList(professores, "Id", "NomeCompleto", horario.UsuarioId);
             ViewData["DisciplinaId"] = new SelectList(_context.Disciplinas, "DisciplinaId", "Nome", horario.DisciplinaId);
-
+            ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "Id", "NomeCompleto", horario.UsuarioId);
             return View(horario);
         }
 
@@ -107,19 +94,8 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             {
                 return NotFound();
             }
-
-            var professoresIds = await _context.UserRoles
-                .Where(ur => ur.RoleId.Equals(_roleIdProfessor))
-                .Select(ur => ur.UserId)
-                .ToListAsync();
-
-            var professores = await _context.Users
-                .Where(u => professoresIds.Contains(u.Id))
-                .ToListAsync();
-
             ViewData["DisciplinaId"] = new SelectList(_context.Disciplinas, "DisciplinaId", "Nome", horario.DisciplinaId);
-            ViewData["UsuarioId"] = new SelectList(professores, "Id", "NomeCompleto", horario.UsuarioId);
-
+            ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "Id", "NomeCompleto", horario.UsuarioId);
             return View(horario);
         }
 
@@ -128,7 +104,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("HorarioId,UsuarioId,DisciplinaId,DataAula")] Horario horario)
+        public async Task<IActionResult> Edit(Guid id, [Bind("HorarioId,UsuarioId,DisciplinaId,DataAula,DataCadastro")] Horario horario)
         {
             if (id != horario.HorarioId)
             {
@@ -155,19 +131,8 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-
-            var professoresIds = await _context.UserRoles
-                .Where(ur => ur.RoleId.Equals(_roleIdProfessor))
-                .Select(ur => ur.UserId)
-                .ToListAsync();
-
-            var professores = await _context.Users
-                .Where(u => professoresIds.Contains(u.Id))
-                .ToListAsync();
-
             ViewData["DisciplinaId"] = new SelectList(_context.Disciplinas, "DisciplinaId", "Nome", horario.DisciplinaId);
-            ViewData["UsuarioId"] = new SelectList(professores, "Id", "NomeCompleto", horario.UsuarioId);
-
+            ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "Id", "NomeCompleto", horario.UsuarioId);
             return View(horario);
         }
 
