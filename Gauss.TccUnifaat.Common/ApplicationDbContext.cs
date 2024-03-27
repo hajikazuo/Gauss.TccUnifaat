@@ -58,7 +58,6 @@ public class ApplicationDbContext : IdentityDbContext<Usuario, Funcao, Guid>
             .WithMany(u => u.Presencas)
             .HasForeignKey(p => p.UsuarioId)
             .OnDelete(DeleteBehavior.Restrict);
-
     }
 
     private void ModelStatusModificacao<TEntity>(EntityTypeBuilder<TEntity> entity) where TEntity : class, IStatusModificacao

@@ -59,6 +59,7 @@ namespace Gauss.TccUnifaat.Controllers
                 if (user == null)
                 {
                     ModelState.AddModelError(string.Empty, "CPF ou senha inválida.");
+                    this.MostrarMensagem($"CPF ou senha inválida.", erro: true);
                     return View(model);
                 }
                 var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, lockoutOnFailure: false);

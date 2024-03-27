@@ -19,11 +19,12 @@
             <h1>@pageName</h1>
         </div>
         <div class="card-body">
-
-            <p>
-                <a class="btn btn-secondary" asp-action="Create">Cadastrar nova</a>
-            </p>
-
+            @if (User.Identity.IsAuthenticated && (User.IsInRole("Administrador") || User.IsInRole("Professor")))
+            {
+                <p>
+                    <a class="btn btn-secondary" asp-action="Create">Cadastrar nova</a>
+                </p>
+            }
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -39,7 +40,10 @@
                         <th>
                             @Html.DisplayNameFor(model => model.Disciplina)
                         </th>
-                        <th></th>
+                        @if (User.Identity.IsAuthenticated && (User.IsInRole("Administrador") || User.IsInRole("Professor")))
+                        {
+                            <th></th>
+                        }
                     </tr>
                 </thead>
                 <tbody>
@@ -65,13 +69,16 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.Disciplina.Nome)
                             </td>
-                            <td>
-                                <div class="btn-group">
-                                    <a asp-action="Details" asp-route-id="@item.MaterialApoioId" class="btn btn-primary"><i class="fa-solid fa-circle-info"></i></a>
-                                    <a asp-action="Edit" asp-route-id="@item.MaterialApoioId" class="btn btn-secondary"><i class="fa-solid fa-pen-to-square"></i></a>
-                                    <a asp-action="Delete" asp-route-id="@item.MaterialApoioId" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
-                                </div>
-                            </td>
+                            @if (User.Identity.IsAuthenticated && (User.IsInRole("Administrador") || User.IsInRole("Professor")))
+                            {
+                                <td>
+                                    <div class="btn-group">
+                                        <a asp-action="Details" asp-route-id="@item.MaterialApoioId" class="btn btn-primary"><i class="fa-solid fa-circle-info"></i></a>
+                                        <a asp-action="Edit" asp-route-id="@item.MaterialApoioId" class="btn btn-secondary"><i class="fa-solid fa-pen-to-square"></i></a>
+                                        <a asp-action="Delete" asp-route-id="@item.MaterialApoioId" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                                    </div>
+                                </td>
+                            }
                         </tr>
                     }
                 </tbody>
