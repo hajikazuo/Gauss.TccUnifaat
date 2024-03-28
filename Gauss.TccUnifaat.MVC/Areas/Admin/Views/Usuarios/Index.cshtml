@@ -25,6 +25,7 @@
                         <th>Email</th>
                         <th>Turma</th>
                         <th>Função</th>
+                        <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -35,6 +36,9 @@
                             <td>@usuario.Email</td>
                             <td>@usuario.Turma</td>
                             <td>@usuario.Funcao</td>
+                            <td>
+                                <a asp-action="Delete" asp-route-id="@usuario.Id" class="btn btn-danger">Excluir</a>
+                            </td>
                         </tr>
                     }
                 </tbody>

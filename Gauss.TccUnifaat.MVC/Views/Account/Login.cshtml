@@ -3,7 +3,7 @@
 @{
     Layout = "~/Views/Shared/_LayoutLogin.cshtml";
 }
-
+<div asp-validation-summary="ModelOnly" class="validation-summary text-danger mb-3"></div>
 <partial name="_MensagemPartial" />
 
 <section class="py-5">
@@ -16,19 +16,17 @@
                 <div class="col-lg-8 col-xl-6">
                     <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
                         <div class="form-floating mb-3">
-                            <input asp-for="UserName" class="form-control" type="text" placeholder="nome@exemplo.com" data-sb-validations="required,username"
-                                   required value="gauss@gauss.com.br" />
-                            <label for="username">Usuário</label>
-                            <div class="invalid-feedback" data-sb-feedback="username:required">O usuário é obrigatório.</div>
-                            <div class="invalid-feedback" data-sb-feedback="username:username">usuário inválido</div>
+                            <input asp-for="@Model.UserName" class="form-control" value="gauss@gauss.com.br" />
+                            <label asp-for="@Model.UserName"></label>
+                            <span asp-validation-for="@Model.UserName" class="text-danger"></span>
                         </div>
                         <div class="input-group mb-3">
-                            <input asp-for="Password" class="form-control" placeholder="Senha" id="Password" name="Password" 
-                                   required value="Gauss@2023" />
+                            <input asp-for="@Model.Password" class="form-control" placeholder="Senha" id="Password" value="Gauss@2023" />
                             <button class="btn btn-outline-secondary" type="button" id="togglePassword">
                                 <i class="far fa-eye" id="eye"></i>
                             </button>
                         </div>
+                        <span asp-validation-for="@Model.Password" class="text-danger"></span>
                         <div class="d-grid">
                             <button id="js-login-btn" type="submit" class="btn btn-danger btn-block btn-lg">Login</button>
                         </div>

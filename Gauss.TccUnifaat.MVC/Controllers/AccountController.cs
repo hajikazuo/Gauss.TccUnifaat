@@ -58,8 +58,8 @@ namespace Gauss.TccUnifaat.Controllers
                 var user = await this._context.Users.FirstOrDefaultAsync(u => u.UserName == model.UserName);
                 if (user == null)
                 {
-                    ModelState.AddModelError(string.Empty, "CPF ou senha inválida.");
-                    this.MostrarMensagem($"CPF ou senha inválida.", erro: true);
+                    ModelState.AddModelError(string.Empty, "O usuário não foi encontrado na base de dados.");
+                    this.MostrarMensagem($"O usuário não foi encontrado na base de dados.", erro: true);
                     return View(model);
                 }
                 var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, lockoutOnFailure: false);
@@ -80,7 +80,8 @@ namespace Gauss.TccUnifaat.Controllers
                     return RedirectToLocal(returnUrl);
                 }
 
-                ModelState.AddModelError(string.Empty, "CPF ou senha inválida.");
+                ModelState.AddModelError(string.Empty, "Login ou senha inválida.");
+                this.MostrarMensagem($"Login ou senha inválida.", erro: true);
                 return View(model);
             }
 

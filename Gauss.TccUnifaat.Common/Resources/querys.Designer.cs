@@ -75,6 +75,7 @@ namespace Gauss.TccUnifaat.Common.Resources {
         
         /// <summary>
         ///   Looks up a localized string similar to SELECT 
+        ///    u.Id as Id,
         ///    u.NomeCompleto as NomeCompleto,
         ///    u.Email as Email,
         ///    t.Nome as Turma, 
@@ -84,6 +85,8 @@ namespace Gauss.TccUnifaat.Common.Resources {
         ///    LEFT JOIN Turmas t ON u.TurmaId = t.TurmaId 
         ///    LEFT JOIN AspNetUserRoles ur ON u.Id = ur.UserId
         ///    LEFT JOIN AspNetRoles r ON ur.RoleId = r.Id
+        ///WHERE 
+        ///    u.Excluido = 0
         ///ORDER BY 
         ///    u.NomeCompleto, Turma, Funcao;
         ///.

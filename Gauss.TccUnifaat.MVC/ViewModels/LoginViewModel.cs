@@ -1,13 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Gauss.TccUnifaat.Common.Resources;
+using System.ComponentModel.DataAnnotations;
 
 namespace Gauss.TccUnifaat.ViewModels
 {
     public class LoginViewModel
-    {
-        [Required(ErrorMessage = "O campo {0} é requerido!")]
+    {     
+        [Display(Name = "Usuário")]
+        [DataType(DataType.EmailAddress)]
+        [Required(ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.Required))]
         public string UserName { get; set; }
 
-        [Required(ErrorMessage = "O campo {0} é requerido!")]
+        [Required(ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.Required))]
         [DataType(DataType.Password)]
         [Display(Name = "Senha")]
         public string Password { get; set; }
