@@ -13,7 +13,7 @@ using System.Text;
 
 namespace Gauss.TccUnifaat.Controllers
 {
-    public class AccountController : ControllerBase
+    public class AccountController : ControllerBase<ApplicationDbContext, RT.Comb.ICombProvider>
     {
         private readonly UserManager<Usuario> _userManager;
         private readonly RoleManager<Funcao> _roleManager;

@@ -5,17 +5,16 @@ using Microsoft.AspNetCore.Mvc;
 namespace Gauss.TccUnifaat.Controllers
 {
     [Authorize]
-    public class ControllerBase : Controller
+    public class ControllerBase<TContext, TComb> : Controller
     {
-        public readonly ApplicationDbContext _context;
-        public RT.Comb.ICombProvider _comb;
+        protected readonly TContext _context;
+        protected readonly TComb _comb;
         public Guid UserGuid { get; set; }
 
-        public ControllerBase(ApplicationDbContext context, RT.Comb.ICombProvider comb)
+        public ControllerBase(TContext context, TComb comb)
         {
-            _comb = comb;
             _context = context;
-
+            _comb = comb;
         }
     }
 }

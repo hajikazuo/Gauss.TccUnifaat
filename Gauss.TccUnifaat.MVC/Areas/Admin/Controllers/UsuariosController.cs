@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Gauss.TccUnifaat.Common.Models;
+using Gauss.TccUnifaat.Controllers;
 using Gauss.TccUnifaat.Data;
 using Gauss.TccUnifaat.MVC.Extensions;
 using Gauss.TccUnifaat.MVC.ViewModels;
@@ -13,7 +14,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
 {
     [Authorize(Policy = "RequireAdminRole")]
     [Area("Admin")]
-    public class UsuariosController : ControllerBase
+    public class UsuariosController : ControllerBase<ApplicationDbContext, RT.Comb.ICombProvider>
     {
         private readonly UserManager<Usuario> _userManager;
         private readonly SignInManager<Usuario> _signInManager;

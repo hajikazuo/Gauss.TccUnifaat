@@ -8,11 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using Gauss.TccUnifaat.Common.Models;
 using Gauss.TccUnifaat.Data;
 using Microsoft.AspNetCore.Identity;
+using Gauss.TccUnifaat.Controllers;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 {
     [Area("Portal")]
-    public class PresencasController : ControllerBase
+    public class PresencasController : ControllerBase<ApplicationDbContext, RT.Comb.ICombProvider>
     {
         private readonly UserManager<Usuario> _userManager;
         public PresencasController(ApplicationDbContext context

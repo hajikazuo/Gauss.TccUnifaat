@@ -8,11 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using Gauss.TccUnifaat.Common.Models;
 using Gauss.TccUnifaat.Data;
 using Microsoft.AspNetCore.Identity;
+using Gauss.TccUnifaat.Controllers;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 {
     [Area("Portal")]
-    public class MateriaisApoioController : ControllerBase
+    public class MateriaisApoioController : ControllerBase<ApplicationDbContext, RT.Comb.ICombProvider>
     {
         private readonly UserManager<Usuario> _userManager;
         private readonly string _filePath;

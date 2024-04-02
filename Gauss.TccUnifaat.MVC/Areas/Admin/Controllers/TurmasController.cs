@@ -9,13 +9,14 @@ using Gauss.TccUnifaat.Common.Models;
 using Gauss.TccUnifaat.Data;
 using NuGet.Packaging;
 using Microsoft.AspNetCore.Authorization;
+using Gauss.TccUnifaat.Controllers;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
 {
     [Authorize(Policy = "RequireAdminRole")]
     [Area("Admin")]
 
-    public class TurmasController : ControllerBase
+    public class TurmasController : ControllerBase<ApplicationDbContext, RT.Comb.ICombProvider>
     {
         public TurmasController(ApplicationDbContext context
             , RT.Comb.ICombProvider comb

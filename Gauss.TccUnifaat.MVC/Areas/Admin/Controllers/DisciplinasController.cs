@@ -8,12 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using Gauss.TccUnifaat.Common.Models;
 using Gauss.TccUnifaat.Data;
 using Microsoft.AspNetCore.Authorization;
+using Gauss.TccUnifaat.Controllers;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
 {
     [Authorize(Policy = "RequireAdminRole")]
     [Area("Admin")]
-    public class DisciplinasController : ControllerBase
+    public class DisciplinasController : ControllerBase<ApplicationDbContext, RT.Comb.ICombProvider>
     {
         public DisciplinasController(ApplicationDbContext context
             , RT.Comb.ICombProvider comb

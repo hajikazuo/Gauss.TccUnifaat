@@ -8,11 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using Gauss.TccUnifaat.Common.Models;
 using Gauss.TccUnifaat.Data;
 using System.Security.Claims;
+using Gauss.TccUnifaat.Controllers;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 {
     [Area("Portal")]
-    public class HorariosController : ControllerBase
+    public class HorariosController : ControllerBase<ApplicationDbContext, RT.Comb.ICombProvider>
     {
         public HorariosController(ApplicationDbContext context
             , RT.Comb.ICombProvider comb

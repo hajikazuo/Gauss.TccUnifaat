@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Gauss.TccUnifaat.Controllers
 {
     [AllowAnonymous]
-    public class HomeController : ControllerBase
+    public class HomeController : ControllerBase<ApplicationDbContext, RT.Comb.ICombProvider>
     {
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<Usuario> _userManager;

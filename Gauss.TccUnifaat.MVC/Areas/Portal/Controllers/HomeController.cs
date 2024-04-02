@@ -1,4 +1,5 @@
 ﻿using Gauss.TccUnifaat.Common.Models;
+using Gauss.TccUnifaat.Controllers;
 using Gauss.TccUnifaat.Data;
 using Gauss.TccUnifaat.MVC.ViewModels;
 using Gauss.TccUnifaat.ViewModels;
@@ -10,7 +11,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 {
     [Area("Portal")]
 
-    public class HomeController : ControllerBase
+    public class HomeController : ControllerBase<ApplicationDbContext, RT.Comb.ICombProvider>
     {
         private readonly UserManager<Usuario> _userManager;
         public HomeController(ApplicationDbContext context

@@ -10,11 +10,12 @@ using Gauss.TccUnifaat.Data;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Gauss.TccUnifaat.MVC.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Gauss.TccUnifaat.Controllers;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 {
     [Area("Portal")]
-    public class AvisosController : ControllerBase
+    public class AvisosController : ControllerBase<ApplicationDbContext, RT.Comb.ICombProvider>
     {
         public AvisosController(ApplicationDbContext context
             , RT.Comb.ICombProvider comb

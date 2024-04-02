@@ -7,11 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Gauss.TccUnifaat.Common.Models;
 using Gauss.TccUnifaat.Data;
+using Gauss.TccUnifaat.Controllers;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 {
     [Area("Portal")]
-    public class VideosController : ControllerBase
+    public class VideosController : ControllerBase<ApplicationDbContext, RT.Comb.ICombProvider>
     {
         public VideosController(ApplicationDbContext context
             , RT.Comb.ICombProvider comb

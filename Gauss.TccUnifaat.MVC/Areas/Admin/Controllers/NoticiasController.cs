@@ -10,13 +10,14 @@ using Gauss.TccUnifaat.Data;
 using System.Security.Claims;
 using Gauss.TccUnifaat.Common.Extensions;
 using Microsoft.AspNetCore.Authorization;
+using Gauss.TccUnifaat.Controllers;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
 {
     [Authorize(Policy = "RequireAdminRole")]
     [Area("Admin")]
 
-    public class NoticiasController : ControllerBase
+    public class NoticiasController : ControllerBase<ApplicationDbContext, RT.Comb.ICombProvider>
     {
         private readonly string _filePath;
         private readonly IWebHostEnvironment _env;
