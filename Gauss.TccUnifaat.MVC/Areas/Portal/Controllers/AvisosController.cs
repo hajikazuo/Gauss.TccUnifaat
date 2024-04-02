@@ -8,19 +8,18 @@ using Microsoft.EntityFrameworkCore;
 using Gauss.TccUnifaat.Common.Models;
 using Gauss.TccUnifaat.Data;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Gauss.TccUnifaat.MVC.Services.Interfaces;
+using Microsoft.AspNetCore.Identity;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 {
     [Area("Portal")]
-    public class AvisosController : Controller
+    public class AvisosController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
-        public RT.Comb.ICombProvider _comb;
-
-        public AvisosController(ApplicationDbContext context, RT.Comb.ICombProvider comb)
+        public AvisosController(ApplicationDbContext context
+            , RT.Comb.ICombProvider comb
+            ) : base(context, comb)
         {
-            _context = context;
-            _comb = comb;
         }
 
         // GET: Portal/Avisos
@@ -52,6 +51,14 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
         // GET: Portal/Avisos/Create
         public IActionResult Create()
         {
+            var disciplinas = _context.Disciplinas.ToList();
+
+            if (disciplinas.Count == 0)
+            {
+                TempData["Message"] = "Não há disciplinas cadastradas. Por favor, cadastre uma disciplina antes de adicionar avisos.";
+                return RedirectToAction(nameof(Index));
+            }
+
             ViewData["TurmaId"] = new SelectList(_context.Turmas, "TurmaId", "Nome");
             return View();
         }

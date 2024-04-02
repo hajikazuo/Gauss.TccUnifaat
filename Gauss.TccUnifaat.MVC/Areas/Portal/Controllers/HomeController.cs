@@ -10,14 +10,14 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 {
     [Area("Portal")]
 
-    public class HomeController : Controller
+    public class HomeController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
         private readonly UserManager<Usuario> _userManager;
-        public HomeController(ApplicationDbContext context, UserManager<Usuario> userManager)
+        public HomeController(ApplicationDbContext context
+           , RT.Comb.ICombProvider comb, UserManager<Usuario> userManager
+           ) : base(context, comb)
         {
             _userManager = userManager;
-            _context = context;
         }
         public async Task<IActionResult> IndexAsync()
         {

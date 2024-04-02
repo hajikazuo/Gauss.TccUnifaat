@@ -15,15 +15,12 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
     [Authorize(Policy = "RequireAdminRole")]
     [Area("Admin")]
 
-    public class TurmasController : Controller
+    public class TurmasController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
-        public RT.Comb.ICombProvider _comb;
-
-        public TurmasController(ApplicationDbContext context, RT.Comb.ICombProvider comb)
+        public TurmasController(ApplicationDbContext context
+            , RT.Comb.ICombProvider comb
+            ) : base(context, comb)
         {
-            _context = context;
-            _comb = comb;
         }
 
         // GET: Admin/Turmas
@@ -41,7 +38,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
             }
 
             var turma = await _context.Turmas
-                .Include(t => t.Usuarios) 
+                .Include(t => t.Usuarios)
                 .FirstOrDefaultAsync(m => m.TurmaId == id);
 
             if (turma == null)
@@ -179,7 +176,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
             }
 
             var usuariosDisponiveis = await _context.Usuarios
-                .Where(u => u.TurmaId == null && !turma.Usuarios.Contains(u)) 
+                .Where(u => u.TurmaId == null && !turma.Usuarios.Contains(u))
                 .ToListAsync();
 
 

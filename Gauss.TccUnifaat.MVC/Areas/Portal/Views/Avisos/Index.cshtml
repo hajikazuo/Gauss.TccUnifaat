@@ -5,6 +5,13 @@
     ViewData["Title"] = pageName;
 }
 
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["Message"]
+    </div>
+}
+
 <div class="container-fluid mt-3">
 
     <div class="card mb-4">

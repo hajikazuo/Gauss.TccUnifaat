@@ -12,18 +12,17 @@ using Microsoft.AspNetCore.Identity;
 namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 {
     [Area("Portal")]
-    public class PresencasController : Controller
+    public class PresencasController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
         private readonly UserManager<Usuario> _userManager;
-
-        public PresencasController(ApplicationDbContext context, UserManager<Usuario> userManager)
+        public PresencasController(ApplicationDbContext context
+            , RT.Comb.ICombProvider comb, UserManager<Usuario> userManager
+            ) : base(context, comb)
         {
-            _context = context;
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> Index(DateTime? dataFiltro = null)
+    public async Task<IActionResult> Index(DateTime? dataFiltro = null)
         {
             var currentUser = await _userManager.GetUserAsync(User);
             var turmaIdDoUsuario = currentUser.TurmaId;

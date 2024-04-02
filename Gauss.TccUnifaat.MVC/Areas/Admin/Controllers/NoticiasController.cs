@@ -16,24 +16,22 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
     [Authorize(Policy = "RequireAdminRole")]
     [Area("Admin")]
 
-    public class NoticiasController : Controller
+    public class NoticiasController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
-        public RT.Comb.ICombProvider _comb;
         private readonly string _filePath;
         private readonly IWebHostEnvironment _env;
 
-        public NoticiasController(ApplicationDbContext context, RT.Comb.ICombProvider comb, IWebHostEnvironment env)
+        public NoticiasController(ApplicationDbContext context
+            , RT.Comb.ICombProvider comb, IWebHostEnvironment env
+            ) : base(context, comb)
         {
-            _context = context;
-            _comb = comb;
             _env = env;
 
             _filePath = Path.Combine(env.WebRootPath, "imgNoticias");
             if (!Directory.Exists(_filePath))
             {
                 Directory.CreateDirectory(_filePath);
-            }         
+            }
         }
 
         // GET: Admin/Noticias

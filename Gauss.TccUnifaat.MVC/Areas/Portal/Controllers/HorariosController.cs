@@ -12,15 +12,12 @@ using System.Security.Claims;
 namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 {
     [Area("Portal")]
-    public class HorariosController : Controller
+    public class HorariosController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
-        public RT.Comb.ICombProvider _comb;
-
-        public HorariosController(ApplicationDbContext context, RT.Comb.ICombProvider comb)
+        public HorariosController(ApplicationDbContext context
+            , RT.Comb.ICombProvider comb
+            ) : base(context, comb)
         {
-            _context = context;
-            _comb = comb;
         }
 
         // GET: Portal/Horarios

@@ -7,7 +7,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>@ViewData["Title"] - Gauss.TccUnifaat</title>
-    @* <link href="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.0.0/r-3.0.0/datatables.min.css" rel="stylesheet"> *@
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/datatables.min.css" asp-append-version="true" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -77,6 +77,13 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-play"></i></div>
                             GaussTube
                         </a>
+                        @if (User.Identity.IsAuthenticated && (User.IsInRole("Administrador")))
+                        {
+                            <a class="nav-link" asp-area="admin" asp-controller="Home" asp-action="Index">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-user-tie"></i></div>
+                                Área administrativa
+                            </a>
+                        }
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">

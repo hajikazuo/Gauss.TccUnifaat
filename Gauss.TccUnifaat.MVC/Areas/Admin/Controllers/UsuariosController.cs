@@ -13,17 +13,16 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
 {
     [Authorize(Policy = "RequireAdminRole")]
     [Area("Admin")]
-    public class UsuariosController : Controller
+    public class UsuariosController : ControllerBase
     {
         private readonly UserManager<Usuario> _userManager;
         private readonly SignInManager<Usuario> _signInManager;
-        public readonly ApplicationDbContext _context;
-
-        public UsuariosController(UserManager<Usuario> userManager, SignInManager<Usuario> signInManager, ApplicationDbContext context)
+        public UsuariosController(ApplicationDbContext context
+            , RT.Comb.ICombProvider comb, UserManager<Usuario> userManager, SignInManager<Usuario> signInManager
+            ) : base(context, comb)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _context = context;
         }
 
         [HttpGet]

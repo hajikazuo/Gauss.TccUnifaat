@@ -12,18 +12,15 @@ using Microsoft.AspNetCore.Identity;
 namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 {
     [Area("Portal")]
-    public class MateriaisApoioController : Controller
+    public class MateriaisApoioController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
-        public RT.Comb.ICombProvider _comb;
         private readonly UserManager<Usuario> _userManager;
         private readonly string _filePath;
         private readonly IWebHostEnvironment _env;
-
-        public MateriaisApoioController(ApplicationDbContext context, RT.Comb.ICombProvider comb, UserManager<Usuario> userManager, IWebHostEnvironment env)
+        public MateriaisApoioController(ApplicationDbContext context
+            , RT.Comb.ICombProvider comb, UserManager<Usuario> userManager, IWebHostEnvironment env
+            ) : base(context, comb)
         {
-            _context = context;
-            _comb = comb;
             _userManager = userManager;
             _env = env;
             _filePath = Path.Combine(_env.WebRootPath, "files");

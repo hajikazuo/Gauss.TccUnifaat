@@ -13,16 +13,12 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
 {
     [Authorize(Policy = "RequireAdminRole")]
     [Area("Admin")]
-    public class DisciplinasController : Controller
+    public class DisciplinasController : ControllerBase
     {
-        public readonly ApplicationDbContext _context;
-        public RT.Comb.ICombProvider _comb;
-
-        public DisciplinasController(ApplicationDbContext context, RT.Comb.ICombProvider comb)
+        public DisciplinasController(ApplicationDbContext context
+            , RT.Comb.ICombProvider comb
+            ) : base(context, comb)
         {
-            _comb = comb;
-            _context = context;
-
         }
 
         // GET: Admin/Disciplinas
