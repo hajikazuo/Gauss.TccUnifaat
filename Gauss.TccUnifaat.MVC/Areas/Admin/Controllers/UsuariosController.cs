@@ -54,7 +54,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
                     NomeCompleto = model.NomeCompleto,
                     Cpf = model.Cpf,
                     Telefone = model.Telefone,
-                    Idade = model.Idade,
+                    DataNascimento = model.DataNascimento,
                     EmailConfirmed = true
                 };
 

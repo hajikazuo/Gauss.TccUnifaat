@@ -54,7 +54,7 @@ namespace Gauss.TccUnifaat.MVC.Services
                 user.NomeCompleto = "aluno teste";
                 user.Cpf = "11111111111";
                 user.Telefone = "11911111111";
-                user.Idade = 30;
+                user.DataNascimento = new DateTime(2024, 1, 1);
                 user.SecurityStamp = Guid.NewGuid().ToString();
 
                 IdentityResult result = _userManager.CreateAsync(user, "Gauss#2024").Result;
@@ -77,7 +77,7 @@ namespace Gauss.TccUnifaat.MVC.Services
                 user.NomeCompleto = "professor teste";
                 user.Cpf = "22222222222";
                 user.Telefone = "11922222222";
-                user.Idade = 30;
+                user.DataNascimento = new DateTime(2024, 1, 1);
                 user.SecurityStamp = Guid.NewGuid().ToString(); 
 
                 IdentityResult result = _userManager.CreateAsync(user, "Gauss#2024").Result;
@@ -100,10 +100,10 @@ namespace Gauss.TccUnifaat.MVC.Services
                 user.NomeCompleto = "gauss admin";
                 user.Cpf = "33333333333";
                 user.Telefone = "11933333333";
-                user.Idade = 30;
+                user.DataNascimento = new DateTime(2024, 1, 1);
                 user.SecurityStamp = Guid.NewGuid().ToString();
 
-                IdentityResult result = _userManager.CreateAsync(user, "Gauss@2023").Result;
+                IdentityResult result = _userManager.CreateAsync(user, "Gauss@2024").Result;
 
                 if (result.Succeeded)
                 {

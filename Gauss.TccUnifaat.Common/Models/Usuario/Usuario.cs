@@ -1,6 +1,7 @@
 ﻿using Gauss.TccUnifaat.Common.Resources;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace Gauss.TccUnifaat.Common.Models
@@ -20,8 +21,9 @@ namespace Gauss.TccUnifaat.Common.Models
         public string Telefone { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.Required))]
-        [Display(Name = "Idade")]
-        public int Idade { get; set; }
+        [Display(Name = "Data de Nascimento")]
+        [DataType(DataType.Date)]
+        public DateTime DataNascimento { get; set; }
 
         [JsonIgnore]
         public virtual ICollection<Noticia>? Noticias { get; set; }
@@ -52,6 +54,12 @@ namespace Gauss.TccUnifaat.Common.Models
         [Display(Name = "Data Últ. Modificação")]
         public DateTime? DataUltimaModificacao { get; set; }
         #endregion
+
+        [NotMapped]
+        public int Idade
+        {
+            get => (int)Math.Floor((DateTime.Now - DataNascimento).TotalDays / 365.25);
+        }
     }
 }
 

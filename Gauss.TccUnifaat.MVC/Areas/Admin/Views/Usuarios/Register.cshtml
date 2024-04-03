@@ -42,7 +42,7 @@
 
                 <div class="form-group">
                     <label asp-for="Cpf"></label>
-                    <input asp-for="Cpf" class="form-control" />
+                    <input asp-for="Cpf" class="form-control" id="cpf" />
                 </div>
 
                 <div class="form-group">
@@ -52,9 +52,9 @@
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="Idade"></label>
-                    <input asp-for="Idade" class="form-control" />
-                    <span asp-validation-for="Idade" class="text-danger"></span>
+                    <label asp-for="DataNascimento"></label>
+                    <input asp-for="DataNascimento" class="form-control" />
+                    <span asp-validation-for="DataNascimento" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
@@ -80,4 +80,11 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+    <script>
+        $(document).ready(function () {
+            $('#cpf').mask('000.000.000-00', { reverse: true });
+        });
+    </script>
 }
+
