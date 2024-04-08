@@ -5,12 +5,7 @@
     ViewData["Title"] = pageName;
 }
 
-@if (TempData["Message"] != null)
-{
-    <div class="alert alert-danger" role="alert">
-        @TempData["Message"]
-    </div>
-}
+<partial name="_MensagemPartial" />
 
 <div class="container-fluid mt-3">
 

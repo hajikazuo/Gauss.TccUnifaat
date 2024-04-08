@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Gauss.TccUnifaat.MVC.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Gauss.TccUnifaat.Controllers;
+using Gauss.TccUnifaat.MVC.Extensions;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 {
@@ -56,7 +57,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 
             if (disciplinas.Count == 0)
             {
-                TempData["Message"] = "Não há disciplinas cadastradas. Por favor, cadastre uma disciplina antes de adicionar avisos.";
+                this.MostrarMensagem($"Não há disciplinas cadastradas. Por favor, cadastre uma disciplina antes de adicionar avisos.", erro: true);
                 return RedirectToAction(nameof(Index));
             }
 
