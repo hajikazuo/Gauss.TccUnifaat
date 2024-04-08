@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Gauss.TccUnifaat.Common.Models;
 using Gauss.TccUnifaat.Data;
 using Gauss.TccUnifaat.Controllers;
+using Gauss.TccUnifaat.MVC.Extensions;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 {
@@ -58,7 +59,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 
             if (disciplinas.Count == 0)
             {
-                TempData["Message"] = "Não há disciplinas cadastradas. Por favor, cadastre uma disciplina antes de adicionar videos.";
+                this.MostrarMensagem($"Não há disciplinas cadastradas. Por favor, cadastre uma disciplina antes de adicionar videos.", erro: true);
                 return RedirectToAction(nameof(Index));
             }
 

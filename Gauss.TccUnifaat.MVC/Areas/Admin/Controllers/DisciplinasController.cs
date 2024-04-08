@@ -9,6 +9,7 @@ using Gauss.TccUnifaat.Common.Models;
 using Gauss.TccUnifaat.Data;
 using Microsoft.AspNetCore.Authorization;
 using Gauss.TccUnifaat.Controllers;
+using Gauss.TccUnifaat.MVC.Extensions;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
 {
@@ -55,7 +56,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
 
             if (turmas.Count == 0)
             {
-                TempData["Message"] = "Não há turmas cadastradas. Por favor, cadastre uma turma antes de adicionar disciplinas.";
+                this.MostrarMensagem($"Não há turmas cadastradas. Por favor, cadastre uma turma antes de adicionar disciplinas.", erro: true);
                 return RedirectToAction(nameof(Index));
             }
 

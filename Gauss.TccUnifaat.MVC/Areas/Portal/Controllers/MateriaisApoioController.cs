@@ -9,6 +9,7 @@ using Gauss.TccUnifaat.Common.Models;
 using Gauss.TccUnifaat.Data;
 using Microsoft.AspNetCore.Identity;
 using Gauss.TccUnifaat.Controllers;
+using Gauss.TccUnifaat.MVC.Extensions;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 {
@@ -69,7 +70,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 
             if (disciplinas.Count == 0)
             {
-                TempData["Message"] = "Não há disciplinas cadastradas. Por favor, cadastre uma disciplina antes de adicionar materiais de apoio.";
+                this.MostrarMensagem($"Não há disciplinas cadastradas. Por favor, cadastre uma disciplina antes de adicionar materiais de apoio.", erro: true);
                 return RedirectToAction(nameof(Index));
             }
 

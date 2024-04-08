@@ -9,6 +9,7 @@ using Gauss.TccUnifaat.Common.Models;
 using Gauss.TccUnifaat.Data;
 using System.Security.Claims;
 using Gauss.TccUnifaat.Controllers;
+using Gauss.TccUnifaat.MVC.Extensions;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 {
@@ -57,6 +58,14 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
         // GET: Portal/Horarios/Create
         public IActionResult Create()
         {
+            var disciplinas = _context.Disciplinas.ToList();
+
+            if (disciplinas.Count == 0)
+            {
+                this.MostrarMensagem($"Não há disciplinas cadastradas. Por favor, cadastre uma disciplina antes de adicionar horários.", erro: true);
+                return RedirectToAction(nameof(Index));
+            }
+
             ViewData["DisciplinaId"] = new SelectList(_context.Disciplinas, "DisciplinaId", "Nome");
             ViewData["UsuarioId"] = new SelectList(_context.Usuarios, "Id", "NomeCompleto");
             return View();
