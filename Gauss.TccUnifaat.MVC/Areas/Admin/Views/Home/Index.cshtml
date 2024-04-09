@@ -1,5 +1,6 @@
 ﻿@using Gauss.TccUnifaat.Common.Extensions;
-@model IEnumerable<Gauss.TccUnifaat.MVC.ViewModels.DashboardNoticiasViewModel>
+@using Gauss.TccUnifaat.MVC.Dapper;
+@model IEnumerable<DashboardNoticiasViewModel>
 
 @{
     var pageName = "Dashboard";
@@ -32,6 +33,17 @@
         </div>
     </div>
     </div>
+
+    <div class="col-md-12">
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2>Usuários por Turma</h2>
+        </div>
+        <div class="card-body">
+            <canvas id="chartUsuariosPorTurma" width="400" height="200"></canvas>
+        </div>
+    </div>
+    </div>
 </div>
 </div>
 
@@ -39,7 +51,7 @@
     <script>
         var titulosNoticias = [];
         var quantidadesNoticias = [];
-        @foreach (var item in Model)
+        @foreach (var item in ViewBag.Noticias)
         {
             <text>titulosNoticias.push('@item.TipoNoticia');</text>
             <text>quantidadesNoticias.push('@item.qtd');</text>
@@ -64,11 +76,8 @@
                 }]
             },
             options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
+
+                aspectRatio: 2
             }
         });
 
@@ -89,6 +98,34 @@
                     label: 'Quantidade de Usuários',
                     data: quantidadesUsuarios,
                     backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        var turmasUsuarios = [];
+        var quantidadesUsuariosPorTurma = [];
+        @foreach (var item in ViewBag.UsuariosPorTurma)
+        {
+            <text>turmasUsuarios.push('@item.Turma');</text>
+            <text>quantidadesUsuariosPorTurma.push('@item.QuantidadeUsuariosPorTurma');</text>
+        }
+
+        var ctxUsuariosPorTurma = document.getElementById('chartUsuariosPorTurma').getContext('2d');
+        var chartUsuariosPorTurma = new Chart(ctxUsuariosPorTurma, {
+            type: 'bar',
+            data: {
+                labels: turmasUsuarios,
+                datasets: [{
+                    label: 'Quantidade de Usuários por Turma',
+                    data: quantidadesUsuariosPorTurma,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 }]
             },
             options: {

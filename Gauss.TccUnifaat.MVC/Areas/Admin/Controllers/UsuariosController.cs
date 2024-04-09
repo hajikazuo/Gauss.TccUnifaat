@@ -2,6 +2,7 @@
 using Gauss.TccUnifaat.Common.Models;
 using Gauss.TccUnifaat.Controllers;
 using Gauss.TccUnifaat.Data;
+using Gauss.TccUnifaat.MVC.Dapper;
 using Gauss.TccUnifaat.MVC.Extensions;
 using Gauss.TccUnifaat.MVC.ViewModels;
 using Microsoft.AspNetCore.Authorization;

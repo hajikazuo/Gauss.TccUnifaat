@@ -1,6 +1,6 @@
 ﻿using Gauss.TccUnifaat.Common.Models;
 
-namespace Gauss.TccUnifaat.MVC.ViewModels
+namespace Gauss.TccUnifaat.MVC.Dapper
 {
     public class DashboardUsuariosViewModel
     {
