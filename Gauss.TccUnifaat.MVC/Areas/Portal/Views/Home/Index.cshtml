@@ -40,22 +40,29 @@
             <h1>Horários</h1>
         </div>
         <div class="card-body">
-            <div class="row">
-                @foreach (var horario in Model.Horarios)
-                {
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card bg-secondary bg-opacity-50 text-white mb-4 h-100">
-                            <div class="card-body">
-                                <h5 class="card-title">Professor: @horario.Usuario</h5>
-                                <p class="card-text">Disciplina: @horario.Disciplina</p>
-                            </div>
-                            <div class="card-footer d-flex align-items-center justify-content-between">
-                                <p class="card-text">Data: @horario.DataAula.ToShortDateString()</p>
-                            </div>
-                        </div>
-                    </div>
-                }
-            </div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Professor</th>
+                        <th>Telefone</th>
+                        <th>Email</th>
+                        <th>Disciplina</th>
+                        <th>Data</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var horario in Model.Horarios)
+                    {
+                        <tr>
+                            <td>@horario.Usuario</td>
+                            <td><a href="tel:@horario.Telefone" class="link">@horario.Telefone</a></td>
+                            <td><a href="mailto:@horario.Email" class="link">@horario.Email</a></td>
+                            <td>@horario.Disciplina</td>
+                            <td>@horario.DataAula</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 

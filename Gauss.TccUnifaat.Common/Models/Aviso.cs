@@ -23,6 +23,7 @@ namespace Gauss.TccUnifaat.Common.Models
         public string Descricao { get; set; }
 
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+        [DataType(DataType.DateTime)]
         [Display(Name = "Data do aviso")]
         public DateTime DataAviso { get; set; }
 

@@ -50,6 +50,8 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             var horariosViewModel = horarios.Select(horario => new HorarioViewModel
             {
                 Usuario = horario.Usuario.NomeCompleto,
+                Telefone = horario.Usuario.Telefone,
+                Email = horario.Usuario.Email,
                 Disciplina = horario.Disciplina.Nome,
                 DataAula = horario.DataAula
             }).ToList();

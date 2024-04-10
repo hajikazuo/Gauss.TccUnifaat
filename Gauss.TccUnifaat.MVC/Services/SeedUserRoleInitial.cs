@@ -52,8 +52,8 @@ namespace Gauss.TccUnifaat.MVC.Services
                 user.EmailConfirmed = true;
                 user.LockoutEnabled = false;
                 user.NomeCompleto = "aluno teste";
-                user.Cpf = "11111111111";
-                user.Telefone = "11911111111";
+                user.Cpf = "111.111.111-11";
+                user.Telefone = "(11) 91111-1111";
                 user.DataNascimento = new DateTime(2024, 1, 1);
                 user.SecurityStamp = Guid.NewGuid().ToString();
 
@@ -75,8 +75,8 @@ namespace Gauss.TccUnifaat.MVC.Services
                 user.EmailConfirmed = true;
                 user.LockoutEnabled = false;
                 user.NomeCompleto = "professor teste";
-                user.Cpf = "22222222222";
-                user.Telefone = "11922222222";
+                user.Cpf = "222.222.222-22";
+                user.Telefone = "(11) 92222-2222";
                 user.DataNascimento = new DateTime(2024, 1, 1);
                 user.SecurityStamp = Guid.NewGuid().ToString(); 
 
@@ -98,8 +98,8 @@ namespace Gauss.TccUnifaat.MVC.Services
                 user.EmailConfirmed = true;
                 user.LockoutEnabled = false;
                 user.NomeCompleto = "gauss admin";
-                user.Cpf = "33333333333";
-                user.Telefone = "11933333333";
+                user.Cpf = "333.333.333-33";
+                user.Telefone = "(11) 93333-3333";
                 user.DataNascimento = new DateTime(2024, 1, 1);
                 user.SecurityStamp = Guid.NewGuid().ToString();
 

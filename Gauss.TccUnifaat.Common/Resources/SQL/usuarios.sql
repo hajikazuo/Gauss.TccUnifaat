@@ -2,6 +2,7 @@
     u.Id as Id,
     u.NomeCompleto as NomeCompleto,
     u.Email as Email,
+    u.Telefone as Telefone,
     t.Nome as Turma, 
     r.Name as Funcao
 FROM 

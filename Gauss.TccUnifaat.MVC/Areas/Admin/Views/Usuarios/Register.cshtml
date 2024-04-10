@@ -42,12 +42,12 @@
 
                 <div class="form-group">
                     <label asp-for="Cpf"></label>
-                    <input asp-for="Cpf" class="form-control" id="cpf" />
+                    <input asp-for="Cpf" class="form-control" id="cpf" oninput="formatarCPF(this)" />
                 </div>
 
                 <div class="form-group">
                     <label asp-for="Telefone"></label>
-                    <input asp-for="Telefone" class="form-control" />
+                    <input asp-for="Telefone" class="form-control" oninput="formatarTelefone(this)" />
                     <span asp-validation-for="Telefone" class="text-danger"></span>
                 </div>
 
@@ -82,9 +82,35 @@
     }
 
     <script>
-        $(document).ready(function () {
-            $('#cpf').mask('000.000.000-00', { reverse: true });
-        });
+        function formatarCPF(campo) {
+            let value = campo.value.replace(/\D/g, '');
+            value = value.slice(0, 11); 
+
+            let formattedValue = value.replace(/(\d{3})(\d)/, "$1.$2")
+                .replace(/(\d{3})(\d)/, "$1.$2")
+                .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+
+            campo.value = formattedValue;
+        }
+
+        function formatarTelefone(campo) {
+            let value = campo.value.replace(/\D/g, ''); 
+            value = value.slice(0, 11); 
+
+            let formattedValue;
+
+            if (value.length <= 10) { 
+                formattedValue = value.replace(/(\d{2})(\d)/, "($1) $2")
+                    .replace(/(\d{4})(\d)/, "$1-$2")
+                    .replace(/(\d{4})-(\d)(\d{4})/, "$1$2-$3");
+            } else { 
+                formattedValue = value.replace(/(\d{2})(\d)/, "($1) $2")
+                    .replace(/(\d{5})(\d)/, "$1-$2")
+                    .replace(/(\d{4})-(\d)(\d{4})/, "$1$2-$3");
+            }
+
+            campo.value = formattedValue;
+        }
     </script>
 }
 

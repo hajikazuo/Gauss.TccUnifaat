@@ -12883,3 +12883,7 @@ body {
     width: 100% !important;
 }
 
+.link {
+    color: inherit;
+    text-decoration: none; 
+}
