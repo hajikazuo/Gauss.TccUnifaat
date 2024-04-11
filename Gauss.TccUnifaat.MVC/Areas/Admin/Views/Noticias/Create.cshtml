@@ -4,6 +4,7 @@
 @{
     var pageName = "Cadastrar";
     ViewData["Title"] = pageName;
+    ViewData["Category1"] = "Notícias";
     var tipoNoticiaOptions = Enum.GetValues(typeof(TipoNoticia))
         .Cast<TipoNoticia>()
         .Select(t => new SelectListItem

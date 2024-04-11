@@ -3,17 +3,10 @@
 @{
     var pageName = "Detalhes";
     ViewData["Title"] = pageName;
+    ViewData["Category1"] = "Usuários";
 }
 
 <div class="container-fluid mt-3">
-
-    <nav aria-label="breadcrumb" class="d-print-none">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Usuários</a></li>
-            @* <li class="breadcrumb-item"><a href="#">Library</a></li> *@
-            <li class="breadcrumb-item active" aria-current="page">@pageName</li>
-        </ol>
-    </nav>
 
     <button class="mb-3 btn btn-secondary d-print-none" onclick="GerarPDF()">Gerar PDF</button>
 

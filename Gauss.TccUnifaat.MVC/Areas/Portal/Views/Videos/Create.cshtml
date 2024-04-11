@@ -3,6 +3,7 @@
 @{
     var pageName = "Cadastrar";
     ViewData["Title"] = pageName;
+    ViewData["Category1"] = "GaussTube";
 }
 
 <div class="container-fluid mt-3">
@@ -23,10 +24,6 @@
                     <label asp-for="LinkYouTube" class="control-label"></label>
                     <input asp-for="LinkYouTube" class="form-control" />
                     <span asp-validation-for="LinkYouTube" class="text-danger"></span>
-                    <small id="linkYouTubeHelp" class="form-text text-muted">
-                        Insira apenas o ID do vídeo do YouTube, encontrado após "v=" no link.
-                        Por exemplo, para "https://www.youtube.com/watch?v=MfTsFI_m1NY", insira apenas "MfTsFI_m1NY".
-                    </small>
                 </div>
                 <div class="form-group mt-3">
                     <label asp-for="DisciplinaId" class="control-label"></label>

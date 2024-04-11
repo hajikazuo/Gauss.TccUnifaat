@@ -3,6 +3,7 @@
 @{
     var pageName = "Material de apoio";
     ViewData["Title"] = pageName;
+    ViewData["Category1"] = "Material de apoio";
 }
 
 <partial name="_MensagemPartial" />
@@ -17,7 +18,7 @@
             @if (User.Identity.IsAuthenticated && (User.IsInRole("Administrador") || User.IsInRole("Professor")))
             {
                 <p>
-                    <a class="btn btn-secondary" asp-action="Create">Cadastrar nova</a>
+                    <a class="btn btn-secondary" asp-action="Create">Cadastrar</a>
                 </p>
             }
             <table class="table table-bordered">

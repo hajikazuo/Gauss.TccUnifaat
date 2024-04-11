@@ -12,7 +12,7 @@ public class Video : IStatusModificacao
     public string Titulo { get; set; }
 
     [Required(ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.Required))]
-    [Display(Name = "ID do YouTube")]
+    [Display(Name = "Link do YouTube")]
     public string LinkYouTube { get; set; }
 
     [Display(Name = "Disciplina")]

@@ -5,11 +5,15 @@
 @{
     var pageName = "Dashboard";
     ViewData["Title"] = pageName;
+    ViewData["Category1"] = "Dashboard";
 }
 
 <div class="container-fluid mt-3">
+
+    <button class="mb-3 btn btn-secondary d-print-none" onclick="GerarPDF()">Gerar PDF</button>
+
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-4 py-5">
         <div class="card mb-4">
         <div class="card-header">
             <h2>Notícias</h2>
@@ -21,7 +25,7 @@
     </div>
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-4 py-5">
         
     <div class="card mb-4">
         <div class="card-header">
@@ -34,7 +38,7 @@
     </div>
     </div>
 
-    <div class="col-md-12">
+    <div class="col-md-4 py-5">
     <div class="card mb-4">
         <div class="card-header">
             <h2>Usuários por Turma</h2>

@@ -17,7 +17,7 @@
             @if (User.Identity.IsAuthenticated && (User.IsInRole("Administrador") || User.IsInRole("Professor")))
             {
                 <p>
-                    <a class="btn btn-secondary" asp-action="Create">Cadastrar nova</a>
+                    <a class="btn btn-secondary" asp-action="Create">Cadastrar</a>
                 </p>
             }
             <table class="table table-bordered">

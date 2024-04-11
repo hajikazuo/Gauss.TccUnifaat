@@ -3,6 +3,7 @@
 @{
     var pageName = "Lista de turmas";
     ViewData["Title"] = pageName;
+    ViewData["Category1"] = "Turmas";
 }
 
 <div class="container-fluid mt-3">
@@ -14,7 +15,7 @@
         <div class="card-body">
 
             <p>
-                <a class="btn btn-secondary" asp-action="Create">Cadastrar nova</a>
+                <a class="btn btn-secondary" asp-action="Create">Cadastrar</a>
             </p>
 
             <table id="myTable" class="table table-bordered">

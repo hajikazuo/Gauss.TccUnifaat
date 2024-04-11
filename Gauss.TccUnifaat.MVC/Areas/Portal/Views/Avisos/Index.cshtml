@@ -3,6 +3,7 @@
 @{
     var pageName = "Lista de avisos";
     ViewData["Title"] = pageName;
+    ViewData["Category1"] = "Avisos";
 }
 
 <partial name="_MensagemPartial" />
@@ -16,7 +17,7 @@
         <div class="card-body">
 
             <p>
-                <a class="btn btn-secondary" asp-action="Create">Cadastrar nova</a>
+                <a class="btn btn-secondary" asp-action="Create">Cadastrar</a>
             </p>
             <table class="table table-bordered">
                 <thead>

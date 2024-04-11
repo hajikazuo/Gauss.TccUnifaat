@@ -1,0 +1,16 @@
+﻿@if (ViewBag.Category1?.Length > 0)
+{
+    <nav aria-label="breadcrumb" class="d-print-none p-3">
+        <ol class="breadcrumb">
+            @if (ViewBag.Category1?.Length > 0)
+            {
+                <li class="breadcrumb-item"><a asp-action="Index" class="link">@ViewBag.Category1</a></li>
+            }
+            @if (ViewBag.Category2?.Length > 0)
+            {
+                <li class="breadcrumb-item">@ViewBag.Category2</li>
+            }
+            <li class="breadcrumb-item active" aria-current="page">@ViewBag.Title</li>
+        </ol>
+    </nav>
+}

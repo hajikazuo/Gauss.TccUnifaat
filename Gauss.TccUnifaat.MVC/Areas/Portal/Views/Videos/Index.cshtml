@@ -3,17 +3,16 @@
 @{
     var pageName = "GaussTube";
     ViewData["Title"] = pageName;
+    ViewData["Category1"] = "GaussTube";
 }
 
 <partial name="_MensagemPartial" />
 
 <div class="container-fluid mt-3">
-    <h1 class="text-center py-5">GaussTube</h1>
-
     @if (User.Identity.IsAuthenticated && (User.IsInRole("Administrador") || User.IsInRole("Professor")))
     {
         <p>
-            <a class="btn btn-secondary" asp-action="Create">Cadastrar nova</a>
+            <a class="btn btn-secondary" asp-action="Create">Cadastrar</a>
         </p>
     }
 </div>
@@ -33,7 +32,7 @@
                             @if (!string.IsNullOrEmpty(video.LinkYouTube))
                             {
                                 <h3>@video.Titulo</h3>
-                                <iframe width="100%" height="200" src="https://www.youtube.com/embed/@video.LinkYouTube" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                <iframe width="100%" height="300" src="https://www.youtube.com/embed/@video.LinkYouTube" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                             }
                             else
                             {

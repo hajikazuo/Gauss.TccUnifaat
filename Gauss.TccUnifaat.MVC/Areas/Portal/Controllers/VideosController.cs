@@ -74,6 +74,8 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("VideoId,Titulo,LinkYouTube,DisciplinaId")] Video video)
         {
+            video.LinkYouTube = ExtractYouTubeVideoId(video.LinkYouTube);
+
             if (ModelState.IsValid)
             {
                 video.VideoId = _comb.Create();
@@ -113,6 +115,8 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             {
                 return NotFound();
             }
+
+            video.LinkYouTube = ExtractYouTubeVideoId(video.LinkYouTube);
 
             if (ModelState.IsValid)
             {
@@ -175,6 +179,28 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
         private bool VideoExists(Guid id)
         {
             return _context.Videos.Any(e => e.VideoId == id);
+        }
+
+        private string ExtractYouTubeVideoId(string youtubeLink)
+        {
+            try
+            {
+                string[] parts = youtubeLink.Split('=');
+
+                string videoId = parts[parts.Length - 1];
+
+                int ampersandIndex = videoId.IndexOf('&');
+                if (ampersandIndex != -1)
+                {
+                    videoId = videoId.Substring(0, ampersandIndex);
+                }
+
+                return videoId;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
         }
     }
 }
