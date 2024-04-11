@@ -40,7 +40,12 @@
                             <td>@usuario.Turma</td>
                             <td>@usuario.Funcao</td>
                             <td>
-                                <a asp-action="Delete" asp-route-id="@usuario.Id" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                                <div class="btn-group">
+                                    <a asp-action="Details" asp-route-id="@usuario.Id" class="btn btn-primary"><i class="fa-solid fa-circle-info"></i></a>
+                                    <a asp-action="Delete" asp-route-id="@usuario.Id" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                                </div>
+
+                                
                             </td>
                         </tr>
                     }

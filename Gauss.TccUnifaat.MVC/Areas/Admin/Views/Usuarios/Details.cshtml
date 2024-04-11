@@ -1,0 +1,57 @@
+﻿@model Gauss.TccUnifaat.Common.Models.Usuario
+
+@{
+    var pageName = "Detalhes";
+    ViewData["Title"] = pageName;
+}
+
+<div class="container-fluid mt-3">
+
+    <nav aria-label="breadcrumb" class="d-print-none">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item"><a href="#">Library</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Data</li>
+        </ol>
+    </nav>
+
+    <button class="mb-3 btn btn-secondary d-print-none" onclick="GerarRelatorio()">Gerar relatório</button>
+
+    <div class="card mb-4" id="reportContent">
+        <div class="card-header">
+            <h1>@pageName</h1>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Nome Completo</th>
+                        <th>Email</th>
+                        <th>Telefone</th>
+                        <th>Idade</th>
+                        <th>CPF</th>
+                        <th>Data de nascimento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@Model.NomeCompleto</td>
+                        <td>@Model.Email</td>
+                        <td>@Model.Telefone</td>
+                        <td>@Model.Idade</td>
+                        <td>@Model.Cpf</td>
+                        <td>@Model.DataNascimento.ToString("dd'/'MM'/'yyyy")</td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    function GerarRelatorio() {
+        window.print()
+    }
+</script>

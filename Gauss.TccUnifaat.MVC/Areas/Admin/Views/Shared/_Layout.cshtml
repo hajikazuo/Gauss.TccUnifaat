@@ -13,7 +13,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="sb-nav-fixed">
-    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark d-print-none">
         <a class="navbar-brand ps-3" href="/admin"><img class="logo" src="~/img/logo.png" /></a>
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
         <ul class="navbar-nav ms-auto">
@@ -31,7 +31,7 @@
         </ul>
     </nav>
     <div id="layoutSidenav">
-        <div id="layoutSidenav_nav">
+        <div id="layoutSidenav_nav" class="d-print-none">
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
@@ -79,7 +79,7 @@
                 @RenderBody()
             </main>
             <footer class="py-4 bg-light mt-auto">
-                <div class="container-fluid px-4">
+                <div class="container-fluid px-4 d-print-none">
                     <div class="d-flex align-items-center justify-content-between small">
                         <div class="text-muted">Desenvolvido por <strong>Nilton Kazuo</strong> &amp; <strong>Paulo Araújo</strong></div>
                     </div>

@@ -37,6 +37,24 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
             return View(Usuarios);
         }
 
+        public async Task<IActionResult> Details(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var usuario = await _context.Usuarios
+                .FirstOrDefaultAsync(u => u.Id == id);
+
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+
+            return View(usuario);
+        }
+
         [HttpGet]
         public IActionResult Register()
         {
