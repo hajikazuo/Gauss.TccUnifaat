@@ -9,6 +9,7 @@ using Gauss.TccUnifaat.Common.Models;
 using Gauss.TccUnifaat.Data;
 using Microsoft.AspNetCore.Identity;
 using Gauss.TccUnifaat.Controllers;
+using Gauss.TccUnifaat.MVC.Extensions;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 {
@@ -81,7 +82,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 
             await _context.SaveChangesAsync();
 
-            TempData["PresencaSalva"] = true;
+            this.MostrarMensagem("Presença salva com sucesso!.");
 
             return RedirectToAction(nameof(Create));
         }

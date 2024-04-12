@@ -1,20 +1,17 @@
-﻿@model IEnumerable<Gauss.TccUnifaat.Common.Models.Turma>
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<Usuario> UserManager
+
+@model IEnumerable<Gauss.TccUnifaat.Common.Models.Turma>
 
 @{
     var pageName = "Cadastrar";
     ViewData["Title"] = pageName;
+    ViewData["Category1"] = "Presenças";
     var presencaSalva = TempData["PresencaSalva"] as bool?;
     var minhaTurma = Model.FirstOrDefault();
 }
 
-@if (presencaSalva.HasValue && presencaSalva.Value)
-{
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        Presença salva com sucesso!
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-}
-
+<partial name="_MensagemPartial" />
 
 <div class="container-fluid mt-3">
 
@@ -62,15 +59,19 @@
                                 {
                                     @foreach (var usuario in turma.Usuarios)
                                     {
-                                        <tr>
-                                            <td>
-                                                @usuario.NomeCompleto
-                                            </td>
-                                            <td>
-                                                <input type="checkbox" class="form-check-input" name="presenca[@usuario.Id]" value="true" />
-                                                <input type="hidden" name="presenca[@usuario.Id]" value="false" />
-                                            </td>
-                                        </tr>
+                                        var isAluno = await UserManager.IsInRoleAsync(usuario, "Aluno");
+                                        if (isAluno)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @usuario.NomeCompleto
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" class="form-check-input" name="presenca[@usuario.Id]" value="true" />
+                                                    <input type="hidden" name="presenca[@usuario.Id]" value="false" />
+                                                </td>
+                                            </tr>
+                                        }
                                     }
                                 }
                             </tbody>

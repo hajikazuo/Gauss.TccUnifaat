@@ -8,32 +8,24 @@
 
 <div class="container-fluid mt-3">
 
-    <p><strong>Olá, @User.Identity.Name!</strong></p>
     <h1 class="text-center py-5">Seja bem-vindo ao portal do Gauss!!</h1>
 
-    <div class="card mb-4">
-        <div class="card-header">
-            <h1>Avisos</h1>
-        </div>
-        <div class="card-body">
-            <div class="row">
+    <div class="row">
 
-                @foreach (var aviso in Model.Avisos)
-                {
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card bg-primary bg-opacity-50 text-white mb-4 h-100">
-                            <div class="card-body">
-                                <h5 class="card-title">@aviso.Titulo</h5>
-                                <p class="card-text">@aviso.Descricao</p>
-                            </div>
-                            <div class="card-footer d-flex align-items-center justify-content-between">
-                                <p class="card-text">Data do Aviso: @aviso.DataAviso.ToShortDateString()</p>
-                            </div>
+        @foreach (var aviso in Model.Avisos)
+        {
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card radius-10 border-start border-0 border-3 border-dark h-100 shadow-lg">
+                    <div class="card-body">
+                        <div class="font-weight-bold text-uppercase mb-1" style="font-size:11px">
+                            @aviso.DataAviso.ToShortDateString()
                         </div>
+                        <h5 class="card-title">@aviso.Titulo</h5>
+                        <p class="card-text">@aviso.Descricao</p>
                     </div>
-                }
+                </div>
             </div>
-        </div>
+        }
     </div>
 
     <div class="card mb-4">
@@ -41,29 +33,20 @@
             <h1>Horários</h1>
         </div>
         <div class="card-body">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Professor</th>
-                        <th>Telefone</th>
-                        <th>Email</th>
-                        <th>Disciplina</th>
-                        <th>Data</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var horario in Model.Horarios)
-                    {
-                        <tr>
-                            <td>@horario.Usuario</td>
-                            <td><a href="tel:@horario.Telefone" class="link">@horario.Telefone</a></td>
-                            <td><a href="mailto:@horario.Email" class="link">@horario.Email</a></td>
-                            <td>@horario.Disciplina</td>
-                            <td>@horario.DataAula</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+            <ul class="list-group">
+                @foreach (var horario in Model.Horarios)
+                {
+                    <li class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1"> Professor: @horario.Usuario</h5>
+                            <small>Horário: @horario.DataAula</small>
+                        </div>
+                        <p class="mb-1">Disciplina: @horario.Disciplina</p>
+                        <p class="mb-1">Telefone: <a href="tel:@horario.Telefone" class="link">@horario.Telefone</a></p>
+                        <p class="mb-1">Email: <a href="mailto:@horario.Email" class="link">@horario.Email</a></p>
+                    </li>
+                }
+            </ul>
         </div>
     </div>
 

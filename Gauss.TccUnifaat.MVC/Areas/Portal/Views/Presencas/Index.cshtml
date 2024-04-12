@@ -3,6 +3,7 @@
 @{
     var pageName = "Lista de presenças";
     ViewData["Title"] = pageName;
+    ViewData["Category1"] = "Presenças";
 }
 
 <div class="container-fluid mt-3">
@@ -17,17 +18,14 @@
                 </div>
             </div>
         </form>
-
-        <p>Data Atual: @ViewBag.DataAtual.ToString("dd/MM/yyyy")</p>
-        <p>Data do Filtro: @ViewBag.DataFiltro.ToString("dd/MM/yyyy")</p>
     </div>
 
     <div class="card mb-4">
         <div class="card-header">
-            <h1>@pageName</h1>
+            <h1>@pageName: @ViewBag.DataFiltro.ToString("dd/MM/yyyy")</h1>
         </div>
         <div class="card-body">
-            <table class="table">
+            <table class="table table-bordered">
                 <thead>
                     <tr>
                         <th>Nome do Aluno</th>
