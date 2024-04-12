@@ -57,7 +57,7 @@ namespace Gauss.TccUnifaat.MVC.Services
                 user.DataNascimento = new DateTime(2024, 1, 1);
                 user.SecurityStamp = Guid.NewGuid().ToString();
 
-                IdentityResult result = _userManager.CreateAsync(user, "Gauss#2024").Result;
+                IdentityResult result = _userManager.CreateAsync(user, "Gauss@2024").Result;
 
                 if (result.Succeeded)
                 {
@@ -80,7 +80,7 @@ namespace Gauss.TccUnifaat.MVC.Services
                 user.DataNascimento = new DateTime(2024, 1, 1);
                 user.SecurityStamp = Guid.NewGuid().ToString(); 
 
-                IdentityResult result = _userManager.CreateAsync(user, "Gauss#2024").Result;
+                IdentityResult result = _userManager.CreateAsync(user, "Gauss@2024").Result;
 
                 if (result.Succeeded)
                 {

@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+﻿using Dapper;
 using Gauss.TccUnifaat.Common.Models;
-using Gauss.TccUnifaat.Data;
-using Microsoft.AspNetCore.Identity;
 using Gauss.TccUnifaat.Controllers;
+using Gauss.TccUnifaat.Data;
+using Gauss.TccUnifaat.MVC.Dapper;
 using Gauss.TccUnifaat.MVC.Extensions;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 {
@@ -24,7 +21,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             _userManager = userManager;
         }
 
-    public async Task<IActionResult> Index(DateTime? dataFiltro = null)
+        public async Task<IActionResult> Index(DateTime? dataFiltro = null)
         {
             var currentUser = await _userManager.GetUserAsync(User);
             var turmaIdDoUsuario = currentUser.TurmaId;
@@ -46,6 +43,14 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             return View(presencasNaTurma);
         }
 
+        public async Task<IActionResult> ControleFaltas()
+        {
+            var sqlControleFatas = Common.Resources.querys.controle_faltas;
+            var conn = _context.Database.GetDbConnection();
+            var ControleFaltas = conn.Query<ControleFaltasViewModel>(sqlControleFatas);
+
+            return View(ControleFaltas);
+        }
 
         public async Task<IActionResult> Create(DateTime dataAula)
         {
