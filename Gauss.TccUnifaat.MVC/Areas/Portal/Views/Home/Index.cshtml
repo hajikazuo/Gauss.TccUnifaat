@@ -1,7 +1,7 @@
 ﻿@model Gauss.TccUnifaat.MVC.ViewModels.HomePortalViewModel
 
 @{
-    var pageName = "Home";
+    var pageName = "Bem-vindo";
     ViewData["Title"] = pageName;
     ViewData["Category1"] = "Home";
 }
@@ -42,8 +42,8 @@
                             <small>Horário: @horario.DataAula</small>
                         </div>
                         <p class="mb-1">Disciplina: @horario.Disciplina</p>
-                        <p class="mb-1">Telefone: <a href="tel:@horario.Telefone" class="link">@horario.Telefone</a></p>
-                        <p class="mb-1">Email: <a href="mailto:@horario.Email" class="link">@horario.Email</a></p>
+                        <p class="mb-1"><i class="fa-brands fa-whatsapp"></i> <a href="tel:@horario.Telefone" class="link">@horario.Telefone</a></p>
+                        <p class="mb-1"><i class="fa-solid fa-envelope"></i> <a href="mailto:@horario.Email" class="link">@horario.Email</a></p>
                     </li>
                 }
             </ul>
