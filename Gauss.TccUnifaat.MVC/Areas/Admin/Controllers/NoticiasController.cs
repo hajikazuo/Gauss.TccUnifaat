@@ -11,6 +11,7 @@ using System.Security.Claims;
 using Gauss.TccUnifaat.Common.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Gauss.TccUnifaat.Controllers;
+using Gauss.TccUnifaat.MVC.Extensions;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
 {
@@ -61,6 +62,24 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
             return View(noticia);
         }
 
+        public bool ValidaImagem(IFormFile anexo)
+        {
+            switch (anexo.ContentType)
+            {
+                case "image/jpeg":
+                    return true;
+                case "image/bmp":
+                    return true;
+                case "image/gif":
+                    return true;
+                case "image/png":
+                    return true;
+                default:
+                    return false;
+                    break;
+            }
+        }
+
         // GET: Admin/Noticias/Create
         public IActionResult Create()
         {
@@ -77,6 +96,12 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
+                if (!ValidaImagem(anexo))
+                {
+                    this.MostrarMensagem($"Formato de arquivo inválido.", erro: true);
+                    return View();
+                }    
+
                 if (anexo != null && anexo.Length > 0)
                 {
                     noticia.Foto = await SalvarArquivo(anexo);
@@ -123,6 +148,12 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
             if (id != noticia.NoticiaId)
             {
                 return NotFound();
+            }
+
+            if (!ValidaImagem(anexo))
+            {
+                this.MostrarMensagem($"Formato de arquivo inválido.", erro: true);
+                return View();
             }
 
             try

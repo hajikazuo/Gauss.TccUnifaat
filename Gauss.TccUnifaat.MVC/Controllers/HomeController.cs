@@ -24,7 +24,10 @@ namespace Gauss.TccUnifaat.Controllers
         {
             var noticiasDaCamadaDeDados = _context.Noticias.ToList();
 
-            var noticiasViewModel = noticiasDaCamadaDeDados.Select(noticia => new NoticiasViewModel
+            var noticiasViewModel = noticiasDaCamadaDeDados
+                .OrderByDescending(noticia => noticia.DataCadastro)
+                .Take(3)
+                .Select(noticia => new NoticiasViewModel
             {
                 Titulo = noticia.Titulo,
                 Conteudo = noticia.Conteudo,
