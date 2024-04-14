@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Rotativa.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -107,6 +108,8 @@ app.UseEndpoints(endpoints =>
        pattern: "{controller=Home}/{action=Index}/{id?}"
    );
 });
+
+app.UseRotativa();
 #pragma warning restore ASP0014 // Suggest using top level route registrations
 
 
