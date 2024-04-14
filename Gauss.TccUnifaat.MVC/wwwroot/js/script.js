@@ -34,6 +34,3 @@ window.addEventListener('DOMContentLoaded', event => {
     });
 });
 
-function GerarPDF() {
-    window.print()
-}

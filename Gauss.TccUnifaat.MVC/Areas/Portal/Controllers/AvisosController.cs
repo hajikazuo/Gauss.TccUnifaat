@@ -18,17 +18,25 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
     [Area("Portal")]
     public class AvisosController : ControllerBase<ApplicationDbContext, RT.Comb.ICombProvider>
     {
+        private readonly UserManager<Usuario> _userManager;
+
         public AvisosController(ApplicationDbContext context
-            , RT.Comb.ICombProvider comb
+            , RT.Comb.ICombProvider comb, UserManager<Usuario> userManager
             ) : base(context, comb)
         {
+            _userManager = userManager;
         }
 
         // GET: Portal/Avisos
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Avisos.Include(a => a.Turma);
-            return View(await applicationDbContext.ToListAsync());
+            var currentUser = await _userManager.GetUserAsync(User);
+            var avisosDaTurma = await _context.Avisos
+           .Where(m => m.TurmaId == currentUser.TurmaId)
+           .ToListAsync();
+
+
+            return View(avisosDaTurma);
         }
 
         // GET: Portal/Avisos/Details/5

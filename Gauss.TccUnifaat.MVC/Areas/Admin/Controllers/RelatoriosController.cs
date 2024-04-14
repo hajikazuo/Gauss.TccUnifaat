@@ -20,15 +20,43 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
         {
             _context = context;
         }
-        public IActionResult RelatorioExemplo1()
+
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        public IActionResult RelatorioQtdFuncao()
         {
             var sqlUsuarios = Common.Resources.querys.usuarios_dashboard;
-            var conn2 = _context.Database.GetDbConnection();
-            var usuarios = conn2.Query<DashboardUsuariosViewModel>(sqlUsuarios);
+            var conn = _context.Database.GetDbConnection();
+            var usuarios = conn.Query<DashboardUsuariosViewModel>(sqlUsuarios);
 
             ViewBag.Usuarios = usuarios;
 
             return  new ViewAsPdf(usuarios);
+        }
+
+        public IActionResult RelatorioUsuariosPorTurma()
+        {
+            var sqlUsuariosPorTurma = Common.Resources.querys.usuariosPorTurma_dashboard;
+            var conn = _context.Database.GetDbConnection();
+            var usuarios = conn.Query<UsuariosViewModel>(sqlUsuariosPorTurma);
+
+            ViewBag.Usuarios = usuarios;
+
+            return new ViewAsPdf(usuarios);
+        }
+
+        public IActionResult RelatorioFaltas()
+        {
+            var sqlControleFaltas = Common.Resources.querys.controle_faltas;
+            var conn = _context.Database.GetDbConnection();
+            var faltas = conn.Query<ControleFaltasViewModel>(sqlControleFaltas);
+
+            ViewBag.Usuarios = faltas;
+
+            return new ViewAsPdf(faltas);
         }
     }
 }

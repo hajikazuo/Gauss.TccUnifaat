@@ -11,24 +11,25 @@
 </head>
 <body>
     <header>
-        <h1>Relatório</h1>
+        <h1>Relatório - Quantidade de faltas</h1>
     </header>
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Função</th>
-                <th>Quantidade</th>
+                <th>Nome do Usuário</th>
+                <th>Quantidade de Faltas</th>
+                <th>Turma</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var usuario in Model)
+            @foreach (var item in Model)
             {
                 <tr>
-                    <td>@usuario.Funcao</td>
-                    <td>@usuario.QuantidadeUsuarios</td>
+                    <td>@item.NomeCompleto</td>
+                    <td>@item.QtdeFaltas</td>
+                    <td>@item.NomeTurma</td>
                 </tr>
             }
-        </tbody>
         </tbody>
     </table>
 </body>
