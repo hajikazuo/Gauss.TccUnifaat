@@ -45,11 +45,16 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 
         public async Task<IActionResult> ControleFaltas()
         {
-            var sqlControleFatas = Common.Resources.querys.controle_faltas;
+            var sqlControleFaltas = Common.Resources.querys.controle_faltas;
             var conn = _context.Database.GetDbConnection();
-            var ControleFaltas = conn.Query<ControleFaltasViewModel>(sqlControleFatas);
+            var ControleFaltas = conn.Query<ControleFaltasViewModel>(sqlControleFaltas);
 
-            return View(ControleFaltas);
+            var currentUser = await _userManager.GetUserAsync(User);
+            var turmaIdDoUsuario = currentUser.TurmaId;
+
+            var controleFaltasNaTurma = ControleFaltas.Where(cf => cf.TurmaId == turmaIdDoUsuario);
+
+            return View(controleFaltasNaTurma);
         }
 
         public async Task<IActionResult> Create(DateTime dataAula)
