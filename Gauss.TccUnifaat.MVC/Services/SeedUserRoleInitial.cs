@@ -42,13 +42,13 @@ namespace Gauss.TccUnifaat.MVC.Services
 
         public void SeedUsers()
         {
-            if (_userManager.FindByEmailAsync("usuario@localhost").Result == null)
+            if (_userManager.FindByEmailAsync("usuario@gauss.com.br").Result == null)
             {
                 Usuario user = new Usuario();
-                user.UserName = "usuario@localhost";
-                user.Email = "usuario@localhost";
-                user.NormalizedUserName = "USUARIO@LOCALHOST";
-                user.NormalizedEmail = "USUARIO@LOCALHOST";
+                user.UserName = "usuario@gauss.com.br";
+                user.Email = "usuario@gauss.com.br";
+                user.NormalizedUserName = "USUARIO@GAUSS.COM.BR";
+                user.NormalizedEmail = "USUARIO@GAUSS.COM.BR";
                 user.EmailConfirmed = true;
                 user.LockoutEnabled = false;
                 user.NomeCompleto = "aluno teste";
@@ -65,13 +65,13 @@ namespace Gauss.TccUnifaat.MVC.Services
                 }
             }
 
-            if (_userManager.FindByEmailAsync("professor@localhost").Result == null)
+            if (_userManager.FindByEmailAsync("professor@gauss.com.br").Result == null)
             {
                 Usuario user = new Usuario();
-                user.UserName = "professor@localhost";
-                user.Email = "professor@localhost";
-                user.NormalizedUserName = "PROFESSOR@LOCALHOST";
-                user.NormalizedEmail = "PROFESSOR@LOCALHOST";
+                user.UserName = "professor@gauss.com.br";
+                user.Email = "professor@gauss.com.br";
+                user.NormalizedUserName = "PROFESSOR@GAUSS.COM.BR";
+                user.NormalizedEmail = "PROFESSOR@GAUSS.COM.BR";
                 user.EmailConfirmed = true;
                 user.LockoutEnabled = false;
                 user.NomeCompleto = "professor teste";

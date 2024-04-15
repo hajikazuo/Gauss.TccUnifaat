@@ -9,24 +9,31 @@ using Gauss.TccUnifaat.Common.Models;
 using Gauss.TccUnifaat.Data;
 using Gauss.TccUnifaat.Controllers;
 using Gauss.TccUnifaat.MVC.Extensions;
+using Microsoft.AspNetCore.Identity;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 {
     [Area("Portal")]
     public class VideosController : ControllerBase<ApplicationDbContext, RT.Comb.ICombProvider>
     {
+        private readonly UserManager<Usuario> _userManager;
         public VideosController(ApplicationDbContext context
-            , RT.Comb.ICombProvider comb
+            , RT.Comb.ICombProvider comb, UserManager<Usuario> userManager
             ) : base(context, comb)
         {
+            _userManager = userManager;
         }
 
         // GET: Portal/Videos
         public async Task<IActionResult> Index()
         {
+
+            var currentUser = await _userManager.GetUserAsync(User);
+
             var videosPorDisciplina = await _context.Videos
+                .Where(v => v.Disciplina.TurmaId == currentUser.TurmaId)
                 .Include(v => v.Disciplina)
-                .GroupBy(v => v.Disciplina.Nome) 
+                .GroupBy(v => v.Disciplina.Nome)
                 .ToListAsync();
 
             return View(videosPorDisciplina);
