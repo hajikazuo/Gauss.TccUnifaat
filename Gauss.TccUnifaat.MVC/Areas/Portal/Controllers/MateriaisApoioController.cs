@@ -98,6 +98,9 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["DisciplinaId"] = new SelectList(_context.Disciplinas, "DisciplinaId", "Nome", materialApoio.DisciplinaId);
+
+            ModelState.AddModelError(string.Empty, "O campo arquivo é obrigatório.");
+
             return View(materialApoio);
         }
 

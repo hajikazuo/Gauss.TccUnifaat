@@ -55,6 +55,8 @@ namespace Gauss.TccUnifaat.Controllers
 
             var noticiasViewModel = noticiasDaCamadaDeDados
                 .Where(n => n.TipoNoticia == TipoNoticia.Cursinho)
+                .OrderByDescending(noticia => noticia.DataCadastro)
+                .Take(3)
                 .Select(noticia => new NoticiasViewModel
                 {
                     Titulo = noticia.Titulo,
@@ -72,6 +74,8 @@ namespace Gauss.TccUnifaat.Controllers
 
             var noticiasViewModel = noticiasDaCamadaDeDados
                 .Where(n => n.TipoNoticia == TipoNoticia.Programacao)
+                .OrderByDescending(noticia => noticia.DataCadastro)
+                .Take(3)
                 .Select(noticia => new NoticiasViewModel
                 {
                     Titulo = noticia.Titulo,

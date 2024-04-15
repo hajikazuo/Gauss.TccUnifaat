@@ -96,14 +96,14 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                if (!ValidaImagem(anexo))
-                {
-                    this.MostrarMensagem($"Formato de arquivo inválido.", erro: true);
-                    return View();
-                }    
-
+                
                 if (anexo != null && anexo.Length > 0)
                 {
+                    if (!ValidaImagem(anexo))
+                    {
+                        this.MostrarMensagem($"Formato de arquivo inválido.", erro: true);
+                        return View();
+                    }
                     noticia.Foto = await SalvarArquivo(anexo);
                 }
 
@@ -116,6 +116,8 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
             }
 
             ViewData["TipoNoticia"] = ControllerEnumsExtensions.MontarSelectListParaEnum2(noticia.TipoNoticia, true);
+
+            ModelState.AddModelError(string.Empty, "O campo foto é obrigatório.");
 
             return View(noticia);
         }
@@ -150,12 +152,6 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            if (!ValidaImagem(anexo))
-            {
-                this.MostrarMensagem($"Formato de arquivo inválido.", erro: true);
-                return View();
-            }
-
             try
             {
                 var noticiaExistente = await _context.Noticias.FindAsync(id);
@@ -164,6 +160,12 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
                 {
                     if (anexo != null && anexo.Length > 0)
                     {
+                        if (!ValidaImagem(anexo))
+                        {
+                            this.MostrarMensagem($"Formato de arquivo inválido.", erro: true);
+                            return View();
+                        }
+
                         noticia.Foto = await SalvarArquivo(anexo);
                     }
                     else
