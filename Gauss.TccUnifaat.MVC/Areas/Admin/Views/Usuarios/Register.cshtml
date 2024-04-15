@@ -3,8 +3,13 @@
 
 @{
     var pageName = "Cadastrar";
-    ViewData["Title"] = pageName;
     ViewData["Category1"] = "Usuários";
+
+    bool alterando = Context.Request.RouteValues.ContainsKey("id");
+    if (alterando)
+        ViewBag.Titulo = "Alteração de Usuário";
+    else
+        ViewBag.Titulo = "Cadastro de Usuário";
 }
 
 <div class="container-fluid mt-3">
@@ -28,19 +33,20 @@
                     <input asp-for="Email" class="form-control" />
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
+                @if (!alterando)
+                {
+                    <div class="form-group">
+                        <label asp-for="Password"></label>
+                        <input asp-for="Password" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
 
-                <div class="form-group">
-                    <label asp-for="Password"></label>
-                    <input asp-for="Password" class="form-control" />
-                    <span asp-validation-for="Password" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
-                    <label asp-for="ConfirmPassword"></label>
-                    <input asp-for="ConfirmPassword" class="form-control" />
-                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                </div>
-
+                    <div class="form-group">
+                        <label asp-for="ConfirmPassword"></label>
+                        <input asp-for="ConfirmPassword" class="form-control" />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+                }
                 <div class="form-group">
                     <label asp-for="Cpf"></label>
                     <input asp-for="Cpf" class="form-control" id="cpf" oninput="formatarCPF(this)" />
@@ -85,7 +91,7 @@
     <script>
         function formatarCPF(campo) {
             let value = campo.value.replace(/\D/g, '');
-            value = value.slice(0, 11); 
+            value = value.slice(0, 11);
 
             let formattedValue = value.replace(/(\d{3})(\d)/, "$1.$2")
                 .replace(/(\d{3})(\d)/, "$1.$2")
@@ -95,16 +101,16 @@
         }
 
         function formatarTelefone(campo) {
-            let value = campo.value.replace(/\D/g, ''); 
-            value = value.slice(0, 11); 
+            let value = campo.value.replace(/\D/g, '');
+            value = value.slice(0, 11);
 
             let formattedValue;
 
-            if (value.length <= 10) { 
+            if (value.length <= 10) {
                 formattedValue = value.replace(/(\d{2})(\d)/, "($1) $2")
                     .replace(/(\d{4})(\d)/, "$1-$2")
                     .replace(/(\d{4})-(\d)(\d{4})/, "$1$2-$3");
-            } else { 
+            } else {
                 formattedValue = value.replace(/(\d{2})(\d)/, "($1) $2")
                     .replace(/(\d{5})(\d)/, "$1-$2")
                     .replace(/(\d{4})-(\d)(\d{4})/, "$1$2-$3");

@@ -55,36 +55,82 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
             return View(usuario);
         }
 
-        [HttpGet]
-        public IActionResult Register()
+        //[HttpGet]
+        //public IActionResult Register()
+        //{
+        //    return View();
+        //}
+
+        public async Task<IActionResult> Register(Guid? id)
         {
-            return View();
+            if (id.HasValue)
+            {
+                var usuario = await _userManager.FindByIdAsync(id.ToString());
+                if (usuario == null)
+                {
+                    ModelState.AddModelError(string.Empty, "Usuário não encontrado.");
+                    return RedirectToAction("Index", "Home");
+                }
+
+                var usuarioVM = new RegisterViewModel
+                {
+                    NomeCompleto = usuario.NomeCompleto,
+                    DataNascimento = usuario.DataNascimento,
+                    Cpf = usuario.Cpf,
+                    Email = usuario.Email,
+                    Telefone = usuario.Telefone
+                };
+
+                return View(usuarioVM);
+            }
+            return View(new RegisterViewModel());
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel model)
+        public async Task<IActionResult> Register(RegisterViewModel model, Guid? id)
         {
             if (ModelState.IsValid)
             {
-                var user = new Usuario
+                Usuario user;
+                if (id != null && EntidadeExiste(id.Value))
                 {
-                    UserName = model.Email,
-                    Email = model.Email,
-                    NomeCompleto = model.NomeCompleto,
-                    Cpf = model.Cpf,
-                    Telefone = model.Telefone,
-                    DataNascimento = model.DataNascimento,
-                    EmailConfirmed = true
-                };
+                    user = await _userManager.FindByIdAsync(id.Value.ToString());
+                    if (user == null)
+                    {
+                        return NotFound();
+                    }
 
-                var result = await _userManager.CreateAsync(user, model.Password);
+                    user.UserName = model.Email;
+                    user.Email = model.Email;
+                    user.NomeCompleto = model.NomeCompleto;
+                    user.Cpf = model.Cpf;
+                    user.Telefone = model.Telefone;
+                    user.DataNascimento = model.DataNascimento;
+                }
+                else
+                {
+                    user = new Usuario
+                    {
+                        UserName = model.Email,
+                        Email = model.Email,
+                        NomeCompleto = model.NomeCompleto,
+                        Cpf = model.Cpf,
+                        Telefone = model.Telefone,
+                        DataNascimento = model.DataNascimento,
+                        EmailConfirmed = true
+                    };
+                }
+
+                var result = id != null ? await _userManager.UpdateAsync(user) : await _userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(user, model.SelectedRole);
+                    if (model.SelectedRole != null)
+                    {
+                        await _userManager.AddToRoleAsync(user, model.SelectedRole);
+                    }
 
                     return RedirectToAction("Index", new { area = "Admin" });
-
                 }
 
                 foreach (var error in result.Errors)
@@ -95,6 +141,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
 
             return View(model);
         }
+
 
         public async Task<IActionResult> Delete(Guid? id)
         {
