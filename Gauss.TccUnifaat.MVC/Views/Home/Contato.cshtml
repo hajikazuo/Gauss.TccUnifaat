@@ -39,28 +39,6 @@
             </div>
         </div>
 
-        <div class="row gx-5 row-cols-2 row-cols-lg-4 py-5">
-            <div class="col">
-                <div class="feature bg-danger bg-gradient text-white rounded-3 mb-3"><i class="fa-regular fa-comment"></i></div>
-                <div class="h5 mb-2">Converse conosco</div>
-                <p class="text-muted mb-0">Nos envie sugestões, dicas e críticas.</p>
-            </div>
-            <div class="col">
-                <div class="feature bg-secondary bg-gradient text-white rounded-3 mb-3"><i class="fa-solid fa-laptop"></i></div>
-                <div class="h5">Siga-nos nas redes socias</div>
-                <p class="text-muted mb-0">Siga-nos para ficar por dentro de nossas atividades.</p>
-            </div>
-            <div class="col">
-                <div class="feature bg-danger bg-gradient text-white rounded-3 mb-3"><i class="fa-solid fa-envelope"></i></div>
-                <div class="h5">Nos envie um E-mail</div>
-                <p class="text-muted mb-0">Gostaria de falar conosco? envie um email para: teste@gmail.com</p>
-            </div>
-            <div class="col">
-                <div class="feature bg-secondary bg-gradient text-white rounded-3 mb-3"><i class="fa-brands fa-whatsapp"></i></div>
-                <div class="h5">Ligue para nós</div>
-                <p class="text-muted mb-0">Ligue durante o horário comercial para (11) 93892-9403.</p>
-            </div>
-        </div>
     </div>
 </section>
 
@@ -78,15 +56,17 @@
     confir.addEventListener("click", () => {
 
         if (nome.value === "" || email.value === "" || phone.value === "" || assunto.value === "" || areatexto.value === "") {
-
-
-            alert("Preencha os campos corretamente.");
-
-
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro!',
+                text: 'Preencha os campos corretamente.'
+            });
         } else {
-            alert("E-mail enviado com sucesso!");
-
-
+            Swal.fire({
+                icon: 'success',
+                title: 'Sucesso!',
+                text: 'E-mail enviado com sucesso!'
+            });
 
         }
 
