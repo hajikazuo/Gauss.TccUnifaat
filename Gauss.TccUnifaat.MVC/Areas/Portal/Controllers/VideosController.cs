@@ -60,9 +60,10 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
         }
 
         // GET: Portal/Videos/Create
-        public IActionResult Create()
+        public async Task<IActionResult> CreateAsync()
         {
-            var disciplinas = _context.Disciplinas.ToList();
+            var currentUser = await _userManager.GetUserAsync(User);
+            var disciplinas = _context.Disciplinas.Where(v => v.TurmaId == currentUser.TurmaId).ToList();
 
             if (disciplinas.Count == 0)
             {
@@ -70,7 +71,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["DisciplinaId"] = new SelectList(_context.Disciplinas, "DisciplinaId", "Nome");
+            ViewData["DisciplinaId"] = new SelectList(_context.Disciplinas.Where(v => v.TurmaId == currentUser.TurmaId), "DisciplinaId", "Nome");
             return View();
         }
 
@@ -102,12 +103,13 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
                 return NotFound();
             }
 
+            var currentUser = await _userManager.GetUserAsync(User);
             var video = await _context.Videos.FindAsync(id);
             if (video == null)
             {
                 return NotFound();
             }
-            ViewData["DisciplinaId"] = new SelectList(_context.Disciplinas, "DisciplinaId", "Nome", video.DisciplinaId);
+            ViewData["DisciplinaId"] = new SelectList(_context.Disciplinas.Where(v => v.TurmaId == currentUser.TurmaId), "DisciplinaId", "Nome", video.DisciplinaId);
             return View(video);
         }
 
