@@ -2,14 +2,16 @@
 @model RegisterViewModel
 
 @{
-    var pageName = "Cadastrar";
-    ViewData["Category1"] = "Usuários";
-
+    var pageName = "";
+    
     bool alterando = Context.Request.RouteValues.ContainsKey("id");
     if (alterando)
-        ViewBag.Titulo = "Alteração de Usuário";
+        pageName = "Alteração de Usuário";
     else
-        ViewBag.Titulo = "Cadastro de Usuário";
+        pageName = "Cadastro de Usuário";
+
+    ViewData["Title"] = pageName;
+    ViewData["Category1"] = "Usuários";
 }
 
 <div class="container-fluid mt-3">
@@ -67,6 +69,7 @@
                 <div class="form-group">
                     <label asp-for="SelectedRole"></label>
                     <select asp-for="SelectedRole" class="form-control">
+                        <option value="" selected>Selecione uma opção</option>
                         <option value="Aluno">Aluno</option>
                         <option value="Professor">Professor</option>
                         <option value="Administrador">Administrador</option>

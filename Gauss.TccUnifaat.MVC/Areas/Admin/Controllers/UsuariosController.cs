@@ -65,8 +65,8 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
         {
             if (id.HasValue)
             {
-                var usuario = await _userManager.FindByIdAsync(id.ToString());
-                if (usuario == null)
+                var usuarioBD = await _userManager.FindByIdAsync(id.ToString());
+                if (usuarioBD == null)
                 {
                     ModelState.AddModelError(string.Empty, "Usuário não encontrado.");
                     return RedirectToAction("Index", "Home");
@@ -74,11 +74,11 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
 
                 var usuarioVM = new RegisterViewModel
                 {
-                    NomeCompleto = usuario.NomeCompleto,
-                    DataNascimento = usuario.DataNascimento,
-                    Cpf = usuario.Cpf,
-                    Email = usuario.Email,
-                    Telefone = usuario.Telefone
+                    NomeCompleto = usuarioBD.NomeCompleto,
+                    DataNascimento = usuarioBD.DataNascimento,
+                    Cpf = usuarioBD.Cpf,
+                    Email = usuarioBD.Email,
+                    Telefone = usuarioBD.Telefone
                 };
 
                 return View(usuarioVM);
@@ -89,6 +89,12 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model, Guid? id)
         {
+            if (id.HasValue)
+            {
+                ModelState.Remove("Password");
+                ModelState.Remove("ConfirmPassword");
+            }
+
             if (ModelState.IsValid)
             {
                 Usuario user;
@@ -127,8 +133,12 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
                 {
                     if (model.SelectedRole != null)
                     {
+                        var userRoles = await _userManager.GetRolesAsync(user);
+                        await _userManager.RemoveFromRolesAsync(user, userRoles);
+
                         await _userManager.AddToRoleAsync(user, model.SelectedRole);
                     }
+
 
                     return RedirectToAction("Index", new { area = "Admin" });
                 }
