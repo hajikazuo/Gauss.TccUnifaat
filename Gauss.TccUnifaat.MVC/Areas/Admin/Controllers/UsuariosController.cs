@@ -68,8 +68,8 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
                 var usuarioBD = await _userManager.FindByIdAsync(id.ToString());
                 if (usuarioBD == null)
                 {
-                    ModelState.AddModelError(string.Empty, "Usuário não encontrado.");
-                    return RedirectToAction("Index", "Home");
+                    this.MostrarMensagem($"O usuário não foi encontrado na base de dados.", erro: true);
+                    return RedirectToAction("Index", "Usuarios");
                 }
 
                 var usuarioVM = new RegisterViewModel
