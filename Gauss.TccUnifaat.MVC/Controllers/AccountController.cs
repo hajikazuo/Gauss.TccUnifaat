@@ -184,7 +184,7 @@ namespace Gauss.TccUnifaat.Controllers
                 {
                     this.MostrarMensagem(
                        $"Senha redefinida com sucesso! Agora você já pode fazer login com a nova senha.");
-                    return View(nameof(Login));
+                    return View();
                 }
                 else
                 {

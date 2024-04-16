@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_LayoutLogin.cshtml";
 }
 
-<div asp-validation-summary="ModelOnly" class="val-summary text-danger my-3"></div>
+<partial name="_MensagemPartial" />
 
 <section class="py-5">
     <div class="container px-5">
@@ -34,7 +34,7 @@
                         <span asp-validation-for="@Model.ConfNovaSenha" class="text-danger"></span>
 
                         <div class="button-group">                            
-                            <a asp-action="Index" asp-controller="Home" class="btn btn-outline-secondary btn-lg">Cancelar</a>
+                            <a asp-action="Index" asp-controller="Home" class="btn btn-outline-secondary btn-lg">Voltar</a>
                             <button type="submit" class="btn btn-danger btn-block btn-lg">Redefinir senha</button>
                         </div>
                     </form>
