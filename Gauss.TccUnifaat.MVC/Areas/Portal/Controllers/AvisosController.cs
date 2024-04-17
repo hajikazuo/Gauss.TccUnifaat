@@ -12,9 +12,11 @@ using Gauss.TccUnifaat.MVC.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Gauss.TccUnifaat.Controllers;
 using Gauss.TccUnifaat.MVC.Extensions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 {
+    [Authorize(Policy = "RequireAdminOrProfessorRole")]
     [Area("Portal")]
     public class AvisosController : ControllerBase<ApplicationDbContext, RT.Comb.ICombProvider>
     {

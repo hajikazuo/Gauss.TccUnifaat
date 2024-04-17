@@ -4,6 +4,7 @@ using Gauss.TccUnifaat.Controllers;
 using Gauss.TccUnifaat.Data;
 using Gauss.TccUnifaat.MVC.Dapper;
 using Gauss.TccUnifaat.MVC.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             _userManager = userManager;
         }
 
+        [Authorize(Policy = "RequireAdminOrProfessorRole")]
         public async Task<IActionResult> Index(DateTime? dataFiltro = null)
         {
             var currentUser = await _userManager.GetUserAsync(User);
@@ -43,6 +45,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             return View(presencasNaTurma);
         }
 
+        [Authorize(Policy = "RequireAdminOrProfessorRole")]
         public async Task<IActionResult> ControleFaltas()
         {
             var sqlControleFaltas = Common.Resources.querys.controle_faltas;
@@ -57,6 +60,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             return View(controleFaltasNaTurma);
         }
 
+        [Authorize(Policy = "RequireAdminOrProfessorRole")]
         public async Task<IActionResult> Create(DateTime dataAula)
         {
             var currentUser = await _userManager.GetUserAsync(User);
@@ -70,6 +74,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             return View(turmaDoUsuario);
         }
 
+        [Authorize(Policy = "RequireAdminOrProfessorRole")]
         [HttpPost]
         public async Task<IActionResult> Create(DateTime dataAula, [FromForm] Dictionary<string, bool> presenca)
         {

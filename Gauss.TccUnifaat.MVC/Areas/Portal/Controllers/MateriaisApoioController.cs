@@ -10,6 +10,7 @@ using Gauss.TccUnifaat.Data;
 using Microsoft.AspNetCore.Identity;
 using Gauss.TccUnifaat.Controllers;
 using Gauss.TccUnifaat.MVC.Extensions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 {
@@ -44,6 +45,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             return View(materiaisApoioDaTurma);
         }
 
+        [Authorize(Policy = "RequireAdminOrProfessorRole")]
         // GET: Portal/MateriaisApoio/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
@@ -63,6 +65,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             return View(materialApoio);
         }
 
+        [Authorize(Policy = "RequireAdminOrProfessorRole")]
         // GET: Portal/MateriaisApoio/Create
         public IActionResult Create()
         {
@@ -78,6 +81,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             return View();
         }
 
+        [Authorize(Policy = "RequireAdminOrProfessorRole")]
         // POST: Portal/MateriaisApoio/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -104,6 +108,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             return View(materialApoio);
         }
 
+        [Authorize(Policy = "RequireAdminOrProfessorRole")]
         // GET: Portal/MateriaisApoio/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
@@ -121,6 +126,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             return View(materialApoio);
         }
 
+        [Authorize(Policy = "RequireAdminOrProfessorRole")]
         // POST: Portal/MateriaisApoio/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -170,6 +176,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             }
         }
 
+        [Authorize(Policy = "RequireAdminOrProfessorRole")]
         // GET: Portal/MateriaisApoio/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
@@ -189,6 +196,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             return View(materialApoio);
         }
 
+        [Authorize(Policy = "RequireAdminOrProfessorRole")]
         // POST: Portal/MateriaisApoio/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

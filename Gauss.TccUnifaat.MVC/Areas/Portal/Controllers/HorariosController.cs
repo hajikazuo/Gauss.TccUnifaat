@@ -10,9 +10,11 @@ using Gauss.TccUnifaat.Data;
 using System.Security.Claims;
 using Gauss.TccUnifaat.Controllers;
 using Gauss.TccUnifaat.MVC.Extensions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 {
+    [Authorize(Policy = "RequireAdminOrProfessorRole")]
     [Area("Portal")]
     public class HorariosController : ControllerBase<ApplicationDbContext, RT.Comb.ICombProvider>
     {

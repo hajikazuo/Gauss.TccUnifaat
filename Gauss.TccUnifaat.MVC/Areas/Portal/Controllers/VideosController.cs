@@ -10,6 +10,7 @@ using Gauss.TccUnifaat.Data;
 using Gauss.TccUnifaat.Controllers;
 using Gauss.TccUnifaat.MVC.Extensions;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 {
@@ -39,7 +40,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             return View(videosPorDisciplina);
         }
 
-
+        [Authorize(Policy = "RequireAdminOrProfessorRole")]
         // GET: Portal/Videos/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
@@ -59,6 +60,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             return View(video);
         }
 
+        [Authorize(Policy = "RequireAdminOrProfessorRole")]
         // GET: Portal/Videos/Create
         public async Task<IActionResult> CreateAsync()
         {
@@ -75,6 +77,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             return View();
         }
 
+        [Authorize(Policy = "RequireAdminOrProfessorRole")]
         // POST: Portal/Videos/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -95,6 +98,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             return View(video);
         }
 
+        [Authorize(Policy = "RequireAdminOrProfessorRole")]
         // GET: Portal/Videos/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
@@ -113,6 +117,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             return View(video);
         }
 
+        [Authorize(Policy = "RequireAdminOrProfessorRole")]
         // POST: Portal/Videos/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -151,6 +156,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             return View(video);
         }
 
+        [Authorize(Policy = "RequireAdminOrProfessorRole")]
         // GET: Portal/Videos/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
@@ -170,6 +176,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             return View(video);
         }
 
+        [Authorize(Policy = "RequireAdminOrProfessorRole")]
         // POST: Portal/Videos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
