@@ -48,6 +48,13 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-play"></i></div>
                             GaussTube
                         </a>
+                        @if (User.Identity.IsAuthenticated && (User.IsInRole("Aluno")))
+                        {
+                            <a class="nav-link" asp-area="portal" asp-controller="Presencas" asp-action="ContagemFaltasPorUsuario">
+                                <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                                Presenças
+                            </a>
+                        }
                         @if (User.Identity.IsAuthenticated && (User.IsInRole("Administrador") || User.IsInRole("Professor")))
                         {
                             <div class="sb-sidenav-menu-heading">Professor</div>

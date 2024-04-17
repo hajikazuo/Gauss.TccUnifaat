@@ -97,5 +97,43 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             return RedirectToAction(nameof(Create));
         }
 
+        public async Task<IActionResult> ContagemFaltasPorUsuario()
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            var turmaIdDoUsuario = currentUser.TurmaId;
+
+            var presencasDoUsuario = await _context.Presencas
+                .Where(p => p.UsuarioId == currentUser.Id && p.TurmaId == turmaIdDoUsuario)
+                .ToListAsync();
+
+            var contagemFaltas = CalcularContagemFaltas(presencasDoUsuario);
+
+            ViewBag.UserName = currentUser.NomeCompleto;
+
+            return View(contagemFaltas);
+        }
+
+        private Dictionary<string, int> CalcularContagemFaltas(List<Presenca> presencas)
+        {
+            var faltasPorUsuario = new Dictionary<string, int>();
+
+            foreach (var presenca in presencas)
+            {
+                var usuarioNome = presenca.Usuario.NomeCompleto;
+
+                if (faltasPorUsuario.ContainsKey(usuarioNome))
+                {
+                    faltasPorUsuario[usuarioNome]++;
+                }
+                else
+                {
+                    faltasPorUsuario.Add(usuarioNome, 1);
+                }
+            }
+
+            return faltasPorUsuario;
+        }
+
+
     }
 }

@@ -1,0 +1,35 @@
+﻿@model Dictionary<string, int>
+
+@{
+    var pageName = $"Contagem de Faltas: {ViewBag.UserName}";
+    ViewData["Title"] = pageName;
+    ViewData["Category1"] = "Presenças";
+}
+
+<div class="container-fluid mt-3">
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h1>@pageName</h1>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Usuário</th>
+                        <th>Faltas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Key</td>
+                            <td>@item.Value</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
