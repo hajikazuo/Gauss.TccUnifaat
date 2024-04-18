@@ -12,6 +12,13 @@ using Gauss.TccUnifaat.Common.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Gauss.TccUnifaat.Controllers;
 using Gauss.TccUnifaat.MVC.Extensions;
+using Newtonsoft.Json;
+using System.Net.Http;
+using System.Security.Policy;
+using System.Text;
+using NewsAPI.Constants;
+using NewsAPI.Models;
+using NewsAPI;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
 {
@@ -22,9 +29,10 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
     {
         private readonly string _filePath;
         private readonly IWebHostEnvironment _env;
+        private readonly HttpClient _httpClient;
 
         public NoticiasController(ApplicationDbContext context
-            , RT.Comb.ICombProvider comb, IWebHostEnvironment env
+            , RT.Comb.ICombProvider comb, IWebHostEnvironment env, IHttpClientFactory httpClientFactory
             ) : base(context, comb)
         {
             _env = env;
@@ -34,6 +42,8 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
             {
                 Directory.CreateDirectory(_filePath);
             }
+
+            _httpClient = httpClientFactory.CreateClient();
         }
 
         // GET: Admin/Noticias
@@ -250,6 +260,43 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
                 return nome;
             }
             return null;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetArticles()
+        {
+            var newsApiClient = new NewsApiClient("79ee7c463b0d49069a886c1b2e139d8a");
+
+            var response = newsApiClient.GetEverything(new EverythingRequest
+            {
+                Q = "educação",
+                SortBy = SortBys.Popularity,
+                From = new DateTime(2024, 4, 17)
+            });
+
+            if (response.Status == Statuses.Ok)
+            {
+                List<Noticia> noticias = new List<Noticia>();
+
+
+                foreach (var item in response.Articles)
+                {
+                    Noticia noticia = new Noticia
+                    {
+                        Titulo = item.Title,
+                        Conteudo = item.Content,
+                        Foto = item.UrlToImage,
+                    };
+
+                    noticias.Add(noticia);
+                }
+
+                return Ok(noticias);
+            }
+            else
+            {
+                return BadRequest("Erro ao obter os dados da API.");
+            }
         }
     }
 }
