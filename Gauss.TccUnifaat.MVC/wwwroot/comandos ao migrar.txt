@@ -2,7 +2,7 @@ dotnet ef migrations add AddTurmas --project C:\Users\Nilton\Documents\Projects\
 
 dotnet ef database update --project C:\Users\Nilton\Documents\Projects\Gauss.TccUnifaat\Gauss.TccUnifaat.Common --startup-project C:\Users\Nilton\Documents\Projects\Gauss.TccUnifaat\Gauss.TccUnifaat.MVC
 
-dotnet ef migrations remove --project C:\Users\Nilton\Documents\Projects\Gauss.TccUnifaat\Gauss.TccUnifaat.Common --startup-project C:\Users\Nilton\Documents\Projects\Gauss.TccUnifaat\Gauss.TccUnifaat.MVC
+dotnet ef migrations remove --project  C:\Users\Nilton\Documents\Projects\Gauss.TccUnifaat\Gauss.TccUnifaat.Common --startup-project C:\Users\Nilton\Documents\Projects\Gauss.TccUnifaat\Gauss.TccUnifaat.MVC
 
 dotnet ef database update Initial --project C:\Users\Nilton\Documents\Projects\Gauss.TccUnifaat\Gauss.TccUnifaat.Common --startup-project C:\Users\Nilton\Documents\Projects\Gauss.TccUnifaat\Gauss.TccUnifaat.MVC
 

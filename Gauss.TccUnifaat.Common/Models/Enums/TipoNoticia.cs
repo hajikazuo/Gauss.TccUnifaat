@@ -22,5 +22,8 @@ namespace Gauss.TccUnifaat.Common.Models
         [Display(Name = "Notícia do curso de Programação")]
         Programacao = 5,
 
+        [Display(Name = "Notícia da API")]
+        NoticiaAPI = 6,
+
     }
 }

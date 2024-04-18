@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Rotativa.AspNetCore;
 using Serilog;
+using System.Configuration;
 
 try
 {
@@ -25,7 +26,9 @@ try
 
     builder.Services.Configure<SendGridSettings>(builder.Configuration.GetSection("SendGridSettings"));
     builder.Services.AddSingleton<IEmailService, SendGridService>();
-    builder.Services.AddSingleton<RT.Comb.ICombProvider>(RT.Comb.Provider.Sql);
+    builder.Services.AddSingleton(RT.Comb.Provider.Sql);
+    builder.Services.Configure<NewsApiSettings>(builder.Configuration.GetSection("NewsApi"));
+    builder.Services.AddScoped<INoticiaService, NoticiaService>();
     builder.Services.AddIdentity<Usuario, Funcao>(options => options.SignIn.RequireConfirmedAccount = true)
         .AddEntityFrameworkStores<ApplicationDbContext>()
         .AddDefaultTokenProviders();

@@ -28,12 +28,13 @@ namespace Gauss.TccUnifaat.Controllers
                 .OrderByDescending(noticia => noticia.DataCadastro)
                 .Take(3)
                 .Select(noticia => new NoticiasViewModel
-            {
-                Titulo = noticia.Titulo,
-                Conteudo = noticia.Conteudo,
-                DataCadastro = noticia.DataCadastro,
-                UrlImagem = Url.Content($"~/imgNoticias/{noticia.Foto}"),
-            }).ToList();
+                {
+                    Titulo = noticia.Titulo,
+                    Conteudo = noticia.Conteudo,
+                    DataCadastro = noticia.DataCadastro,
+                    UrlImagem = noticia.TipoNoticia == TipoNoticia.NoticiaAPI ? noticia.Foto : Url.Content($"~/imgNoticias/{noticia.Foto}"),
+                    Link = noticia.Link,
+                }).ToList();
 
             return View(noticiasViewModel);
         }
@@ -63,6 +64,7 @@ namespace Gauss.TccUnifaat.Controllers
                     Conteudo = noticia.Conteudo,
                     DataCadastro = noticia.DataCadastro,
                     UrlImagem = Url.Content($"~/imgNoticias/{noticia.Foto}"),
+                    Link = noticia.Link,
                 }).ToList();
 
             return View(noticiasViewModel);
@@ -82,6 +84,7 @@ namespace Gauss.TccUnifaat.Controllers
                     Conteudo = noticia.Conteudo,
                     DataCadastro = noticia.DataCadastro,
                     UrlImagem = Url.Content($"~/imgNoticias/{noticia.Foto}"),
+                    Link = noticia.Link,
                 }).ToList();
 
             return View(noticiasViewModel);

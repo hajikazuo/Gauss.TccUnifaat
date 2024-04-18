@@ -44,7 +44,14 @@
                     @Html.DisplayNameFor(model => model.Foto)
                 </dt>
                 <dd class="col-sm-10">
-                    <img src="~/imgNoticias/@Model.Foto" width="100" alt="Imagem da Notícia" />
+                    @if (@Model.TipoNoticia == TipoNoticia.NoticiaAPI)
+                    {
+                        <img src="@Model.Foto" width="50" alt="Imagem da Notícia" />
+                    }
+                    else
+                    {
+                        <img src="~/imgNoticias/@Model.Foto" width="50" alt="Imagem da Notícia" />
+                    }
                 </dd>
                 <dt class="col-sm-2">
                     @Html.DisplayNameFor(model => model.Usuario)

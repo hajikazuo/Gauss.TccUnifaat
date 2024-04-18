@@ -19,6 +19,8 @@ using System.Text;
 using NewsAPI.Constants;
 using NewsAPI.Models;
 using NewsAPI;
+using Gauss.TccUnifaat.MVC.Services;
+using Gauss.TccUnifaat.MVC.Services.Interfaces;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
 {
@@ -86,7 +88,6 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
                     return true;
                 default:
                     return false;
-                    break;
             }
         }
 
@@ -155,7 +156,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("NoticiaId,UsuarioId,TipoNoticia,Titulo,Conteudo,Foto")] Noticia noticia, IFormFile anexo)
+        public async Task<IActionResult> Edit(Guid id, [Bind("NoticiaId,UsuarioId,TipoNoticia,Titulo,Conteudo,Foto,Link")] Noticia noticia, IFormFile anexo)
         {
             if (id != noticia.NoticiaId)
             {
@@ -262,41 +263,22 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
             return null;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetArticles()
+        //Teste 
+        public async Task<IActionResult> PegarNoticias([FromServices] INoticiaService noticiaService)
         {
-            var newsApiClient = new NewsApiClient("79ee7c463b0d49069a886c1b2e139d8a");
-
-            var response = newsApiClient.GetEverything(new EverythingRequest
+            try
             {
-                Q = "educação",
-                SortBy = SortBys.Popularity,
-                From = new DateTime(2024, 4, 17)
-            });
+                DateTime dataAnterior = DateTime.Today.AddDays(-1);
 
-            if (response.Status == Statuses.Ok)
-            {
-                List<Noticia> noticias = new List<Noticia>();
-
-
-                foreach (var item in response.Articles)
-                {
-                    Noticia noticia = new Noticia
-                    {
-                        Titulo = item.Title,
-                        Conteudo = item.Content,
-                        Foto = item.UrlToImage,
-                    };
-
-                    noticias.Add(noticia);
-                }
+                var noticias = await noticiaService.ObterNoticiasAsync("educação", dataAnterior);
 
                 return Ok(noticias);
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest("Erro ao obter os dados da API.");
+                return BadRequest(ex.Message);
             }
         }
+
     }
 }
