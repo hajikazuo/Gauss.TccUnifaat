@@ -268,9 +268,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
         {
             try
             {
-                DateTime dataAnterior = DateTime.Today.AddDays(-1);
-
-                var noticias = await noticiaService.ObterNoticiasAsync("educação", dataAnterior);
+                var noticias = await noticiaService.ObterNoticiasAsync();
 
                 return Ok(noticias);
             }

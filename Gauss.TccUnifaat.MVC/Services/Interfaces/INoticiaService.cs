@@ -4,7 +4,7 @@ namespace Gauss.TccUnifaat.MVC.Services.Interfaces
 {
     public interface INoticiaService
     {
-        Task<List<Noticia>> ObterNoticiasAsync(string query, DateTime dataInicial);
+        Task<List<Noticia>> ObterNoticiasAsync();
         Task SalvarNoticiasAsync(List<Noticia> noticias);
     }
 }

@@ -23,13 +23,15 @@ namespace Gauss.TccUnifaat.MVC.Services
             _context = context;
         }
 
-        public async Task<List<Noticia>> ObterNoticiasAsync(string query, DateTime dataInicial)
+        public async Task<List<Noticia>> ObterNoticiasAsync()
         {
+            DateTime dataNoticia = DateTime.Today.AddDays(-1);
+
             var response = await _newsApiClient.GetEverythingAsync(new EverythingRequest
             {
-                Q = query,
+                Q = "educação",
                 SortBy = SortBys.Popularity,
-                From = dataInicial
+                From = dataNoticia
             });
 
             if (response.Status == Statuses.Ok)
