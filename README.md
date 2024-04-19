@@ -21,7 +21,8 @@ O projeto terá:
 - Sistema web para cadastro de alunos e professores e funções de chamada e visualização de avisos
 - API para futura integração com parceiros ou desenvolvimento de uma aplicação mobile
 
-![image](https://github.com/hajikazuo/Gauss.TccUnifaat/assets/105826619/5bb71788-d1f9-4a6c-8393-d8d3eeacbf54)
+![image](https://github.com/hajikazuo/Gauss.TccUnifaat/assets/105826619/fe2d418b-bf44-4b72-9670-63d08a746a14)
+
 
 ![image](https://github.com/hajikazuo/Gauss.TccUnifaat/assets/105826619/c85b1f7a-9da5-4ed0-87f1-5ab0582fbb02)
 
