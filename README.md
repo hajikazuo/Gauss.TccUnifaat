@@ -6,11 +6,12 @@
 - API
 - Swagger
 - OpenApi
-- JWT
+- Docker
 - MVC
 - MSSQL
 - EntityFramework
 - Identity
+- Serilog e Seq
 
 Trabalho de Conclusão de curso do curso de Análise e Desenvolvimento de Sistemas, nesse projeto será desenvolvido um site institucional e sistema web para a instituição CPU Gauss.
 
@@ -20,6 +21,7 @@ O projeto terá:
 - Sistema web para cadastro de alunos e professores e funções de chamada e visualização de avisos
 - API para futura integração com parceiros ou desenvolvimento de uma aplicação mobile
 
-![1](https://github.com/hajikazuo/Gauss.TccUnifaat/assets/105826619/73d99844-a76d-4570-a9e1-3764c61dfd0d)
+![image](https://github.com/hajikazuo/Gauss.TccUnifaat/assets/105826619/5bb71788-d1f9-4a6c-8393-d8d3eeacbf54)
 
-![image](https://github.com/hajikazuo/Gauss.TccUnifaat/assets/105826619/2ea8a855-dec2-47e9-af09-61894f595096)
+![image](https://github.com/hajikazuo/Gauss.TccUnifaat/assets/105826619/c85b1f7a-9da5-4ed0-87f1-5ab0582fbb02)
+
