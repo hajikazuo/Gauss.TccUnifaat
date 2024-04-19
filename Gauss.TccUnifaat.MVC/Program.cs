@@ -1,6 +1,7 @@
+using Gauss.TccUnifaat.Common.Extensions;
 using Gauss.TccUnifaat.Common.Models;
+using Gauss.TccUnifaat.Common.Models.Enums;
 using Gauss.TccUnifaat.Data;
-using Gauss.TccUnifaat.MVC.Extensions;
 using Gauss.TccUnifaat.MVC.Library;
 using Gauss.TccUnifaat.MVC.Services;
 using Gauss.TccUnifaat.MVC.Services.Interfaces;
@@ -10,13 +11,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Rotativa.AspNetCore;
 using Serilog;
-using System.Configuration;
 
 try
 {
     var builder = WebApplication.CreateBuilder(args);
 
-    SerilogExtension.ConfigureSeqWithSerilog(builder.Configuration);
+    SerilogExtension.ConfigureSeqWithSerilog(builder.Configuration, TipoSetor.mvc);
 
     // Add services to the container.
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");

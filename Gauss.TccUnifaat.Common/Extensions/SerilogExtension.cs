@@ -3,16 +3,18 @@ using Serilog.Events;
 using Serilog;
 using System.Dynamic;
 using Serilog.Exceptions;
+using Microsoft.Extensions.Configuration;
+using Gauss.TccUnifaat.Common.Models.Enums;
 
-namespace Gauss.TccUnifaat.MVC.Extensions
+namespace Gauss.TccUnifaat.Common.Extensions
 {
     public class SerilogExtension
     {
-        public static void ConfigureSeqWithSerilog(IConfiguration configuration)
+        public static void ConfigureSeqWithSerilog(IConfiguration configuration, TipoSetor tipo)
         {
-            var seq_url = configuration.GetValue<String>("SEQ:URL");
-            var seq_key = configuration.GetValue<String>("SEQ:URL");
-            var seq_MinimumLevel = configuration.GetValue<String>("SEQ:MinimumLevel");
+            var seq_url = configuration.GetSection("SEQ:URL").Value;
+            var seq_key = configuration.GetSection("SEQ:Key").Value;
+            var seq_MinimumLevel = configuration.GetSection("SEQ:MinimumLevel").Value;
 
 
             var levelSwitch = new LoggingLevelSwitch
@@ -27,7 +29,7 @@ namespace Gauss.TccUnifaat.MVC.Extensions
                     .Enrich.WithCorrelationId()
                     .Enrich.FromLogContext()
                     .Enrich.WithExceptionDetails()
-                     .Enrich.WithProperty("Cliente", "SIGA", false)
+                     .Enrich.WithProperty("Setor", tipo, false)
                   .WriteTo.Seq(seq_url, apiKey: seq_key)
                   .Destructure.ByTransforming<ExpandoObject>(e => new Dictionary<string, object>(e))
                   .CreateLogger();
