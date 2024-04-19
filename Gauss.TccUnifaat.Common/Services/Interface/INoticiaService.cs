@@ -1,6 +1,6 @@
 ﻿using Gauss.TccUnifaat.Common.Models;
 
-namespace Gauss.TccUnifaat.MVC.Services.Interfaces
+namespace Gauss.TccUnifaat.Common.Services.Interfaces
 {
     public interface INoticiaService
     {

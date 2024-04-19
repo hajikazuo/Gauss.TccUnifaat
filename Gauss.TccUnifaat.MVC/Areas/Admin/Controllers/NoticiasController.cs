@@ -1,26 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Gauss.TccUnifaat.Common.Extensions;
+using Gauss.TccUnifaat.Common.Models;
+using Gauss.TccUnifaat.Common.Services.Interfaces;
+using Gauss.TccUnifaat.Controllers;
+using Gauss.TccUnifaat.Data;
+using Gauss.TccUnifaat.MVC.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Gauss.TccUnifaat.Common.Models;
-using Gauss.TccUnifaat.Data;
 using System.Security.Claims;
-using Gauss.TccUnifaat.Common.Extensions;
-using Microsoft.AspNetCore.Authorization;
-using Gauss.TccUnifaat.Controllers;
-using Gauss.TccUnifaat.MVC.Extensions;
-using Newtonsoft.Json;
-using System.Net.Http;
-using System.Security.Policy;
-using System.Text;
-using NewsAPI.Constants;
-using NewsAPI.Models;
-using NewsAPI;
-using Gauss.TccUnifaat.MVC.Services;
-using Gauss.TccUnifaat.MVC.Services.Interfaces;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
 {
@@ -107,7 +95,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                
+
                 if (anexo != null && anexo.Length > 0)
                 {
                     if (!ValidaImagem(anexo))

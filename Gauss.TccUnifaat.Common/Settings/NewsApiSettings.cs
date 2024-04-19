@@ -1,4 +1,4 @@
-﻿namespace Gauss.TccUnifaat.MVC.Settings
+﻿namespace Gauss.TccUnifaat.Common.Settings
 {
     public class NewsApiSettings
     {

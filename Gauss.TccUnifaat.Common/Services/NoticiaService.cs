@@ -1,12 +1,12 @@
 ﻿using Gauss.TccUnifaat.Common.Models;
-using Gauss.TccUnifaat.MVC.Services.Interfaces;
-using NewsAPI.Constants;
-using NewsAPI.Models;
-using NewsAPI;
-using Gauss.TccUnifaat.MVC.Settings;
-using Microsoft.Extensions.Options;
+using Gauss.TccUnifaat.Common.Services.Interfaces;
+using Gauss.TccUnifaat.Common.Settings;
 using Gauss.TccUnifaat.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using NewsAPI;
+using NewsAPI.Constants;
+using NewsAPI.Models;
 
 namespace Gauss.TccUnifaat.MVC.Services
 {
