@@ -22,8 +22,6 @@ namespace Gauss.TccUnifaat.Controllers
 
         public IActionResult Index()
         {
-            throw new Exception("Esta é uma exceção de teste.");
-
             var noticiasDaCamadaDeDados = _context.Noticias.ToList();
 
             var noticiasViewModel = noticiasDaCamadaDeDados
