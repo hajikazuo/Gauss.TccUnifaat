@@ -1,22 +1,24 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
-EXPOSE 80
-WORKDIR /App
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+USER app
+WORKDIR /app
+EXPOSE 8080
+EXPOSE 443
 
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["Gauss.TccUnifaat.MVC/Gauss.TccUnifaat.MVC.csproj", "Gauss.TccUnifaat.MVC/"]
 COPY ["Gauss.TccUnifaat.Common/Gauss.TccUnifaat.Common.csproj", "Gauss.TccUnifaat.Common/"]
-RUN dotnet restore -f "Gauss.TccUnifaat.MVC/Gauss.TccUnifaat.MVC.csproj"
+RUN dotnet restore "./Gauss.TccUnifaat.MVC/Gauss.TccUnifaat.MVC.csproj"
+COPY . .
+WORKDIR "/src/Gauss.TccUnifaat.MVC"
+RUN dotnet build "./Gauss.TccUnifaat.MVC.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-# Copy csproj and restore as distinct layers
-COPY *.csproj ./
-RUN dotnet restore 
+FROM build AS publish
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish "./Gauss.TccUnifaat.MVC.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
-# Copy everything else and build
-COPY . ./ ./
-RUN dotnet publish -c Release -o out
-
-# Build runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
-WORKDIR /App
-COPY --from=build-env /App/out .
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Gauss.TccUnifaat.MVC.dll"]

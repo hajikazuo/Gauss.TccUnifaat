@@ -1,0 +1,110 @@
+version: '3.4'
+
+services:
+  gauss.tccunifaat.mvc:
+    container_name: gauss_tccunifaat_mvc
+    image: ${DOCKER_REGISTRY-}gausstccunifaatmvc
+    depends_on:
+        - gauss.sql
+    build:
+      context: .
+      target: 'final'
+      dockerfile: Gauss.TccUnifaat.MVC/Dockerfile
+    networks:
+      gauss.network:
+      gauss.internal:
+        ipv4_address: "172.20.18.3"
+  gauss.tccunifaat.api:
+    container_name: gauss_tccunifaat_api
+    image: ${DOCKER_REGISTRY-}gausstccunifaatapi
+    depends_on:
+        - gauss.sql
+    build:
+      context: .
+      target: 'final'
+      dockerfile: Gauss.TccUnifaat.API/Dockerfile
+    networks:
+      gauss.network:
+      gauss.internal:
+        ipv4_address: "172.20.18.4"
+
+  gauss.seq:
+    container_name: gauss_seq
+    image: datalust/seq:latest
+    restart: always
+    pid: host
+    environment:
+      - "TZ=America/Sao_Paulo"
+      - "ACCEPT_EULA=Y"
+    ports:
+      - 21380:80
+    networks:
+      gauss.network:
+      gauss.internal:
+        ipv4_address: "172.20.18.40"
+
+  gauss.glances:
+    container_name: gauss_glances
+    image: nicolargo/glances:latest
+    restart: always
+    pid: host
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "/run/user/1000/podman/podman.sock:/run/user/1000/podman/podman.sock:ro"
+      - "./glances.conf:/glances/conf/glances.conf"
+    environment:
+      - "TZ=America/Sao_Paulo"
+      - "GLANCES_OPT=-w -t 10"
+    ports:
+      - 21181:61208
+    networks:
+      gauss.network:
+      gauss.internal:
+        ipv4_address: "172.20.18.50"
+
+  gauss.sql:
+    container_name: gauss_sql
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    user: root
+    ports:
+      - "1433:1433"
+    expose:
+      - "1433"
+    environment:
+      - "ACCEPT_EULA=Y"
+      - "SA_PASSWORD=Gauss@2024%*#"
+      - "MSSQL_PID=Developer"
+      - "MSSQL_TCP_PORT=1433"
+      - "MSSQL_AGENT_ENABLED=true"
+      - "TZ=America/Sao_Paulo"
+    networks:
+      gauss.network:
+      gauss.internal:
+        ipv4_address: "172.20.18.60"
+
+  portainer:
+    container_name: gauss_portainer
+    image: portainer/portainer-ce:latest
+    ports:
+      - 9443:9443
+    volumes:
+        - data:/data
+        - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+    networks:
+      gauss.network:
+      gauss.internal:
+        ipv4_address: "172.20.18.70"
+
+networks:
+  gauss.internal:
+    internal: true
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.18.0/24
+  gauss.network:
+
+volumes:
+  data:    
