@@ -108,7 +108,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             var turmaIdDoUsuario = currentUser.TurmaId;
 
             var presencasDoUsuario = await _context.Presencas
-                .Where(p => p.UsuarioId == currentUser.Id && p.TurmaId == turmaIdDoUsuario)
+                .Where(p => p.UsuarioId == currentUser.Id && p.TurmaId == turmaIdDoUsuario && (p.Presente == false))
                 .ToListAsync();
 
             var contagemFaltas = CalcularContagemFaltas(presencasDoUsuario);

@@ -18,11 +18,11 @@
 
     <div class="card mb-4">
         <div class="card-header">
-            <h1>@pageName</h1>
+            <h5>@pageName</h5>
         </div>
         <div class="card-body">
 
-            <h1>Turma:
+            <h3>Turma:
                 @if (minhaTurma != null)
                 {
                     @minhaTurma.Nome
@@ -31,7 +31,7 @@
                 {
                     <text>Você não está cadastrado em uma turma</text>
                 }
-            </h1>
+            </h3>
 
             <form method="post" action="@Url.Action("Create")">
 
