@@ -37,6 +37,7 @@ namespace Gauss.TccUnifaat.MVC.Services
             if (response.Status == Statuses.Ok)
             {
                 var noticias = response.Articles
+                .Where(item => item.UrlToImage != null)
                 .Take(3)
                 .Select(item => new Noticia
                 {
