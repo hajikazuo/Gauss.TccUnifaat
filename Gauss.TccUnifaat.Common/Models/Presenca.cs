@@ -38,14 +38,5 @@ namespace Gauss.TccUnifaat.Common.Models
         [Display(Name = "Data Últ. Modificação")]
         public DateTime? DataUltimaModificacao { get; set; }
         #endregion
-
-        [NotMapped]
-        public int TotalFaltas
-        {
-            get
-            {
-                return Presente ? 0 : 1;
-            }
-        }
     }
 }

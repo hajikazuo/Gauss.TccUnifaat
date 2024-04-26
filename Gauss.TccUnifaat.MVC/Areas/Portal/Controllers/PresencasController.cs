@@ -108,10 +108,10 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             var turmaIdDoUsuario = currentUser.TurmaId;
 
             var presencasDoUsuario = await _context.Presencas
-                .Where(p => p.UsuarioId == currentUser.Id && p.TurmaId == turmaIdDoUsuario && !p.Presente)
+                .Where(p => p.UsuarioId == currentUser.Id && p.TurmaId == turmaIdDoUsuario)
                 .ToListAsync();
 
-            var totalFaltas = presencasDoUsuario.Sum(p => p.TotalFaltas);
+            var totalFaltas = presencasDoUsuario.Count(p => p.Presente != true);
 
             ViewBag.UserName = currentUser.NomeCompleto;
 
