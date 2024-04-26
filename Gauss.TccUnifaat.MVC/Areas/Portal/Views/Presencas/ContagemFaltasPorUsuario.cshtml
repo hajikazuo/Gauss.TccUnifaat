@@ -1,4 +1,4 @@
-﻿@model Dictionary<string, int>
+﻿@model int
 
 @{
     var pageName = $"Contagem de Faltas: {ViewBag.UserName}";
@@ -22,13 +22,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>@item.Key</td>
-                            <td>@item.Value</td>
-                        </tr>
-                    }
+                    <tr>
+                        <td>@ViewBag.UserName</td>
+                        <td>@Model</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
