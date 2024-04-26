@@ -1,4 +1,4 @@
-﻿namespace Gauss.TccUnifaat.MVC.Services.Interfaces
+﻿namespace Gauss.TccUnifaat.Common.Services.Interfaces
 {
     public interface ISeedUserRoleInitial
     {

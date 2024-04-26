@@ -1,5 +1,5 @@
 ﻿using Gauss.TccUnifaat.Common.Models;
-using Gauss.TccUnifaat.MVC.Services.Interfaces;
+using Gauss.TccUnifaat.Common.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
 namespace Gauss.TccUnifaat.MVC.Services
