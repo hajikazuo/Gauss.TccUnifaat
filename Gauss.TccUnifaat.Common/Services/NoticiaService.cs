@@ -36,7 +36,9 @@ namespace Gauss.TccUnifaat.MVC.Services
 
             if (response.Status == Statuses.Ok)
             {
+                var random = new Random();
                 var noticias = response.Articles
+                .OrderBy(x => random.Next())
                 .Where(item => item.UrlToImage != null)
                 .Take(3)
                 .Select(item => new Noticia
