@@ -46,19 +46,38 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
         }
 
         [Authorize(Policy = "RequireAdminOrProfessorRole")]
-        public async Task<IActionResult> ControleFaltas()
+        public async Task<IActionResult> ControleFaltas(DateTime? dataFiltro = null)
         {
-            var sqlControleFaltas = Common.Resources.querys.controle_faltas;
-            var conn = _context.Database.GetDbConnection();
-            var faltas = conn.Query<ControleFaltasViewModel>(sqlControleFaltas);
-
             var currentUser = await _userManager.GetUserAsync(User);
             var turmaIdDoUsuario = currentUser.TurmaId;
+            var dataAtual = DateTime.Today;
 
-            var controleFaltasNaTurma = faltas.Where(cf => cf.TurmaId == turmaIdDoUsuario);
+            if (dataFiltro == null)
+            {
+                dataFiltro = dataAtual;
+            }
 
-            return View(controleFaltasNaTurma);
+            var faltasPorUsuario = await _context.Presencas
+                .Include(p => p.Usuario)
+                .Include(p => p.Turma)
+                .Where(p => p.TurmaId == turmaIdDoUsuario && p.Presente != true && p.DataAula.Date.Month == dataFiltro.Value.Date.Month)
+                .GroupBy(p => new { p.UsuarioId, p.Usuario.NomeCompleto, p.Turma.TurmaId, p.Turma.Nome })
+                .Select(g => new ControleFaltasViewModel
+                {
+                    UsuarioId = g.Key.UsuarioId,
+                    NomeCompleto = g.Key.NomeCompleto,
+                    TurmaId = g.Key.TurmaId,
+                    NomeTurma = g.Key.Nome,
+                    QtdeFaltas = g.Count()
+                })
+                .OrderByDescending(g => g.QtdeFaltas)
+                .ToListAsync();
+
+            ViewBag.DataAtual = dataAtual;
+            ViewBag.DataFiltro = dataFiltro;
+            return View(faltasPorUsuario);
         }
+
 
         [Authorize(Policy = "RequireAdminOrProfessorRole")]
         public async Task<IActionResult> Create(DateTime dataAula)
