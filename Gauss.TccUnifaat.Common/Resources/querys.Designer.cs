@@ -61,14 +61,62 @@ namespace Gauss.TccUnifaat.Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to --SELECT u.NomeCompleto, t.Nome AS NomeTurma, COUNT(*) AS QtdeFaltas
+        ///--FROM Presencas p
+        ///--INNER JOIN AspNetUsers u ON p.UsuarioId = u.Id
+        ///--INNER JOIN Turmas t ON p.TurmaId = t.TurmaId
+        ///--WHERE p.Presente = 0
+        ///--GROUP BY u.NomeCompleto, p.UsuarioId, t.Nome
+        ///--ORDER BY QtdeFaltas DESC;
+        ///
+        ///
+        ///SELECT p.UsuarioId, u.NomeCompleto, t.TurmaId, t.Nome AS NomeTurma, COUNT(*) AS QtdeFaltas
+        ///    FROM Presencas p
+        ///    INNER JOIN AspNetUsers u ON p.UsuarioId = u.Id
+        ///    INNER JOIN Turmas t ON p.TurmaId = t.TurmaId
+        ///    [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string controle_faltas {
+            get {
+                return ResourceManager.GetString("controle_faltas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SELECT Count(*) as qtd, TipoNoticia
         ///FROM Noticias
+        ///WHERE Excluido = 0
         ///Group by TipoNoticia
         ///Order by qtd desc.
         /// </summary>
         public static string noticias_dashboard {
             get {
                 return ResourceManager.GetString("noticias_dashboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT 
+        ///    u.Id as Id,
+        ///    u.NomeCompleto as NomeCompleto,
+        ///    u.Email as Email,
+        ///    u.Telefone as Telefone,
+        ///    t.Nome as Turma, 
+        ///    r.Name as Funcao
+        ///FROM 
+        ///    AspNetUsers u
+        ///    LEFT JOIN Turmas t ON u.TurmaId = t.TurmaId 
+        ///    LEFT JOIN AspNetUserRoles ur ON u.Id = ur.UserId
+        ///    LEFT JOIN AspNetRoles r ON ur.RoleId = r.Id
+        ///WHERE 
+        ///    u.Excluido = 0
+        ///ORDER BY 
+        ///    u.NomeCompleto, Turma, Funcao;
+        ///.
+        /// </summary>
+        public static string usuarios {
+            get {
+                return ResourceManager.GetString("usuarios", resourceCulture);
             }
         }
         
@@ -82,6 +130,27 @@ namespace Gauss.TccUnifaat.Common.Resources {
         public static string usuarios_dashboard {
             get {
                 return ResourceManager.GetString("usuarios_dashboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT 
+        ///    t.Nome as Turma, 
+        ///    COUNT(u.Id) as QuantidadeUsuariosPorTurma
+        ///FROM 
+        ///    Turmas t
+        ///    LEFT JOIN AspNetUsers u ON t.TurmaId = u.TurmaId
+        ///WHERE 
+        ///    u.Excluido = 0 OR u.Excluido IS NULL
+        ///GROUP BY 
+        ///    t.Nome
+        ///ORDER BY 
+        ///    t.Nome;
+        ///.
+        /// </summary>
+        public static string usuariosPorTurma_dashboard {
+            get {
+                return ResourceManager.GetString("usuariosPorTurma_dashboard", resourceCulture);
             }
         }
     }

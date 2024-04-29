@@ -1,15 +1,17 @@
 ﻿@model Gauss.TccUnifaat.Common.Models.Disciplina
 
 @{
-    var pageName = "Cadastrar disciplina";
+    var pageName = "Cadastrar";
     ViewData["Title"] = pageName;
+    ViewData["Category1"] = "Disciplinas";
+    ViewData["Heading"] = "Disciplina: <span class='fw-300'>Cadastro</span>";
 }
 
 <div class="container-fluid mt-3">
 
     <div class="card mb-4">
         <div class="card-header">
-            <h1>@pageName</h1> 
+            <h5>@pageName</h5> 
         </div>
         <div class="card-body">
             <form asp-action="Create">
@@ -25,12 +27,9 @@
                 </div>
                 <div class="form-group mt-3">
                     <input type="submit" value="Salvar" class="btn btn-secondary" />
+                    <a class="btn btn-outline-secondary" asp-action="Index">Voltar para lista</a>
                 </div>
             </form>
-            <hr />
-            <div>
-                <a asp-action="Index">Voltar para lista</a>
-            </div>
         </div>
     </div>
 </div>

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Gauss.TccUnifaat.Controllers
 {
     [AllowAnonymous]
-    public class HomeController : ControllerBase
+    public class HomeController : ControllerBase<ApplicationDbContext, RT.Comb.ICombProvider>
     {
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<Usuario> _userManager;
@@ -24,13 +24,17 @@ namespace Gauss.TccUnifaat.Controllers
         {
             var noticiasDaCamadaDeDados = _context.Noticias.ToList();
 
-            var noticiasViewModel = noticiasDaCamadaDeDados.Select(noticia => new NoticiasViewModel
-            {
-                Titulo = noticia.Titulo,
-                Conteudo = noticia.Conteudo,
-                DataCadastro = noticia.DataCadastro,
-                UrlImagem = Url.Content($"~/img/{noticia.Foto}"),
-            }).ToList();
+            var noticiasViewModel = noticiasDaCamadaDeDados
+                .OrderByDescending(noticia => noticia.DataCadastro)
+                .Take(3)
+                .Select(noticia => new NoticiasViewModel
+                {
+                    Titulo = noticia.Titulo,
+                    Conteudo = noticia.Conteudo,
+                    DataCadastro = noticia.DataCadastro,
+                    UrlImagem = noticia.TipoNoticia == TipoNoticia.NoticiaAPI ? noticia.Foto : Url.Content($"~/imgNoticias/{noticia.Foto}"),
+                    Link = noticia.Link,
+                }).ToList();
 
             return View(noticiasViewModel);
         }
@@ -52,12 +56,15 @@ namespace Gauss.TccUnifaat.Controllers
 
             var noticiasViewModel = noticiasDaCamadaDeDados
                 .Where(n => n.TipoNoticia == TipoNoticia.Cursinho)
+                .OrderByDescending(noticia => noticia.DataCadastro)
+                .Take(3)
                 .Select(noticia => new NoticiasViewModel
                 {
                     Titulo = noticia.Titulo,
                     Conteudo = noticia.Conteudo,
                     DataCadastro = noticia.DataCadastro,
-                    UrlImagem = Url.Content($"~/img/{noticia.Foto}"),
+                    UrlImagem = Url.Content($"~/imgNoticias/{noticia.Foto}"),
+                    Link = noticia.Link,
                 }).ToList();
 
             return View(noticiasViewModel);
@@ -69,12 +76,15 @@ namespace Gauss.TccUnifaat.Controllers
 
             var noticiasViewModel = noticiasDaCamadaDeDados
                 .Where(n => n.TipoNoticia == TipoNoticia.Programacao)
+                .OrderByDescending(noticia => noticia.DataCadastro)
+                .Take(3)
                 .Select(noticia => new NoticiasViewModel
                 {
                     Titulo = noticia.Titulo,
                     Conteudo = noticia.Conteudo,
                     DataCadastro = noticia.DataCadastro,
-                    UrlImagem = Url.Content($"~/img/{noticia.Foto}"),
+                    UrlImagem = Url.Content($"~/imgNoticias/{noticia.Foto}"),
+                    Link = noticia.Link,
                 }).ToList();
 
             return View(noticiasViewModel);

@@ -1,4 +1,5 @@
 ﻿using Gauss.TccUnifaat.Common.Models;
+using Gauss.TccUnifaat.Common.Services.Interfaces;
 using Gauss.TccUnifaat.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -114,6 +115,20 @@ namespace Gauss.TccUnifaat.Controllers
         private bool NoticiaExists(Guid id)
         {
             return (_context.Noticias?.Any(e => e.NoticiaId == id)).GetValueOrDefault();
+        }
+
+        public async Task<IActionResult> PegarNoticias([FromServices] INoticiaService noticiaService)
+        {
+            try
+            {
+                var noticias = await noticiaService.ObterNoticiasAsync();
+
+                return Ok(noticias);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

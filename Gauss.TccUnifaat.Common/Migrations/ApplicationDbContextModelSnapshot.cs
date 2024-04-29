@@ -17,7 +17,7 @@ namespace Gauss.TccUnifaat.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.2")
+                .HasAnnotation("ProductVersion", "8.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -124,6 +124,42 @@ namespace Gauss.TccUnifaat.Migrations
                     b.ToTable("AspNetRoles", (string)null);
                 });
 
+            modelBuilder.Entity("Gauss.TccUnifaat.Common.Models.Horario", b =>
+                {
+                    b.Property<Guid>("HorarioId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DataAula")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DataCadastro")
+                        .HasColumnType("datetime2(2)");
+
+                    b.Property<DateTime?>("DataExcluido")
+                        .HasColumnType("datetime2(2)");
+
+                    b.Property<DateTime?>("DataUltimaModificacao")
+                        .HasColumnType("datetime2(2)");
+
+                    b.Property<Guid>("DisciplinaId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Excluido")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("UsuarioId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("HorarioId");
+
+                    b.HasIndex("DisciplinaId");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("Horarios");
+                });
+
             modelBuilder.Entity("Gauss.TccUnifaat.Common.Models.MaterialApoio", b =>
                 {
                     b.Property<Guid>("MaterialApoioId")
@@ -190,17 +226,22 @@ namespace Gauss.TccUnifaat.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Foto")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Link")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<int>("TipoNoticia")
                         .HasColumnType("int");
 
                     b.Property<string>("Titulo")
                         .IsRequired()
-                        .HasMaxLength(70)
-                        .HasColumnType("nvarchar(70)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
-                    b.Property<Guid>("UsuarioId")
+                    b.Property<Guid?>("UsuarioId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("NoticiaId");
@@ -291,9 +332,20 @@ namespace Gauss.TccUnifaat.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Cpf")
-                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
+
+                    b.Property<DateTime>("DataCadastro")
+                        .HasColumnType("datetime2(2)");
+
+                    b.Property<DateTime?>("DataExcluido")
+                        .HasColumnType("datetime2(2)");
+
+                    b.Property<DateTime>("DataNascimento")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DataUltimaModificacao")
+                        .HasColumnType("datetime2(2)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -302,8 +354,8 @@ namespace Gauss.TccUnifaat.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int>("Idade")
-                        .HasColumnType("int");
+                    b.Property<bool>("Excluido")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -527,6 +579,25 @@ namespace Gauss.TccUnifaat.Migrations
                     b.Navigation("Turma");
                 });
 
+            modelBuilder.Entity("Gauss.TccUnifaat.Common.Models.Horario", b =>
+                {
+                    b.HasOne("Gauss.TccUnifaat.Common.Models.Disciplina", "Disciplina")
+                        .WithMany()
+                        .HasForeignKey("DisciplinaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Gauss.TccUnifaat.Common.Models.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Disciplina");
+
+                    b.Navigation("Usuario");
+                });
+
             modelBuilder.Entity("Gauss.TccUnifaat.Common.Models.MaterialApoio", b =>
                 {
                     b.HasOne("Gauss.TccUnifaat.Common.Models.Disciplina", "Disciplina")
@@ -542,9 +613,7 @@ namespace Gauss.TccUnifaat.Migrations
                 {
                     b.HasOne("Gauss.TccUnifaat.Common.Models.Usuario", "Usuario")
                         .WithMany("Noticias")
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UsuarioId");
 
                     b.Navigation("Usuario");
                 });

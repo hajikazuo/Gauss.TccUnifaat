@@ -1,0 +1,31 @@
+﻿@model Usuario
+
+@{
+    var pageName = "Deletar";
+    ViewData["Title"] = pageName;
+    ViewData["Category1"] = "Usuários";
+    ViewData["Heading"] = "Usuário: <span class='fw-300'>Deletar</span>";
+}
+
+<div class="container-fluid mt-3">
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>@pageName</h5>
+        </div>
+        <div class="card-body">
+
+            <h3 class="text-danger py-3">Você tem certeza que deseja deletar o usuário <b class="text-danger">@Model.NomeCompleto</b>?</h3>
+
+
+            <form asp-action="Delete" class="w-25">
+                <input type="hidden" asp-for="@Model.Id">
+                <div class="form-group">
+                    <input type="submit" value="Deletar" class="btn btn-danger" />
+                    <a class="btn btn-outline-secondary" asp-action="Index">Voltar para a lista</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

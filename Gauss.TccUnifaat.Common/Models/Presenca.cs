@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,5 +38,14 @@ namespace Gauss.TccUnifaat.Common.Models
         [Display(Name = "Data Últ. Modificação")]
         public DateTime? DataUltimaModificacao { get; set; }
         #endregion
+
+        [NotMapped]
+        public int TotalFaltas
+        {
+            get
+            {
+                return Presente ? 0 : 1;
+            }
+        }
     }
 }

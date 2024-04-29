@@ -1,0 +1,48 @@
+﻿@model Gauss.TccUnifaat.Common.Models.Horario
+
+@{
+    var pageName = "Detalhes";
+    ViewData["Title"] = pageName;
+    ViewData["Category1"] = "Horários";
+    ViewData["Heading"] = "Horário: <span class='fw-300'>Detalhes</span>";
+}
+
+<div class="container-fluid mt-3">
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>@pageName</h5>
+        </div>
+        <div class="card-body">
+
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.DataAula)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.DataAula)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Usuario)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Usuario.NomeCompleto)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Disciplina)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Disciplina.Nome)
+                </dd>
+            </dl>
+
+            <div>
+                <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@Model?.HorarioId">Editar</a>
+                <a class="btn btn-outline-secondary" asp-action="Index">Voltar para a lista</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

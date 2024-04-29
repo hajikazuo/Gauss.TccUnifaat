@@ -1,0 +1,33 @@
+﻿@model int
+
+@{
+    var pageName = $"Contagem de Faltas: {ViewBag.UserName}";
+    ViewData["Title"] = pageName;
+    ViewData["Category1"] = "Presenças";
+    ViewData["Heading"] = "Presenças: <span class='fw-300'>Minhas faltas</span>";
+}
+
+<div class="container-fluid mt-3">
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>@pageName</h5>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Usuário</th>
+                        <th>Faltas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@ViewBag.UserName</td>
+                        <td>@Model</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

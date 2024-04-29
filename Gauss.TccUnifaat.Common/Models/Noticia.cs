@@ -8,13 +8,13 @@ namespace Gauss.TccUnifaat.Common.Models
     {
         public Guid NoticiaId { get; set; }
 
-        public Guid UsuarioId { get; set; }
+        public Guid? UsuarioId { get; set; }
 
         [Display(Name = "Categoria da Noticia")]
         public TipoNoticia TipoNoticia { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.Required))]
-        [MaxLength(70, ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.MaxLength))]
+        [MaxLength(200, ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.MaxLength))]
         [Display(Name = "Título da Noticia")]
         public string Titulo { get; set; }
 
@@ -23,7 +23,12 @@ namespace Gauss.TccUnifaat.Common.Models
         [Display(Name = "Conteúdo")]
         public string Conteudo { get; set; }
 
+        [MaxLength(200, ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.MaxLength))]
         public string? Foto { get; set; }
+
+        [MaxLength(200, ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.MaxLength))]
+        [Display(Name = "Link da notícia")]
+        public string? Link { get; set; }
 
         #region Interface
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]

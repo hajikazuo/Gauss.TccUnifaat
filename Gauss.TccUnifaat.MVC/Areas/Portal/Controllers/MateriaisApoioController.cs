@@ -8,19 +8,29 @@ using Microsoft.EntityFrameworkCore;
 using Gauss.TccUnifaat.Common.Models;
 using Gauss.TccUnifaat.Data;
 using Microsoft.AspNetCore.Identity;
+using Gauss.TccUnifaat.Controllers;
+using Gauss.TccUnifaat.MVC.Extensions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 {
     [Area("Portal")]
-    public class MateriaisApoioController : Controller
+    public class MateriaisApoioController : ControllerBase<ApplicationDbContext, RT.Comb.ICombProvider>
     {
-        private readonly ApplicationDbContext _context;
         private readonly UserManager<Usuario> _userManager;
-
-        public MateriaisApoioController(ApplicationDbContext context, UserManager<Usuario> userManager)
+        private readonly string _filePath;
+        private readonly IWebHostEnvironment _env;
+        public MateriaisApoioController(ApplicationDbContext context
+            , RT.Comb.ICombProvider comb, UserManager<Usuario> userManager, IWebHostEnvironment env
+            ) : base(context, comb)
         {
-            _context = context;
             _userManager = userManager;
+            _env = env;
+            _filePath = Path.Combine(_env.WebRootPath, "files");
+            if (!Directory.Exists(_filePath))
+            {
+                Directory.CreateDirectory(_filePath);
+            }
         }
 
         // GET: Portal/MateriaisApoio
@@ -35,6 +45,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             return View(materiaisApoioDaTurma);
         }
 
+        [Authorize(Policy = "RequireAdminOrProfessorRole")]
         // GET: Portal/MateriaisApoio/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
@@ -54,6 +65,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             return View(materialApoio);
         }
 
+        [Authorize(Policy = "RequireAdminOrProfessorRole")]
         // GET: Portal/MateriaisApoio/Create
         public IActionResult Create()
         {
@@ -61,32 +73,42 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 
             if (disciplinas.Count == 0)
             {
-                TempData["Message"] = "Não há disciplinas cadastradas. Por favor, cadastre uma disciplina antes de adicionar materiais de apoio.";
-                return RedirectToAction(nameof(Index)); 
+                this.MostrarMensagem($"Não há disciplinas cadastradas. Por favor, cadastre uma disciplina antes de adicionar materiais de apoio.", erro: true);
+                return RedirectToAction(nameof(Index));
             }
 
             ViewData["DisciplinaId"] = new SelectList(_context.Disciplinas, "DisciplinaId", "Nome");
             return View();
         }
 
+        [Authorize(Policy = "RequireAdminOrProfessorRole")]
         // POST: Portal/MateriaisApoio/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MaterialApoioId,Nome,Descricao,Arquivo,DisciplinaId")] MaterialApoio materialApoio)
+        public async Task<IActionResult> Create([Bind("MaterialApoioId,Nome,Descricao,Arquivo,DisciplinaId")] MaterialApoio materialApoio, IFormFile anexo)
         {
             if (ModelState.IsValid)
             {
-                materialApoio.MaterialApoioId = Guid.NewGuid();
+                if (anexo != null && anexo.Length > 0)
+                {
+                    materialApoio.Arquivo = await SalvarArquivo(anexo);
+                }
+
+                materialApoio.MaterialApoioId = _comb.Create();
                 _context.Add(materialApoio);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["DisciplinaId"] = new SelectList(_context.Disciplinas, "DisciplinaId", "Nome", materialApoio.DisciplinaId);
+
+            ModelState.AddModelError(string.Empty, "O campo arquivo é obrigatório.");
+
             return View(materialApoio);
         }
 
+        [Authorize(Policy = "RequireAdminOrProfessorRole")]
         // GET: Portal/MateriaisApoio/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
@@ -104,42 +126,57 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             return View(materialApoio);
         }
 
+        [Authorize(Policy = "RequireAdminOrProfessorRole")]
         // POST: Portal/MateriaisApoio/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("MaterialApoioId,Nome,Descricao,Arquivo,DisciplinaId")] MaterialApoio materialApoio)
+        public async Task<IActionResult> Edit(Guid id, [Bind("MaterialApoioId,Nome,Descricao,Arquivo,DisciplinaId")] MaterialApoio materialApoio, IFormFile arquivo)
         {
             if (id != materialApoio.MaterialApoioId)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            try
             {
-                try
+                var materialApoioExistente = await _context.MateriaisApoio.FindAsync(id);
+
+                if (materialApoioExistente != null)
                 {
-                    _context.Update(materialApoio);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!MaterialApoioExists(materialApoio.MaterialApoioId))
+                    if (arquivo != null && arquivo.Length > 0)
                     {
-                        return NotFound();
+                        materialApoio.Arquivo = await SalvarArquivo(arquivo);
                     }
                     else
                     {
-                        throw;
+                        materialApoio.Arquivo = materialApoioExistente.Arquivo;
                     }
+
+                    _context.Entry(materialApoioExistente).CurrentValues.SetValues(materialApoio);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
-                return RedirectToAction(nameof(Index));
+                else
+                {
+                    return NotFound();
+                }
             }
-            ViewData["DisciplinaId"] = new SelectList(_context.Disciplinas, "DisciplinaId", "Nome", materialApoio.DisciplinaId);
-            return View(materialApoio);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!MaterialApoioExists(materialApoio.MaterialApoioId))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
         }
 
+        [Authorize(Policy = "RequireAdminOrProfessorRole")]
         // GET: Portal/MateriaisApoio/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
@@ -159,6 +196,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             return View(materialApoio);
         }
 
+        [Authorize(Policy = "RequireAdminOrProfessorRole")]
         // POST: Portal/MateriaisApoio/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -177,6 +215,23 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
         private bool MaterialApoioExists(Guid id)
         {
             return _context.MateriaisApoio.Any(e => e.MaterialApoioId == id);
+        }
+
+        private async Task<string> SalvarArquivo(IFormFile anexo)
+        {
+            if (anexo != null && anexo.Length > 0)
+            {
+                var nome = Guid.NewGuid().ToString() + Path.GetExtension(anexo.FileName);
+                var filePath = Path.Combine(_filePath, nome);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await anexo.CopyToAsync(stream);
+                }
+
+                return nome;
+            }
+            return null;
         }
     }
 }

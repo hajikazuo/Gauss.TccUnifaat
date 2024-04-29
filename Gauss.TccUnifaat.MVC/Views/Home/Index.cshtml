@@ -119,9 +119,9 @@
                     <div class="card h-100 shadow border-0">
                         <img class="card-img-top" src="@noticia.UrlImagem" alt="Imagem da Notícia" />
                         <div class="card-body p-4">
-                            <a class="text-decoration-none link-dark stretched-link" href="#!">
-                                <h5 class="card-title mb-3">@noticia.Titulo</h5>
-                            </a>
+
+                            <h5 class="card-title mb-3">@noticia.Titulo</h5>
+
                             <p class="card-text mb-0">@noticia.Conteudo</p>
                         </div>
                         <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
@@ -131,6 +131,12 @@
                                         <div class="text-muted">@noticia.DataCadastro.ToString("dd/MM/yyyy")</div>
                                     </div>
                                 </div>
+                                @if (!string.IsNullOrEmpty(noticia.Link))
+                                {
+                                    <div>
+                                        <a href="@noticia.Link" class="link" target="_blank">Saiba mais</a>
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>

@@ -1,28 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+﻿using Dapper;
 using Gauss.TccUnifaat.Common.Models;
+using Gauss.TccUnifaat.Controllers;
 using Gauss.TccUnifaat.Data;
+using Gauss.TccUnifaat.MVC.Dapper;
+using Gauss.TccUnifaat.MVC.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 {
     [Area("Portal")]
-    public class PresencasController : Controller
+    public class PresencasController : ControllerBase<ApplicationDbContext, RT.Comb.ICombProvider>
     {
-        private readonly ApplicationDbContext _context;
         private readonly UserManager<Usuario> _userManager;
-
-        public PresencasController(ApplicationDbContext context, UserManager<Usuario> userManager)
+        public PresencasController(ApplicationDbContext context
+            , RT.Comb.ICombProvider comb, UserManager<Usuario> userManager
+            ) : base(context, comb)
         {
-            _context = context;
             _userManager = userManager;
         }
 
+        [Authorize(Policy = "RequireAdminOrProfessorRole")]
         public async Task<IActionResult> Index(DateTime? dataFiltro = null)
         {
             var currentUser = await _userManager.GetUserAsync(User);
@@ -45,7 +45,22 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             return View(presencasNaTurma);
         }
 
+        [Authorize(Policy = "RequireAdminOrProfessorRole")]
+        public async Task<IActionResult> ControleFaltas()
+        {
+            var sqlControleFaltas = Common.Resources.querys.controle_faltas;
+            var conn = _context.Database.GetDbConnection();
+            var faltas = conn.Query<ControleFaltasViewModel>(sqlControleFaltas);
 
+            var currentUser = await _userManager.GetUserAsync(User);
+            var turmaIdDoUsuario = currentUser.TurmaId;
+
+            var controleFaltasNaTurma = faltas.Where(cf => cf.TurmaId == turmaIdDoUsuario);
+
+            return View(controleFaltasNaTurma);
+        }
+
+        [Authorize(Policy = "RequireAdminOrProfessorRole")]
         public async Task<IActionResult> Create(DateTime dataAula)
         {
             var currentUser = await _userManager.GetUserAsync(User);
@@ -59,6 +74,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             return View(turmaDoUsuario);
         }
 
+        [Authorize(Policy = "RequireAdminOrProfessorRole")]
         [HttpPost]
         public async Task<IActionResult> Create(DateTime dataAula, [FromForm] Dictionary<string, bool> presenca)
         {
@@ -81,10 +97,25 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 
             await _context.SaveChangesAsync();
 
-            TempData["PresencaSalva"] = true;
+            this.MostrarMensagem("Presença salva com sucesso!.");
 
             return RedirectToAction(nameof(Create));
         }
 
+        public async Task<IActionResult> ContagemFaltasPorUsuario()
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            var turmaIdDoUsuario = currentUser.TurmaId;
+
+            var presencasDoUsuario = await _context.Presencas
+                .Where(p => p.UsuarioId == currentUser.Id && p.TurmaId == turmaIdDoUsuario && !p.Presente)
+                .ToListAsync();
+
+            var totalFaltas = presencasDoUsuario.Sum(p => p.TotalFaltas);
+
+            ViewBag.UserName = currentUser.NomeCompleto;
+
+            return View(totalFaltas);
+        }
     }
 }

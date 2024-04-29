@@ -1,0 +1,26 @@
+﻿@using Gauss.TccUnifaat.MVC.ViewModels
+
+@if (TempData.ContainsKey("mensagem"))
+{
+    var mensagem = MensagemViewModel.Desserializar(TempData["mensagem"].ToString());
+    @if (mensagem.Tipo == TipoMensagem.Erro)
+    {
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro!',
+                text: '@Html.Raw(mensagem.Texto)',
+            });
+        </script>
+    }
+    else
+    {
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Sucesso!',
+                text: '@Html.Raw(mensagem.Texto)',
+            });
+        </script>
+    }
+}

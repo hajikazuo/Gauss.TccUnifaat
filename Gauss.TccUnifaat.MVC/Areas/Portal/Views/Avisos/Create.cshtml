@@ -1,47 +1,51 @@
 ﻿@model Gauss.TccUnifaat.Common.Models.Aviso
-
 @{
-    ViewData["Title"] = "Create";
+    var pageName = "Cadastrar";
+    ViewData["Title"] = pageName;
+    ViewData["Category1"] = "Avisos";
+    ViewData["Heading"] = "Aviso: <span class='fw-300'>Cadastrar</span>";
 }
 
-<h1>Create</h1>
+<div class="container-fluid mt-3">
 
-<h4>Aviso</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Titulo" class="control-label"></label>
-                <input asp-for="Titulo" class="form-control" />
-                <span asp-validation-for="Titulo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Descricao" class="control-label"></label>
-                <input asp-for="Descricao" class="form-control" />
-                <span asp-validation-for="Descricao" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DataAviso" class="control-label"></label>
-                <input asp-for="DataAviso" class="form-control" />
-                <span asp-validation-for="DataAviso" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TurmaId" class="control-label"></label>
-                <select asp-for="TurmaId" class ="form-control" asp-items="ViewBag.TurmaId"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>@pageName</h5>
+        </div>
+        <div class="card-body">
+
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group mt-3">
+                    <label asp-for="Titulo" class="control-label"></label>
+                    <input asp-for="Titulo" class="form-control" />
+                    <span asp-validation-for="Titulo" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-3">
+                    <label asp-for="Descricao" class="control-label"></label>
+                    <input asp-for="Descricao" class="form-control" />
+                    <span asp-validation-for="Descricao" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-3">
+                    <label asp-for="DataAviso" class="control-label"></label>
+                    <input asp-for="DataAviso" class="form-control" />
+                    <span asp-validation-for="DataAviso" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-3">
+                    <label asp-for="TurmaId" class="control-label"></label>
+                    <select asp-for="TurmaId" class="form-control" asp-items="ViewBag.TurmaId"></select>
+                </div>
+                <div class="form-group mt-3">
+                    <input type="submit" value="Salvar" class="btn btn-secondary" />
+                    <a class="btn btn-outline-secondary" asp-action="Index">Voltar para lista</a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

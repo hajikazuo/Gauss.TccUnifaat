@@ -1,59 +1,70 @@
 ﻿@model IEnumerable<Gauss.TccUnifaat.Common.Models.Aviso>
 
 @{
-    ViewData["Title"] = "Index";
+    var pageName = "Lista de avisos";
+    ViewData["Title"] = pageName;
+    ViewData["Category1"] = "Avisos";
+    ViewData["Heading"] = "Avisos: <span class='fw-300'>Listagem</span>";
 }
 
-<h1>Index</h1>
+<partial name="_MensagemPartial" />
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Titulo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Descricao)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DataAviso)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Turma)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DataCadastro)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Titulo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descricao)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DataAviso)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Turma.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DataCadastro)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.AvisoId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.AvisoId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.AvisoId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="container-fluid mt-3">
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>@pageName</h5>
+        </div>
+        <div class="card-body">
+
+            <p>
+                <a class="btn btn-secondary" asp-action="Create">Cadastrar</a>
+            </p>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Titulo)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Descricao)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.DataAviso)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Turma)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Titulo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Descricao)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DataAviso)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Turma.Nome)
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                    <a asp-action="Details" asp-route-id="@item.AvisoId" class="btn btn-primary"><i class="fa-solid fa-circle-info"></i></a>
+                                    <a asp-action="Edit" asp-route-id="@item.AvisoId" class="btn btn-secondary"><i class="fa-solid fa-pen-to-square"></i></a>
+                                    <a asp-action="Delete" asp-route-id="@item.AvisoId" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                                </div>
+                            </td>                        
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

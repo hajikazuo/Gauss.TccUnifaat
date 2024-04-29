@@ -6,5 +6,6 @@
         public string Conteudo { get; set; }
         public DateTime DataCadastro { get; set; }
         public string UrlImagem { get; set; }
+        public string Link { get; set; }
     }
 }

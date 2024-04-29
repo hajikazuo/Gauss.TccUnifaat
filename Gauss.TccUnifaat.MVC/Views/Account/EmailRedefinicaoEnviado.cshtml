@@ -1,0 +1,33 @@
+﻿@using Gauss.TccUnifaat.MVC.ViewModels
+
+@model EsqueciSenhaViewModel
+@{
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+<section class="py-5">
+    <div class="container px-5">
+        <div class="rounded-3 py-5 px-4 px-md-5 mb-5 mx-auto">
+            <div class="row gx-5 justify-content-center">
+                <div class="col-lg-8 col-xl-6">
+                    <h1 class="text-danger">E-mail de Redefinição de Senha Enviado</h1>
+                    <hr>
+
+                    <p>
+                        Uma mensagem contendo o link para redefinição de sua senha foi enviado para seu e-mail. Acesse sua caixa de mensagens
+                        e clique no link recebido para redefinir sua senha.
+                    </p>
+
+                    <p>
+                        Acesse sua caixa de mensagens e clique no link para dar continuidade ao processo de redefinição de senha. Se quiser
+                        voltar à página principal, clique no botão abaixo.
+                    </p>
+
+                    <a asp-action="Index" asp-controller="Home" class="btn btn-outline-secondary">Voltar à Página Principal</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+

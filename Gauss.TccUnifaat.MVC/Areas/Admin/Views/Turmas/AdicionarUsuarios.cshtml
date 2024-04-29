@@ -1,45 +1,60 @@
 ﻿@model Gauss.TccUnifaat.Common.Models.Turma
+
 @{
-    ViewData["Title"] = "Adicionar";
+    var pageName = "Adicionar usuário";
+    ViewData["Title"] = pageName;
+    ViewData["Category1"] = "Turmas";
+    ViewData["Heading"] = "Usuários: <span class='fw-300'>Listagem</span>";
 }
 
-<div class="row justify-content-center">
-    <div class="col-md-4 mt-4">
+<div class="container-fluid mt-3">
 
-        <h2>Adicionar Usuários à Turma</h2>
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>@pageName</h5>
+        </div>
+        <div class="card-body">
 
-        <p>
-            <strong>Turma:</strong> @Model.Nome
-        </p>
 
-        @using (Html.BeginForm())
-        {
-            <div class="form-group">
-                <label for="usuariosSelecionados">Selecione os Usuários:</label>
 
-                @if (ViewData["UsuariosDisponiveis"] is List<Usuario> usuariosDisponiveis && usuariosDisponiveis.Any())
-                {
-                    <select multiple class="form-control" id="usuariosSelecionados" name="usuariosSelecionados[]">
-                        @foreach (var usuario in usuariosDisponiveis.OrderBy(u => u.NomeCompleto))
-                        {
-                            <option value="@usuario.Id">@usuario.NomeCompleto</option>
-                        }
-                    </select>
-                }
-                else
-                {
-                    <p>Nenhum usuário disponível.</p>
-                }
-            </div>
+            <p>
+                <strong>Turma:</strong> @Model.Nome
+            </p>
 
-            <br />
+            @using (Html.BeginForm())
+            {
+                <div class="form-group">
+                    <label for="usuariosSelecionados">Selecione os Usuários:</label>
 
-            <div class="form-group">
-                <button type="submit" class="btn btn-danger">Adicionar Usuários</button>
-                <a class="btn btn-secondary" asp-action="Details" asp-route-id="@Model.TurmaId">Voltar para Detalhes da Turma</a>
-            </div>
-            
-        }
+                    @if (ViewData["UsuariosDisponiveis"] is List<Usuario> usuariosDisponiveis && usuariosDisponiveis.Any())
+                    {
+                        <ul class="list-group">
+                            @foreach (var usuario in usuariosDisponiveis.OrderBy(u => u.NomeCompleto))
+                            {
+                                <li class="list-group-item">
+                                    <label>
+                                        <input type="checkbox" name="usuariosSelecionados" value="@usuario.Id" />
+                                        @usuario.NomeCompleto
+                                    </label>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p>Nenhum usuário disponível.</p>
+                    }
+                </div>
 
+                <br />
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-secondary">Adicionar Usuários</button>
+                    <a class="btn btn-outline-secondary" asp-action="Details" asp-route-id="@Model.TurmaId">Voltar para Detalhes da Turma</a>
+                </div>
+
+            }
+
+        </div>
     </div>
 </div>

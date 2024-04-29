@@ -34,6 +34,7 @@ public class ApplicationDbContext : IdentityDbContext<Usuario, Funcao, Guid>
     public DbSet<MaterialApoio> MateriaisApoio { get; set; }
     public DbSet<Video> Videos { get; set; }
     public DbSet<Aviso> Avisos { get; set; }
+    public DbSet<Horario> Horarios { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -42,10 +43,8 @@ public class ApplicationDbContext : IdentityDbContext<Usuario, Funcao, Guid>
 
         builder.Entity<Turma>().HasQueryFilter(t => !t.Excluido);
 
-        // Configurar o filtro global de consulta para Presenca
         builder.Entity<Presenca>().HasQueryFilter(p => !p.Excluido);
 
-        // Configurar relacionamentos e chaves estrangeiras
         builder.Entity<Presenca>()
             .HasOne(p => p.Turma)
             .WithMany(t => t.Presencas)
@@ -57,7 +56,6 @@ public class ApplicationDbContext : IdentityDbContext<Usuario, Funcao, Guid>
             .WithMany(u => u.Presencas)
             .HasForeignKey(p => p.UsuarioId)
             .OnDelete(DeleteBehavior.Restrict);
-
     }
 
     private void ModelStatusModificacao<TEntity>(EntityTypeBuilder<TEntity> entity) where TEntity : class, IStatusModificacao

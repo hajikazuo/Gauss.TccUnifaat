@@ -4,6 +4,8 @@
     Layout = "~/Views/Shared/_LayoutLogin.cshtml";
 }
 
+<partial name="_MensagemPartial" />
+
 <section class="py-5">
     <div class="container px-5">
         <div class="rounded-3 py-5 px-4 px-md-5 mb-5 mx-auto">
@@ -14,30 +16,31 @@
                 <div class="col-lg-8 col-xl-6">
                     <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
                         <div class="form-floating mb-3">
-                            <input asp-for="UserName" class="form-control" type="text" placeholder="nome@exemplo.com" data-sb-validations="required,username"
-                                   required value="gauss@gauss.com.br" />
-                            <label for="username">Usuário</label>
-                            <div class="invalid-feedback" data-sb-feedback="username:required">O usuário é obrigatório.</div>
-                            <div class="invalid-feedback" data-sb-feedback="username:username">usuário inválido</div>
+                            <input asp-for="@Model.UserName" class="form-control" value="gauss@gauss.com.br" />
+                            <label asp-for="@Model.UserName"></label>
+                            <span asp-validation-for="@Model.UserName" class="text-danger"></span>
                         </div>
                         <div class="input-group mb-3">
-                            <input asp-for="Password" class="form-control" placeholder="Senha" id="Password" name="Password" 
-                                   required value="Gauss@2023" />
+                            <input asp-for="@Model.Password" class="form-control" placeholder="Senha" id="Password" value="Gauss@2024" />
                             <button class="btn btn-outline-secondary" type="button" id="togglePassword">
                                 <i class="far fa-eye" id="eye"></i>
                             </button>
                         </div>
+                        <span asp-validation-for="@Model.Password" class="text-danger"></span>
                         <div class="d-grid">
                             <button id="js-login-btn" type="submit" class="btn btn-danger btn-block btn-lg">Login</button>
                         </div>
                     </form>
+                    <p class="py-3">
+                        Esqueceu sua senha? <a asp-action="EsqueciSenha" asp-controller="Account">Clique aqui</a>
+                    </p>
                 </div>
             </div>
         </div>
 
         <div class="text-center mb-5">
             <p class="lead fs-6 text-muted mb-0">Desenvolvido por <strong>Nilton Kazuo</strong> &amp; <strong>Paulo Araújo</strong></p>
-            <p class="lead fs-6 text-muted mb-0">&copy; 2023 - Todos os direitos reservados</p>
+            <p class="lead fs-6 text-muted mb-0">&copy; 2024 - Todos os direitos reservados</p>
         </div>
 
     </div>

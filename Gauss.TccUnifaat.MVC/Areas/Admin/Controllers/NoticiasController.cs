@@ -1,33 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Gauss.TccUnifaat.Common.Extensions;
+using Gauss.TccUnifaat.Common.Models;
+using Gauss.TccUnifaat.Common.Services.Interfaces;
+using Gauss.TccUnifaat.Controllers;
+using Gauss.TccUnifaat.Data;
+using Gauss.TccUnifaat.MVC.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Gauss.TccUnifaat.Common.Models;
-using Gauss.TccUnifaat.Data;
 using System.Security.Claims;
-using Gauss.TccUnifaat.Common.Extensions;
-using Microsoft.AspNetCore.Authorization;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
 {
     [Authorize(Policy = "RequireAdminRole")]
     [Area("Admin")]
 
-    public class NoticiasController : Controller
+    public class NoticiasController : ControllerBase<ApplicationDbContext, RT.Comb.ICombProvider>
     {
-        private readonly ApplicationDbContext _context;
-        public RT.Comb.ICombProvider _comb;
         private readonly string _filePath;
         private readonly IWebHostEnvironment _env;
+        private readonly HttpClient _httpClient;
 
-        public NoticiasController(ApplicationDbContext context, RT.Comb.ICombProvider comb, IWebHostEnvironment env)
+        public NoticiasController(ApplicationDbContext context
+            , RT.Comb.ICombProvider comb, IWebHostEnvironment env, IHttpClientFactory httpClientFactory
+            ) : base(context, comb)
         {
-            _filePath = Path.Combine(env.WebRootPath, "img");
-            _context = context;
-            _comb = comb;
+            _env = env;
+
+            _filePath = Path.Combine(env.WebRootPath, "imgNoticias");
+            if (!Directory.Exists(_filePath))
+            {
+                Directory.CreateDirectory(_filePath);
+            }
+
+            _httpClient = httpClientFactory.CreateClient();
         }
 
         // GET: Admin/Noticias
@@ -56,24 +62,23 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
             return View(noticia);
         }
 
-        public string SalvarArquivo(IFormFile anexo)
+        public bool ValidaImagem(IFormFile anexo)
         {
-
-
-            if (anexo != null && anexo.Length > 0)
+            switch (anexo.ContentType)
             {
-                var nome = Guid.NewGuid().ToString() + Path.GetExtension(anexo.FileName);
-                var filePath = Path.Combine(_filePath, nome);
-
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    anexo.CopyTo(stream);
-                }
-
-                return nome;
+                case "image/jpeg":
+                    return true;
+                case "image/bmp":
+                    return true;
+                case "image/gif":
+                    return true;
+                case "image/png":
+                    return true;
+                default:
+                    return false;
             }
-            return null;
         }
+
         // GET: Admin/Noticias/Create
         public IActionResult Create()
         {
@@ -90,10 +95,19 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
+
+                if (anexo != null && anexo.Length > 0)
+                {
+                    if (!ValidaImagem(anexo))
+                    {
+                        this.MostrarMensagem($"Formato de arquivo inválido.", erro: true);
+                        return View();
+                    }
+                    noticia.Foto = await SalvarArquivo(anexo);
+                }
+
                 noticia.NoticiaId = _comb.Create();
                 noticia.UsuarioId = userId;
-
-                noticia.Foto = SalvarArquivo(anexo);
 
                 _context.Noticias.Add(noticia);
                 await _context.SaveChangesAsync();
@@ -101,6 +115,8 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
             }
 
             ViewData["TipoNoticia"] = ControllerEnumsExtensions.MontarSelectListParaEnum2(noticia.TipoNoticia, true);
+
+            ModelState.AddModelError(string.Empty, "O campo foto é obrigatório.");
 
             return View(noticia);
         }
@@ -128,36 +144,56 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("NoticiaId,UsuarioId,TipoNoticia,Titulo,Conteudo,DataCadastro,Foto")] Noticia noticia)
+        public async Task<IActionResult> Edit(Guid id, [Bind("NoticiaId,UsuarioId,TipoNoticia,Titulo,Conteudo,Foto,Link")] Noticia noticia, IFormFile anexo)
         {
             if (id != noticia.NoticiaId)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            try
             {
-                try
+                var noticiaExistente = await _context.Noticias.FindAsync(id);
+
+                if (noticiaExistente != null)
                 {
-                    _context.Update(noticia);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!NoticiaExists(noticia.NoticiaId))
+                    if (anexo != null && anexo.Length > 0)
                     {
-                        return NotFound();
+                        if (!ValidaImagem(anexo))
+                        {
+                            this.MostrarMensagem($"Formato de arquivo inválido.", erro: true);
+                            return View();
+                        }
+
+                        noticia.Foto = await SalvarArquivo(anexo);
                     }
                     else
                     {
-                        throw;
+                        noticia.Foto = noticiaExistente.Foto;
                     }
+
+                    _context.Entry(noticiaExistente).CurrentValues.SetValues(noticia);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
-                return RedirectToAction(nameof(Index));
+                else
+                {
+                    return NotFound();
+                }
             }
-            ViewData["UsuarioId"] = new SelectList(_context.Set<Usuario>(), "Id", "Cpf", noticia.UsuarioId);
-            return View(noticia);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!NoticiaExists(noticia.NoticiaId))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
         }
+
 
         // GET: Admin/Noticias/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
@@ -197,5 +233,38 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
         {
             return _context.Noticias.Any(e => e.NoticiaId == id);
         }
+
+        private async Task<string> SalvarArquivo(IFormFile anexo)
+        {
+            if (anexo != null && anexo.Length > 0)
+            {
+                var nome = Guid.NewGuid().ToString() + Path.GetExtension(anexo.FileName);
+                var filePath = Path.Combine(_filePath, nome);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await anexo.CopyToAsync(stream);
+                }
+
+                return nome;
+            }
+            return null;
+        }
+
+        //Teste 
+        public async Task<IActionResult> PegarNoticias([FromServices] INoticiaService noticiaService)
+        {
+            try
+            {
+                var noticias = await noticiaService.ObterNoticiasAsync();
+
+                return Ok(noticias);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }

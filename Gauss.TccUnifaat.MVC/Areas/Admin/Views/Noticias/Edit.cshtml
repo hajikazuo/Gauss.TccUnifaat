@@ -1,7 +1,9 @@
 ﻿@model Gauss.TccUnifaat.Common.Models.Noticia
 
 @{
-    ViewData["Title"] = "Editar";
+    var pageName = "Editar";
+    ViewData["Title"] = pageName;
+    ViewData["Category1"] = "Notícias";
     var tipoNoticiaOptions = Enum.GetValues(typeof(TipoNoticia))
         .Cast<TipoNoticia>()
         .Select(t => new SelectListItem
@@ -9,50 +11,58 @@
                     Value = ((int)t).ToString(),
                     Text = t.ToString()
                 });
+    ViewData["Heading"] = "Notícia: <span class='fw-300'>Editar</span>";
 }
 
-<div class="row justify-content-center">
-    <div class="col-md-4 mt-4">
-        <h4>Editar</h4>
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="NoticiaId" />
-            <div class="form-group">
-                <label asp-for="UsuarioId" class="control-label"></label>
-                <select asp-for="UsuarioId" class="form-control" asp-items="ViewBag.UsuarioId"></select>
-                <span asp-validation-for="UsuarioId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TipoNoticia" class="control-label"></label>
-                <select asp-for="TipoNoticia" asp-items="tipoNoticiaOptions" class="form-control"></select>
-                <span asp-validation-for="TipoNoticia" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Titulo" class="control-label"></label>
-                <input asp-for="Titulo" class="form-control" />
-                <span asp-validation-for="Titulo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Conteudo" class="control-label"></label>
-                <input asp-for="Conteudo" class="form-control" />
-                <span asp-validation-for="Conteudo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DataCadastro" class="control-label"></label>
-                <input asp-for="DataCadastro" class="form-control" />
-                <span asp-validation-for="DataCadastro" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Foto" class="control-label"></label>
-                <input asp-for="Foto" class="form-control" />
-                <span asp-validation-for="Foto" class="text-danger"></span>
-            </div>
-            <br />
-            <div class="form-group">
-                <input type="submit" value="Salvar" class="btn btn-danger" />
-                <a class="btn btn-secondary" asp-action="Index">Voltar para a lista</a>
-            </div>
-        </form>
+<partial name="_MensagemPartial" />
+
+<div class="container-fluid mt-3">
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>@pageName</h5>
+        </div>
+        <div class="card-body">
+
+            <form asp-action="Edit" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="NoticiaId" />
+                <div class="form-group mt-3" style="display: none">
+                    <label asp-for="UsuarioId" class="control-label"></label>
+                    <select asp-for="UsuarioId" class="form-control" asp-items="ViewBag.UsuarioId"></select>
+                    <span asp-validation-for="UsuarioId" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-3">
+                    <label asp-for="TipoNoticia" class="control-label"></label>
+                    <select asp-for="TipoNoticia" asp-items="tipoNoticiaOptions" class="form-control"></select>
+                    <span asp-validation-for="TipoNoticia" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-3">
+                    <label asp-for="Titulo" class="control-label"></label>
+                    <input asp-for="Titulo" class="form-control" />
+                    <span asp-validation-for="Titulo" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-3">
+                    <label asp-for="Conteudo" class="control-label"></label>
+                    <input asp-for="Conteudo" class="form-control" />
+                    <span asp-validation-for="Conteudo" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-3">
+                    <label asp-for="Foto" class="control-label"></label>
+                    <input class="form-control" type="file" name="anexo" id="formFile">
+                    <span asp-validation-for="Foto" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-3">
+                    <label asp-for="Link" class="control-label"></label>
+                    <input asp-for="Link" class="form-control" />
+                    <span asp-validation-for="Link" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-3">
+                    <input type="submit" value="Salvar" class="btn btn-secondary" />
+                    <a class="btn btn-outline-secondary" asp-action="Index">Voltar para a lista</a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 

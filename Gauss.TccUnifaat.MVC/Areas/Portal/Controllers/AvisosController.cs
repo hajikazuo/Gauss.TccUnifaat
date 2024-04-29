@@ -8,24 +8,38 @@ using Microsoft.EntityFrameworkCore;
 using Gauss.TccUnifaat.Common.Models;
 using Gauss.TccUnifaat.Data;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Gauss.TccUnifaat.MVC.Services.Interfaces;
+using Microsoft.AspNetCore.Identity;
+using Gauss.TccUnifaat.Controllers;
+using Gauss.TccUnifaat.MVC.Extensions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 {
+    [Authorize(Policy = "RequireAdminOrProfessorRole")]
     [Area("Portal")]
-    public class AvisosController : Controller
+    public class AvisosController : ControllerBase<ApplicationDbContext, RT.Comb.ICombProvider>
     {
-        private readonly ApplicationDbContext _context;
+        private readonly UserManager<Usuario> _userManager;
 
-        public AvisosController(ApplicationDbContext context)
+        public AvisosController(ApplicationDbContext context
+            , RT.Comb.ICombProvider comb, UserManager<Usuario> userManager
+            ) : base(context, comb)
         {
-            _context = context;
+            _userManager = userManager;
         }
 
         // GET: Portal/Avisos
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Avisos.Include(a => a.Turma);
-            return View(await applicationDbContext.ToListAsync());
+            var currentUser = await _userManager.GetUserAsync(User);
+            var avisosDaTurma = await _context.Avisos
+           .Where(m => m.TurmaId == currentUser.TurmaId)
+           .Include(t => t.Turma)
+           .ToListAsync();
+
+
+            return View(avisosDaTurma);
         }
 
         // GET: Portal/Avisos/Details/5
@@ -50,6 +64,14 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
         // GET: Portal/Avisos/Create
         public IActionResult Create()
         {
+            var disciplinas = _context.Disciplinas.ToList();
+
+            if (disciplinas.Count == 0)
+            {
+                this.MostrarMensagem($"Não há disciplinas cadastradas. Por favor, cadastre uma disciplina antes de adicionar avisos.", erro: true);
+                return RedirectToAction(nameof(Index));
+            }
+
             ViewData["TurmaId"] = new SelectList(_context.Turmas, "TurmaId", "Nome");
             return View();
         }
@@ -63,8 +85,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
         {
             if (ModelState.IsValid)
             {
-                aviso.AvisoId = Guid.NewGuid();
-                aviso.DataCadastro = DateTime.Now;
+                aviso.AvisoId = _comb.Create();
                 _context.Add(aviso);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

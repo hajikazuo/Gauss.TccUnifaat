@@ -1,0 +1,50 @@
+﻿@model Gauss.TccUnifaat.Common.Models.Horario
+
+@{
+    var pageName = "Deletar";
+    ViewData["Title"] = pageName;
+    ViewData["Category1"] = "Horários";
+    ViewData["Heading"] = "Horário: <span class='fw-300'>Deletar</span>";
+}
+
+<div class="container-fluid mt-3">
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>@pageName</h5>
+        </div>
+        <div class="card-body">
+
+            <h3 class="text-danger py-3">Você tem certeza que deseja deletar?</h3>
+
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.DataAula)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.DataAula)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Usuario)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Usuario.NomeCompleto)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Disciplina)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Disciplina.Nome)
+                </dd>
+            </dl>
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="HorarioId" />
+                <input type="submit" value="Deletar" class="btn btn-danger" />
+                <a class="btn btn-outline-secondary" asp-action="Index">Voltar para a lista</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+

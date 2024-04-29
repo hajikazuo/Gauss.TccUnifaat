@@ -8,18 +8,19 @@ using Microsoft.EntityFrameworkCore;
 using Gauss.TccUnifaat.Common.Models;
 using Gauss.TccUnifaat.Data;
 using Microsoft.AspNetCore.Authorization;
+using Gauss.TccUnifaat.Controllers;
+using Gauss.TccUnifaat.MVC.Extensions;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
 {
     [Authorize(Policy = "RequireAdminRole")]
     [Area("Admin")]
-    public class DisciplinasController : Controller
+    public class DisciplinasController : ControllerBase<ApplicationDbContext, RT.Comb.ICombProvider>
     {
-        private readonly ApplicationDbContext _context;
-
-        public DisciplinasController(ApplicationDbContext context)
+        public DisciplinasController(ApplicationDbContext context
+            , RT.Comb.ICombProvider comb
+            ) : base(context, comb)
         {
-            _context = context;
         }
 
         // GET: Admin/Disciplinas
@@ -51,6 +52,14 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
         // GET: Admin/Disciplinas/Create
         public IActionResult Create()
         {
+            var turmas = _context.Turmas.ToList();
+
+            if (turmas.Count == 0)
+            {
+                this.MostrarMensagem($"Não há turmas cadastradas. Por favor, cadastre uma turma antes de adicionar disciplinas.", erro: true);
+                return RedirectToAction(nameof(Index));
+            }
+
             ViewData["TurmaId"] = new SelectList(_context.Turmas, "TurmaId", "Nome");
             return View();
         }
@@ -64,7 +73,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                disciplina.DisciplinaId = Guid.NewGuid();
+                disciplina.DisciplinaId = _comb.Create();
                 _context.Add(disciplina);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

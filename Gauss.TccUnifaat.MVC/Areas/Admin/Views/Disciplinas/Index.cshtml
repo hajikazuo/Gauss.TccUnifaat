@@ -1,21 +1,25 @@
 ﻿@model IEnumerable<Gauss.TccUnifaat.Common.Models.Disciplina>
 
 @{
-    var pageName = "Index";
+    var pageName = "Lista de disciplinas";
     ViewData["Title"] = pageName;
+    ViewData["Category1"] = "Disciplinas";
+    ViewData["Heading"] = "Disciplinas: <span class='fw-300'>Listagem</span>";
 }
+
+<partial name="_MensagemPartial" />
 
 <div class="container-fluid mt-3">
 
     <div class="card mb-4">
         <div class="card-header">
-            <h1>@pageName</h1>
+            <h5>@pageName</h5>
         </div>
         <div class="card-body">
 
 
             <p>
-                <a class="btn btn-secondary" asp-action="Create">Cadastrar nova</a>
+                <a class="btn btn-secondary" asp-action="Create">Cadastrar</a>
             </p>
             <table id="myTable" class="table table-bordered">
                 <thead>
@@ -46,9 +50,11 @@
                                 @Html.DisplayFor(modelItem => item.DataCadastro)
                             </td>
                             <td>
-                                <a asp-action="Edit" asp-route-id="@item.DisciplinaId">Edit</a> |
-                                <a asp-action="Details" asp-route-id="@item.DisciplinaId">Details</a> |
-                                <a asp-action="Delete" asp-route-id="@item.DisciplinaId">Delete</a>
+                                <div class="btn-group">
+                                    <a asp-action="Details" asp-route-id="@item.DisciplinaId" class="btn btn-primary"><i class="fa-solid fa-circle-info"></i></a>
+                                    <a asp-action="Edit" asp-route-id="@item.DisciplinaId" class="btn btn-secondary"><i class="fa-solid fa-pen-to-square"></i></a>
+                                    <a asp-action="Delete" asp-route-id="@item.DisciplinaId" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                                </div>
                             </td>
                         </tr>
                     }

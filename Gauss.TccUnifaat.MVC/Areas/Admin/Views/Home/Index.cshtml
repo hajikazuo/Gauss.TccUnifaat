@@ -1,74 +1,141 @@
 ﻿@using Gauss.TccUnifaat.Common.Extensions;
-@model IEnumerable<Gauss.TccUnifaat.MVC.ViewModels.DashboardViewModel>
+@using Gauss.TccUnifaat.MVC.Dapper;
 
 @{
-    var pageName = "Dashboard";
+    var pageName = "Gráficos";
     ViewData["Title"] = pageName;
+    ViewData["Category1"] = "Dashboard";
+    ViewData["Heading"] = "Home: <span class='fw-300'>Área administrativa</span>";
 }
 
 <div class="container-fluid mt-3">
 
-    <div class="card mb-4">
+<div class="row">
+    <div class="col-md-4">
+        <div class="card mb-4">
         <div class="card-header">
-            <h2>Notícias</h2>
+            <h5>Notícias</h5>
         </div>
         <div class="card-body">
 
-
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Tipo de Notícia</th>
-                        <th>Quantidade</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>@item.TipoNoticia.GetDisplayName()</td>
-                            <td>@item.qtd</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-
+            <canvas id="chartNoticias" width="400" height="200"></canvas>
         </div>
     </div>
+    </div>
 
-
+    <div class="col-md-4">       
     <div class="card mb-4">
         <div class="card-header">
-            <h2>Notícias</h2>
+            <h5>Usuários</h5>
         </div>
         <div class="card-body">
 
-
-            <h2>Usuários</h2>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Função</th>
-                        <th>Quantidade</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in ViewBag.Usuarios)
-                    {
-                        <tr>
-                            <td>@item.Funcao</td>
-                            <td>@item.QuantidadeUsuarios</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-
+            <canvas id="chartUsuarios" width="400" height="200"></canvas>
         </div>
     </div>
+    </div>
 
+    <div class="col-md-4">
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>Usuários por Turma</h5>
+        </div>
+        <div class="card-body">
+            <canvas id="chartUsuariosPorTurma" width="400" height="200"></canvas>
+        </div>
+    </div>
+    </div>
+</div>
 </div>
 
+@section Scripts {
+    <script>
+        var titulosNoticias = [];
+        var quantidadesNoticias = [];
+        @foreach (var item in ViewBag.Noticias)
+        {
+            <text>titulosNoticias.push('@item.TipoNoticia');</text>
+            <text>quantidadesNoticias.push('@item.qtd');</text>
+        }
 
+        var ctxNoticias = document.getElementById('chartNoticias').getContext('2d');
+        var chartNoticias = new Chart(ctxNoticias, {
+            type: 'doughnut',
+            data: {
+                labels: titulosNoticias,
+                datasets: [{
+                    label: 'Quantidade de Notícias',
+                    data: quantidadesNoticias,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                }]
+            },
+            options: {
 
+                aspectRatio: 2
+            }
+        });
 
+        var funcoesUsuarios = [];
+        var quantidadesUsuarios = [];
+        @foreach (var item in ViewBag.Usuarios)
+        {
+            <text>funcoesUsuarios.push('@item.Funcao');</text>
+            <text>quantidadesUsuarios.push('@item.QuantidadeUsuarios');</text>
+        }
 
+        var ctxUsuarios = document.getElementById('chartUsuarios').getContext('2d');
+        var chartUsuarios = new Chart(ctxUsuarios, {
+            type: 'bar',
+            data: {
+                labels: funcoesUsuarios,
+                datasets: [{
+                    label: 'Quantidade de Usuários',
+                    data: quantidadesUsuarios,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        var turmasUsuarios = [];
+        var quantidadesUsuariosPorTurma = [];
+        @foreach (var item in ViewBag.UsuariosPorTurma)
+        {
+            <text>turmasUsuarios.push('@item.Turma');</text>
+            <text>quantidadesUsuariosPorTurma.push('@item.QuantidadeUsuariosPorTurma');</text>
+        }
+
+        var ctxUsuariosPorTurma = document.getElementById('chartUsuariosPorTurma').getContext('2d');
+        var chartUsuariosPorTurma = new Chart(ctxUsuariosPorTurma, {
+            type: 'bar',
+            data: {
+                labels: turmasUsuarios,
+                datasets: [{
+                    label: 'Quantidade de Usuários por Turma',
+                    data: quantidadesUsuariosPorTurma,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+}

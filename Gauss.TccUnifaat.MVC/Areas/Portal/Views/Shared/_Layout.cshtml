@@ -7,12 +7,13 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>@ViewData["Title"] - Gauss.TccUnifaat</title>
-    <link href="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.0.0/r-3.0.0/datatables.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/datatables.min.css" asp-append-version="true" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 <body class="sb-nav-fixed">
-    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark shadow">
         <a class="navbar-brand ps-3" href="/portal"><img class="logo" src="~/img/logo.png" /></a>
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
         <ul class="navbar-nav ms-auto">
@@ -21,9 +22,7 @@
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                     <li>
                         <form method="post" asp-controller="account" asp-action="logout" asp-area="">
-                            <button type="submit" style="width:auto" class="dropdown-item">
-                                Logout
-                            </button>
+                            <button type="submit" class="dropdown-item"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
                         </form>
                     </li>
                 </ul>
@@ -36,50 +35,71 @@
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
-                        <div class="sb-sidenav-menu-heading">Core</div>
-                        <a class="nav-link" href="index.html">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Dashboard
-                        </a>
-                        <div class="sb-sidenav-menu-heading">Interface</div>
-                        <a class="nav-link" asp-area="portal" asp-controller="Avisos" asp-action="Index">
-                            <div class="sb-nav-link-icon"><i class="far fa-newspaper"></i></div>
-                            Avisos
-                        </a>
-                        <a class="nav-link" asp-area="portal" asp-controller="Turmas" asp-action="Index">
-                            <div class="sb-nav-link-icon"><i class="fa-regular fa-calendar-check"></i></div>
-                            Horários
+                        <div class="sb-sidenav-menu-heading">Navegação</div>
+                        <a class="nav-link" asp-area="portal" asp-controller="Home" asp-action="Index">
+                            <div class="sb-nav-link-icon"><i class="fa-solid fa-house"></i></div>
+                            Home
                         </a>
                         <a class="nav-link" asp-area="portal" asp-controller="MateriaisApoio" asp-action="Index">
                             <div class="sb-nav-link-icon"><i class="fas fa-book"></i></div>
                             Material de apoio
                         </a>
-
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                            <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
-                            Presenças
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" asp-area="portal" asp-controller="Presencas" asp-action="Index">
-                                    <div class="sb-nav-link-icon"></div>
-                                    Listar
-                                </a>
-                                <a class="nav-link" asp-area="portal" asp-controller="Presencas" asp-action="Create">
-                                    <div class="sb-nav-link-icon"></div>
-                                    Cadastrar
-                                </a>
-
-                               
-                            </nav>
-                        </div>
-
-                        
                         <a class="nav-link" asp-area="portal" asp-controller="Videos" asp-action="Index">
                             <div class="sb-nav-link-icon"><i class="fas fa-play"></i></div>
                             GaussTube
                         </a>
+                        @if (User.Identity.IsAuthenticated && (User.IsInRole("Aluno")))
+                        {
+                            <a class="nav-link" asp-area="portal" asp-controller="Presencas" asp-action="ContagemFaltasPorUsuario">
+                                <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                                Presenças
+                            </a>
+                        }
+                        @if (User.Identity.IsAuthenticated && (User.IsInRole("Administrador") || User.IsInRole("Professor")))
+                        {
+                            <div class="sb-sidenav-menu-heading">Professor</div>
+                            <a class="nav-link" asp-area="portal" asp-controller="Avisos" asp-action="Index">
+                                <div class="sb-nav-link-icon"><i class="far fa-newspaper"></i></div>
+                                Avisos
+                            </a>
+                            <a class="nav-link" asp-area="portal" asp-controller="Horarios" asp-action="Index">
+                                <div class="sb-nav-link-icon"><i class="fa-regular fa-calendar-check"></i></div>
+                                Horários
+                            </a>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                                Presenças
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" asp-area="portal" asp-controller="Presencas" asp-action="Index">
+                                        <div class="sb-nav-link-icon"></div>
+                                        Listar
+                                    </a>
+                                    <a class="nav-link" asp-area="portal" asp-controller="Presencas" asp-action="Create">
+                                        <div class="sb-nav-link-icon"></div>
+                                        Cadastrar
+                                    </a>
+                                    <a class="nav-link" asp-area="portal" asp-controller="Presencas" asp-action="ControleFaltas">
+                                        <div class="sb-nav-link-icon"></div>
+                                        Controle de faltas
+                                    </a>
+                                </nav>
+                            </div>
+                        }
+                        @if (User.Identity.IsAuthenticated && (User.IsInRole("Administrador")))
+                        {
+                            <div class="sb-sidenav-menu-heading">Atalhos</div>
+                            <a class="nav-link" asp-area="admin" asp-controller="Home" asp-action="Index">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-user-tie"></i></div>
+                                Área administrativa
+                            </a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index" target="_blank">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-globe"></i></div>
+                                Acessar site
+                            </a>
+                        }
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">
@@ -90,6 +110,8 @@
         </div>
         <div id="layoutSidenav_content">
             <main role="main" class="flex-shrink-0">
+                <partial name="_PageHeading" />
+                <partial name="_Breadcrumb" />
                 @RenderBody()
             </main>
             <footer class="py-4 bg-light mt-auto">
@@ -101,9 +123,9 @@
             </footer>
         </div>
     </div>
-    <script src="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.0.0/r-3.0.0/datatables.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/script.js"></script>
+    <script src="~/js/datatables.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -1,60 +1,60 @@
 ﻿@model IEnumerable<Gauss.TccUnifaat.Common.Models.MaterialApoio>
 
 @{
-    ViewData["Title"] = "Index";
+    var pageName = "Lista de material de apoio";
+    ViewData["Title"] = pageName;
+    ViewData["Category1"] = "Material de apoio";
+    ViewData["Heading"] = "Materiais de apoio: <span class='fw-300'>Listagem</span>";
 }
 
-@if (TempData["Message"] != null)
-{
-    <div class="alert alert-danger" role="alert">
-        @TempData["Message"]
+<partial name="_MensagemPartial" />
+
+<div class="container-fluid mt-3">
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>@pageName</h5>
+        </div>
+        <div class="card-body">
+            @if (User.Identity.IsAuthenticated && (User.IsInRole("Administrador") || User.IsInRole("Professor")))
+            {
+                <p>
+                    <a class="btn btn-secondary" asp-action="Create">Cadastrar</a>
+                </p>
+            }
+            <div class="list-group">
+                @foreach (var item in Model)
+                {
+                    <div class="list-group-item">
+                        <div>
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">Nome: @Html.DisplayFor(model => item.Nome)</h5>
+                                <small>Data de cadastro: @Html.DisplayFor(model => item.DataCadastro)</small>
+                            </div>                          
+                            <p class="mb-1">Descrição: @Html.DisplayFor(model => item.Descricao)</p>
+                            <p class="mb-1">Disciplina: @Html.DisplayFor(modelItem => item.Disciplina.Nome)</p>
+                            @if (!string.IsNullOrEmpty(item.Arquivo))
+                            {
+                                <p class="mb-1">Arquivo: <a href="@Url.Content("~/files/" + item.Arquivo)" target="_blank">Abrir/Download</a></p>
+                            }
+                            else
+                            {
+                                <p class="mb-1">Arquivo não disponível</p>
+                            }
+                        </div>
+                        @if (User.Identity.IsAuthenticated && (User.IsInRole("Administrador") || User.IsInRole("Professor")))
+                        {
+                            <div class="btn-group">
+                                <a asp-action="Details" asp-route-id="@item.MaterialApoioId" class="btn btn-primary"><i class="fa-solid fa-circle-info"></i></a>
+                                <a asp-action="Edit" asp-route-id="@item.MaterialApoioId" class="btn btn-secondary"><i class="fa-solid fa-pen-to-square"></i></a>
+                                <a asp-action="Delete" asp-route-id="@item.MaterialApoioId" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+
+
+        </div>
     </div>
-}
-
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nome)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Descricao)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Arquivo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Disciplina)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descricao)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Arquivo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Disciplina.Nome)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.MaterialApoioId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MaterialApoioId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MaterialApoioId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+</div>

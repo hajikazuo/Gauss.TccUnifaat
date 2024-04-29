@@ -1,0 +1,36 @@
+﻿@model Gauss.TccUnifaat.Common.Models.Usuario
+
+@{
+    var pageName = "Detalhes";
+    ViewData["Title"] = pageName;
+    ViewData["Category1"] = "Usuários";
+    ViewData["Heading"] = "Usuário: <span class='fw-300'>Detalhes</span>";
+}
+
+<div class="container-fluid mt-3">
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>@pageName</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <p><strong>Nome Completo:</strong> @Model.NomeCompleto</p>
+                    <p><strong>Email:</strong> @Model.Email</p>
+                    <p><strong>Telefone:</strong> @Model.Telefone</p>
+                    <p><strong>Idade:</strong> @Model.Idade</p>
+                    <p><strong>CPF:</strong> @Model.Cpf</p>
+                    <p><strong>Data de Nascimento:</strong> @Model.DataNascimento.ToString("dd'/'MM'/'yyyy")</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    function GerarPDF() {
+        window.print()
+    }
+</script>

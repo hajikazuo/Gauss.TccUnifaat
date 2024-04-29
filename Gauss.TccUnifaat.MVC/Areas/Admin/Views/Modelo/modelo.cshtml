@@ -4,18 +4,19 @@
 @{
     var pageName = "Titulo da pagina";
     ViewData["Title"] = pageName;
+     ViewData["Category1"] = "";
 }
 
 <div class="container-fluid mt-3">
 
     <div class="card mb-4">
         <div class="card-header">
-            h1>@pageName</h1> se for tabela titulo da tabela
+            <h1>@pageName</h1>
         </div>
         <div class="card-body">
 
             <p>
-                <a class="btn btn-secondary" asp-action="Create">Cadastrar nova</a>
+                <a class="btn btn-secondary" asp-action="Create">Cadastrar</a>
             </p>
 
             <!-- Tabela ou formulario aqui -->

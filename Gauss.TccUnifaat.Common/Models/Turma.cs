@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gauss.TccUnifaat.Common.Resources;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -11,7 +12,9 @@ namespace Gauss.TccUnifaat.Common.Models
     {
         public Guid TurmaId { get; set; }
 
-        [MaxLength(50)]
+        [Required(ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.Required))]
+        [MaxLength(50, ErrorMessageResourceType = typeof(TextosValidacao), ErrorMessageResourceName = nameof(TextosValidacao.MaxLength))]
+        [Display(Name = "Nome da turma")]
         public string Nome { get; set; }
 
         public virtual ICollection<Usuario>? Usuarios { get; set; } = new List<Usuario>();
