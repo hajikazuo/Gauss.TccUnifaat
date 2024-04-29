@@ -43,7 +43,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     });
 
 // Configuração do Hangfire usando o SQL Server
-var hangfireConnectionString = builder.Configuration.GetConnectionString("HangfireConnection");
+var hangfireConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddHangfire(configuration => configuration
     .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)  // Define o nível de compatibilidade dos dados.
     .UseSimpleAssemblyNameTypeSerializer()  // Utiliza um serializador simples de nomes de assemblies.
