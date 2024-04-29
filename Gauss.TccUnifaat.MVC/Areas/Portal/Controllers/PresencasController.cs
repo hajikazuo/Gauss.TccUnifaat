@@ -102,18 +102,25 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
             return RedirectToAction(nameof(Create));
         }
 
-        public async Task<IActionResult> ContagemFaltasPorUsuario()
+        public async Task<IActionResult> ContagemFaltasPorUsuario(DateTime? dataFiltro = null)
         {
             var currentUser = await _userManager.GetUserAsync(User);
             var turmaIdDoUsuario = currentUser.TurmaId;
+            var dataAtual = DateTime.Today;
+
+            if (dataFiltro == null)
+            {
+                dataFiltro = dataAtual;
+            }
 
             var presencasDoUsuario = await _context.Presencas
-                .Where(p => p.UsuarioId == currentUser.Id && p.TurmaId == turmaIdDoUsuario && !p.Presente)
+                .Where(p => p.UsuarioId == currentUser.Id && p.TurmaId == turmaIdDoUsuario && p.DataAula.Date.Month == dataFiltro.Value.Date.Month)
                 .ToListAsync();
-
-            var totalFaltas = presencasDoUsuario.Sum(p => p.TotalFaltas);
+            var totalFaltas = presencasDoUsuario.Count(p => p.Presente != true);
 
             ViewBag.UserName = currentUser.NomeCompleto;
+            ViewBag.DataAtual = dataAtual;
+            ViewBag.DataFiltro = dataFiltro;
 
             return View(totalFaltas);
         }

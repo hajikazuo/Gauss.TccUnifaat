@@ -9,6 +9,18 @@
 
 <div class="container-fluid mt-3">
 
+    <div class="card-body">
+        <form method="get" class="mb-3">
+            <div class="form-group">
+                <label for="dataFiltro">Selecione a data:</label>
+                <div class="input-group">
+                    <input type="month" id="dataFiltro" name="dataFiltro" class="form-control" value="@ViewBag.DataFiltro.ToString("yyyy-MM")">
+                    <button type="submit" class="btn btn-secondary">Filtrar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
     <div class="card mb-4">
         <div class="card-header">
             <h5>@pageName</h5>
