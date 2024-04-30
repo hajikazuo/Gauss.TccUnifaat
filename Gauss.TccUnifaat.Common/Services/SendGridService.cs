@@ -1,10 +1,10 @@
-﻿using Gauss.TccUnifaat.MVC.Services.Interfaces;
-using Gauss.TccUnifaat.MVC.Settings;
+﻿using Gauss.TccUnifaat.Common.Services.Interfaces;
+using Gauss.TccUnifaat.Common.Settings;
 using Microsoft.Extensions.Options;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 
-namespace Gauss.TccUnifaat.MVC.Services
+namespace Gauss.TccUnifaat.Common.Services
 {
     public class SendGridService : IEmailService
     {

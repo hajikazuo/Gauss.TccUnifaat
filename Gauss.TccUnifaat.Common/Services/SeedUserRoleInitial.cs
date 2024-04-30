@@ -2,7 +2,7 @@
 using Gauss.TccUnifaat.Common.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
-namespace Gauss.TccUnifaat.MVC.Services
+namespace Gauss.TccUnifaat.Common.Services
 {
     public class SeedUserRoleInitial : ISeedUserRoleInitial
     {

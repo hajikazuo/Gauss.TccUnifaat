@@ -6,9 +6,6 @@ using Gauss.TccUnifaat.Common.Services.Interfaces;
 using Gauss.TccUnifaat.Common.Settings;
 using Gauss.TccUnifaat.Data;
 using Gauss.TccUnifaat.MVC.Library;
-using Gauss.TccUnifaat.MVC.Services;
-using Gauss.TccUnifaat.MVC.Services.Interfaces;
-using Gauss.TccUnifaat.MVC.Settings;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -27,7 +24,7 @@ try
         options.UseSqlServer(connectionString));
     builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-    builder.Services.Configure<SendGridSettings>(builder.Configuration.GetSection("SendGridSettings"));
+    builder.Services.Configure<Gauss.TccUnifaat.Common.Settings.SendGridSettings>(builder.Configuration.GetSection("SendGridSettings"));
     builder.Services.AddSingleton<IEmailService, SendGridService>();
     builder.Services.AddSingleton(RT.Comb.Provider.Sql);
     builder.Services.Configure<NewsApiSettings>(builder.Configuration.GetSection("NewsApi"));

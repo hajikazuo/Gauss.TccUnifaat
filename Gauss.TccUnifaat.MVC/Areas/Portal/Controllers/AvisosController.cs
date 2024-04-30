@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Gauss.TccUnifaat.Common.Models;
+using Gauss.TccUnifaat.Controllers;
+using Gauss.TccUnifaat.Data;
+using Gauss.TccUnifaat.MVC.Extensions;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Gauss.TccUnifaat.Common.Models;
-using Gauss.TccUnifaat.Data;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Gauss.TccUnifaat.MVC.Services.Interfaces;
-using Microsoft.AspNetCore.Identity;
-using Gauss.TccUnifaat.Controllers;
-using Gauss.TccUnifaat.MVC.Extensions;
-using Microsoft.AspNetCore.Authorization;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 {
