@@ -9,7 +9,6 @@ using Gauss.TccUnifaat.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Rotativa.AspNetCore;
 using Serilog;
 
 try
@@ -119,7 +118,6 @@ try
        );
     });
 
-    app.UseRotativa();
 #pragma warning restore ASP0014 // Suggest using top level route registrations
 
 

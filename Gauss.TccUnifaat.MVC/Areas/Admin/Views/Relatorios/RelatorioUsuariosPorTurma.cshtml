@@ -1,18 +1,25 @@
 ﻿@{
     Layout = null;
+    var pageName = "Relatório - Quantidade de alunos por turma";
+    ViewData["Title"] = pageName;
 }
 
-<html>
+<!DOCTYPE html>
+<html lang="pt-br">
 <head>
     <meta charset="utf-8">
-    <title>Relatório</title>
+    <title>@pageName</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </head>
-<body>
+<body class="p-3">
     <header>
-        <h1>Relatório - Quantidade de alunos por turma</h1>
+        <h2>@pageName</h2>
     </header>
+
+    <div class="d-print-none">
+        <button class="btn btn-secondary my-3" onclick="imprimirPagina()">Imprimir</button>
+    </div>
+
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -30,5 +37,6 @@
             }
         </tbody>
     </table>
+    <script src="~/js/print.js"></script>
 </body>
-</html>  
+</html>
