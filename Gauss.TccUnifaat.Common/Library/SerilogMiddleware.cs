@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Http.Features;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Serilog.Events;
 using System.Diagnostics;
 
-namespace Gauss.TccUnifaat.MVC.Library
+namespace Gauss.TccUnifaat.Common.Library
 {
     public class SerilogMiddleware
     {
