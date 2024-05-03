@@ -6,18 +6,10 @@ using Gauss.TccUnifaat.Common.Services;
 using Gauss.TccUnifaat.Common.Services.Interfaces;
 using Gauss.TccUnifaat.Common.Settings;
 using Gauss.TccUnifaat.Data;
+using Hangfire;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Hangfire;
-using Gauss.TccUnifaat.Migrations;
-using static System.Net.Mime.MediaTypeNames;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using System.Diagnostics.Metrics;
-using System.Drawing;
-using System;
-using Rotativa.AspNetCore;
 using Serilog;
 
 try
@@ -57,28 +49,37 @@ try
             options.Cookie.HttpOnly = true;
         });
 
-// Configuração do Hangfire usando o SQL Server
-var hangfireConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddHangfire(configuration => configuration
-    .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)  // Define o nível de compatibilidade dos dados.
-    .UseSimpleAssemblyNameTypeSerializer()  // Utiliza um serializador simples de nomes de assemblies.
-    .UseRecommendedSerializerSettings()  // Configurações recomendadas para o serializador.
-    .UseSqlServerStorage(hangfireConnectionString));  // Armazenamento no SQL Server.
-builder.Services.AddHangfireServer();
+
+    var hangfireConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    builder.Services.AddHangfire(configuration => configuration
+        .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
+        .UseSimpleAssemblyNameTypeSerializer()
+        .UseRecommendedSerializerSettings()
+        .UseSqlServerStorage(hangfireConnectionString));
+    builder.Services.AddHangfireServer();
+
+    builder.Services.AddHangfireServer(x => x.SchedulePollingInterval = TimeSpan.FromSeconds(1));
 
 
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Administrador"));
-    options.AddPolicy("RequireProfessorRole", policy => policy.RequireRole("Professor"));
+    builder.Services.AddAuthorization(options =>
+    {
+        options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Administrador"));
+        options.AddPolicy("RequireProfessorRole", policy => policy.RequireRole("Professor"));
 
         options.AddPolicy("RequireAdminOrProfessorRole", policy =>
-            policy.RequireRole("Administrador", "Professor"));
+        policy.RequireRole("Administrador", "Professor"));
     });
 
     builder.Services.AddHttpClient();
 
     var app = builder.Build();
+
+    app.MapGet("/job", (IBackgroundJobClient jobClient) =>
+    {
+        jobClient.Enqueue(() => Console.WriteLine("Hello from BG"));
+        return Results.Ok("Hello job!");
+    });
+
     using (var scope = app.Services.CreateScope())
     {
 
@@ -88,20 +89,20 @@ builder.Services.AddAuthorization(options =>
 
     }
 
-// Configuração do painel de controle do Hangfire
-app.UseHangfireDashboard();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseMigrationsEndPoint();
-}
-else
-{
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
+    app.UseHangfireDashboard();
+
+    // Configure the HTTP request pipeline.
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseMigrationsEndPoint();
+    }
+    else
+    {
+        app.UseExceptionHandler("/Home/Error");
+        // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+        app.UseHsts();
+    }
 
     app.UseHttpsRedirection();
     app.UseStaticFiles();
@@ -109,10 +110,10 @@ else
 
     CriarPerfisUsuarios(app);
 
-app.UseRouting();
-app.MapHangfireDashboard(); // Endpoint do painel de controle: /hangfire
-app.UseAuthentication();
-app.UseAuthorization();
+    app.UseRouting();
+    app.MapHangfireDashboard();
+    app.UseAuthentication();
+    app.UseAuthorization();
 
     void CriarPerfisUsuarios(WebApplication app)
     {
