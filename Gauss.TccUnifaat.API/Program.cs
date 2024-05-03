@@ -18,7 +18,7 @@ namespace Gauss.TccUnifaat.API
             {
                 var builder = WebApplication.CreateBuilder(args);
 
-                //SerilogExtension.ConfigureSeqWithSerilog(builder.Configuration, TipoSetor.api);
+                SerilogExtension.ConfigureSeqWithSerilog(builder.Configuration, TipoSetor.api);
 
                 // Add services to the container.
                 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
