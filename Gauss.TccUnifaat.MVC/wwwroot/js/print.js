@@ -1,0 +1,3 @@
+﻿function imprimirPagina() {
+    window.print();
+}

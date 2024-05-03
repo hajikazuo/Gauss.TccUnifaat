@@ -1,9 +1,9 @@
 using Gauss.TccUnifaat.Common.Extensions;
 using Gauss.TccUnifaat.Common.Models.Enums;
+using Gauss.TccUnifaat.Common.Services;
 using Gauss.TccUnifaat.Common.Services.Interfaces;
 using Gauss.TccUnifaat.Common.Settings;
 using Gauss.TccUnifaat.Data;
-using Gauss.TccUnifaat.MVC.Services;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 

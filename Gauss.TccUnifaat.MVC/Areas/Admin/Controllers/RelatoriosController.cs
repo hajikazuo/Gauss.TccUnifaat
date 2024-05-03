@@ -4,7 +4,6 @@ using Gauss.TccUnifaat.MVC.Dapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Rotativa.AspNetCore;
 
 namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
 {
@@ -34,7 +33,7 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
 
             ViewBag.Usuarios = usuarios;
 
-            return  new ViewAsPdf(usuarios);
+            return View(usuarios);
         }
 
         public IActionResult RelatorioUsuariosPorTurma()
@@ -45,18 +44,38 @@ namespace Gauss.TccUnifaat.MVC.Areas.Admin.Controllers
 
             ViewBag.Usuarios = usuarios;
 
-            return new ViewAsPdf(usuarios);
+            return View(usuarios);
         }
 
-        public IActionResult RelatorioFaltas()
+        public async Task<IActionResult> RelatorioFaltasAsync(DateTime? dataFiltro = null)
         {
-            var sqlControleFaltas = Common.Resources.querys.controle_faltas;
-            var conn = _context.Database.GetDbConnection();
-            var faltas = conn.Query<ControleFaltasViewModel>(sqlControleFaltas);
+            var dataAtual = DateTime.Today;
 
-            ViewBag.Usuarios = faltas;
+            if (dataFiltro == null)
+            {
+                dataFiltro = dataAtual;
+            }
 
-            return new ViewAsPdf(faltas);
+            var faltasPorUsuario = await _context.Presencas
+                .Include(p => p.Usuario)
+                .Include(p => p.Turma)
+                .Where(p => p.Presente != true && p.DataAula.Date.Month == dataFiltro.Value.Date.Month)
+                .GroupBy(p => new { p.UsuarioId, p.Usuario.NomeCompleto, p.Turma.TurmaId, p.Turma.Nome })
+                .Select(g => new ControleFaltasViewModel
+                {
+                    UsuarioId = g.Key.UsuarioId,
+                    NomeCompleto = g.Key.NomeCompleto,
+                    TurmaId = g.Key.TurmaId,
+                    NomeTurma = g.Key.Nome,
+                    QtdeFaltas = g.Count()
+                })
+                .OrderByDescending(g => g.QtdeFaltas)
+                .ToListAsync();
+
+            ViewBag.DataAtual = dataAtual;
+            ViewBag.DataFiltro = dataFiltro;
+            return View(faltasPorUsuario);
         }
+
     }
 }

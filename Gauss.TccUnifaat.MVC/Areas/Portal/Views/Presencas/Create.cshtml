@@ -22,7 +22,7 @@
         </div>
         <div class="card-body">
 
-            <h3>Turma:
+            <h5>Turma:
                 @if (minhaTurma != null)
                 {
                     @minhaTurma.Nome
@@ -31,7 +31,7 @@
                 {
                     <text>Você não está cadastrado em uma turma</text>
                 }
-            </h3>
+            </h5>
 
             <form method="post" action="@Url.Action("Create")">
 

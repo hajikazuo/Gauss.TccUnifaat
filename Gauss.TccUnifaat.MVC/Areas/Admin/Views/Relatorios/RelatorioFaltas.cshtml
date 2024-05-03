@@ -1,18 +1,39 @@
-﻿@{
+﻿@using Gauss.TccUnifaat.MVC.Dapper
+@{
     Layout = null;
+    var pageName = "Relatório - Quantidade de faltas";
+    ViewData["Title"] = pageName;
 }
+
+@model IEnumerable<ControleFaltasViewModel>
 
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Relatório</title>
+    <title>@pageName</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </head>
-<body>
+<body class="p-3">
     <header>
-        <h1>Relatório - Quantidade de faltas</h1>
+        <h2>@pageName</h2>
     </header>
+
+    <div class="d-print-none">
+        <form method="get">
+            <div class="form-group">
+                <label for="dataFiltro">Selecione o mês:</label>
+                <div class="input-group">
+                    <input type="month" id="dataFiltro" name="dataFiltro" class="form-control" value="@ViewBag.DataFiltro.ToString("yyyy-MM")">
+                    <button type="submit" class="btn btn-secondary">Filtrar</button>
+                </div>
+            </div>
+        </form>
+
+        <button class="btn btn-secondary my-3" onclick="imprimirPagina()">Imprimir</button>
+
+    </div>
+
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -32,5 +53,6 @@
             }
         </tbody>
     </table>
+    <script src="~/js/print.js"></script>
 </body>
 </html>  

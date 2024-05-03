@@ -1,7 +1,7 @@
 ﻿using Gauss.TccUnifaat.Common.Models;
+using Gauss.TccUnifaat.Common.Services.Interfaces;
 using Gauss.TccUnifaat.Data;
 using Gauss.TccUnifaat.MVC.Extensions;
-using Gauss.TccUnifaat.MVC.Services.Interfaces;
 using Gauss.TccUnifaat.MVC.ViewModels;
 using Gauss.TccUnifaat.ViewModels;
 using Microsoft.AspNetCore.Authentication;
@@ -188,7 +188,7 @@ namespace Gauss.TccUnifaat.Controllers
                 }
                 else
                 {
-                    this.MostrarMensagem($"Não foi possível redefinir a senha. Verifique se preencheu a senha corretamente. Se o problema persistir, entre em contato com o suporte.",  erro: true);
+                    this.MostrarMensagem($"Não foi possível redefinir a senha. Verifique se preencheu a senha corretamente. Se o problema persistir, entre em contato com o suporte.", erro: true);
                     return View(dados);
                 }
             }

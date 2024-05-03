@@ -8,7 +8,7 @@ using NewsAPI;
 using NewsAPI.Constants;
 using NewsAPI.Models;
 
-namespace Gauss.TccUnifaat.MVC.Services
+namespace Gauss.TccUnifaat.Common.Services
 {
     public class NoticiaService : INoticiaService
     {
