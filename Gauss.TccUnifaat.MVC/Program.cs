@@ -24,7 +24,7 @@ try
         options.UseSqlServer(connectionString));
     builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-    builder.Services.Configure<Gauss.TccUnifaat.Common.Settings.SendGridSettings>(builder.Configuration.GetSection("SendGridSettings"));
+    builder.Services.Configure<SendGridSettings>(builder.Configuration.GetSection("SendGridSettings"));
     builder.Services.AddSingleton<IEmailService, SendGridService>();
     builder.Services.AddSingleton(RT.Comb.Provider.Sql);
     builder.Services.Configure<NewsApiSettings>(builder.Configuration.GetSection("NewsApi"));
@@ -62,8 +62,13 @@ try
 
     builder.Services.AddHangfire(options =>
     {
-
+        var hangfireConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+        options.UseSimpleAssemblyNameTypeSerializer();
+        options.UseRecommendedSerializerSettings();
+        options.UseSqlServerStorage(hangfireConnectionString);
     });
+    builder.Services.AddHangfireServer();
+
     builder.Services.AddHttpClient();
 
     var app = builder.Build();
@@ -88,6 +93,9 @@ try
         app.UseHsts();
     }
 
+    var serviceProvider = builder.Services.BuildServiceProvider();
+    serviceProvider.ConfigureHangfireJobs();
+
     app.UseHttpsRedirection();
     app.UseStaticFiles();
     app.UseMiddleware<SerilogMiddleware>();
@@ -97,6 +105,8 @@ try
     app.UseRouting();
     app.UseAuthentication();
     app.UseAuthorization();
+
+    app.UseHangfireDashboard("/hangfire");
 
     void CriarPerfisUsuarios(WebApplication app)
     {

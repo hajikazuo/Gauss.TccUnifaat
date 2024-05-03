@@ -1,4 +1,5 @@
 using Gauss.TccUnifaat.Common.Extensions;
+using Gauss.TccUnifaat.Common.Library;
 using Gauss.TccUnifaat.Common.Models.Enums;
 using Gauss.TccUnifaat.Common.Services;
 using Gauss.TccUnifaat.Common.Services.Interfaces;
@@ -17,7 +18,7 @@ namespace Gauss.TccUnifaat.API
             {
                 var builder = WebApplication.CreateBuilder(args);
 
-                SerilogExtension.ConfigureSeqWithSerilog(builder.Configuration, TipoSetor.api);
+                //SerilogExtension.ConfigureSeqWithSerilog(builder.Configuration, TipoSetor.api);
 
                 // Add services to the container.
                 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -41,6 +42,7 @@ namespace Gauss.TccUnifaat.API
                 }
 
                 app.UseHttpsRedirection();
+                app.UseMiddleware<SerilogMiddleware>();
 
                 app.UseAuthorization();
 
