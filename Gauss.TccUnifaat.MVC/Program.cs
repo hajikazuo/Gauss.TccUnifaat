@@ -6,6 +6,7 @@ using Gauss.TccUnifaat.Common.Services;
 using Gauss.TccUnifaat.Common.Services.Interfaces;
 using Gauss.TccUnifaat.Common.Settings;
 using Gauss.TccUnifaat.Data;
+using Hangfire;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -59,6 +60,10 @@ try
             policy.RequireRole("Administrador", "Professor"));
     });
 
+    builder.Services.AddHangfire(options =>
+    {
+
+    });
     builder.Services.AddHttpClient();
 
     var app = builder.Build();
