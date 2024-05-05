@@ -1,6 +1,7 @@
 ﻿<html>
 <head>
     <meta charset="utf-8">
+    <title>@ViewData["Title"] - Gauss.TccUnifaat</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link href="~/css/admin.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -11,6 +12,16 @@
             <button class="btn btn-secondary my-3" onclick="imprimirPagina()"><i class="fa-solid fa-print"></i> Imprimir</button>
         </div>
     </header>
+
+    <div>
+        <img class="logo" src="~/img/logo.png" alt="Logo da Instituição">
+        <div><strong>Nome da Instituição:</strong> Cursinho Gauss</div>
+        <div><strong>Endereço:</strong> Avenida Nove de Julho, 288 - Centro Atibaia, SP 12940-580</div>
+        <div><strong>Telefone:</strong> (11) 93012-2379</div>
+        <div><strong>Ano:</strong> @DateTime.UtcNow.Year</div>
+        <br />
+        <div><h5>@ViewData["Title"]</h5></div>
+    </div>
 
     @RenderBody()
 
