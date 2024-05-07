@@ -14,7 +14,7 @@ public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<Applicati
     public ApplicationDbContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-        optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=aspnet-Gauss.TccUnifaat-ee3b3716-0578-47a0-a21c-95ad9422bc57;Trusted_Connection=True;MultipleActiveResultSets=true");
+        optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=Gauss.TccUnifaat;Trusted_Connection=True;MultipleActiveResultSets=true");
 
         return new ApplicationDbContext(optionsBuilder.Options);
     }
