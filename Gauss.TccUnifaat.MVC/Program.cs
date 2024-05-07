@@ -7,6 +7,7 @@ using Gauss.TccUnifaat.Common.Services.Interfaces;
 using Gauss.TccUnifaat.Common.Settings;
 using Gauss.TccUnifaat.Data;
 using Hangfire;
+using Hangfire.Dashboard;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +27,8 @@ try
 
     builder.Services.Configure<SendGridSettings>(builder.Configuration.GetSection("SendGridSettings"));
     builder.Services.AddSingleton<IEmailService, SendGridService>();
+    builder.Services.AddSingleton<IDashboardAuthorizationFilter, HangfireAuthorizationFilter>();
+
     builder.Services.AddSingleton(RT.Comb.Provider.Sql);
     builder.Services.Configure<NewsApiSettings>(builder.Configuration.GetSection("NewsApi"));
     builder.Services.AddScoped<INoticiaService, NoticiaService>();
@@ -106,7 +109,10 @@ try
     app.UseAuthentication();
     app.UseAuthorization();
 
-    app.UseHangfireDashboard("/hangfire");
+    app.UseHangfireDashboard("/hangfire", new DashboardOptions
+    {
+        Authorization = new[] { new HangfireAuthorizationFilter() }
+    });
 
     void CriarPerfisUsuarios(WebApplication app)
     {
