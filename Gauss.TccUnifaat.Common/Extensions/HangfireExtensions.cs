@@ -12,8 +12,6 @@ namespace Gauss.TccUnifaat.Common.Extensions
 
             recurringJobManager.AddOrUpdate("ObterNoticiasJob", () => serviceProvider.GetService<INoticiaService>().ObterNoticiasAsync(), "0 0 * * 0");
 
-            //teste
-            //recurringJobManager.AddOrUpdate("ObterNoticiasJob", () => serviceProvider.GetService<INoticiaService>().ObterNoticiasAsync(), Cron.MinuteInterval(1));
         }
     }
 }

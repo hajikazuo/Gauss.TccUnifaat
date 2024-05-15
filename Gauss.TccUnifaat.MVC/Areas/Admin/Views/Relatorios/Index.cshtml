@@ -6,28 +6,47 @@
 }
 
 <div class="container-fluid mt-3">
-
     <div class="card mb-4">
         <div class="card-header">
             <h5>@pageName</h5>
         </div>
         <div class="card-body">
-
-            <div class="list-group">
-                <a class="list-group-item list-group-item-action" asp-area="admin" asp-controller="Relatorios" asp-action="RelatorioUsuariosPorTurma" target="_blank">
-                    <div class="sb-nav-link-icon"></div>
-                    Relatório - Quantidade de usuários por turma
-                </a>
-                <a class="list-group-item list-group-item-action" asp-area="admin" asp-controller="Relatorios" asp-action="RelatorioQtdFuncao" target="_blank">
-                    <div class="sb-nav-link-icon"></div>
-                    Relatório - Quantidade de usuários por função
-                </a>
-                <a class="list-group-item list-group-item-action" asp-area="admin" asp-controller="Relatorios" asp-action="RelatorioFaltas" target="_blank">
-                    <div class="sb-nav-link-icon"></div>
-                    Relatório de faltas
-                </a>
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card radius-10 border-start border-0 border-3 border-dark h-100 shadow-lg">
+                    <div class="card-body">
+                        <div class="font-weight-bold text-uppercase mb-1" style="font-size:11px">
+                            Relatório - Quantidade de usuários por turma
+                        </div>
+                        <a class="list-group-item list-group-item-action" asp-area="admin" asp-controller="Relatorios" asp-action="RelatorioUsuariosPorTurma" target="_blank">
+                            <h5 class="card-title">Exibir</h5>
+                        </a>
+                    </div>
+                </div>
             </div>
-
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card radius-10 border-start border-0 border-3 border-dark h-100 shadow-lg">
+                    <div class="card-body">
+                        <div class="font-weight-bold text-uppercase mb-1" style="font-size:11px">
+                            Relatório - Quantidade de usuários por função
+                        </div>
+                        <a class="list-group-item list-group-item-action" asp-area="admin" asp-controller="Relatorios" asp-action="RelatorioQtdFuncao" target="_blank">
+                            <h5 class="card-title">Exibir</h5>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card radius-10 border-start border-0 border-3 border-dark h-100 shadow-lg">
+                    <div class="card-body">
+                        <div class="font-weight-bold text-uppercase mb-1" style="font-size:11px">
+                            Relatório de faltas
+                        </div>
+                        <a class="list-group-item list-group-item-action" asp-area="admin" asp-controller="Relatorios" asp-action="RelatorioFaltas" target="_blank">
+                            <h5 class="card-title">Exibir</h5>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
