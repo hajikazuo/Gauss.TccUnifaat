@@ -1,34 +1,55 @@
 version: '3.4'
 
 services:
-  gauss.tccunifaat.mvc:
-    container_name: gauss_tccunifaat_mvc
-    image: ${DOCKER_REGISTRY-}gausstccunifaatmvc
-    depends_on:
-        - gauss.sql
-    build:
-      context: .
-      target: 'final'
-      dockerfile: Gauss.TccUnifaat.MVC/Dockerfile
+  gauss.mvc:     #3
+    container_name: gauss_mvc
+    image: gauss.azurecr.io/gauss-tccunifaat-mvc:latest
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.mvc_dev.loadbalancer.server.port=8080"
+      - "traefik.http.routers.mvc_dev-secure.rule=Host(`gauss.tcc.dev.br`)"
+      - "traefik.http.routers.mvc_dev-secure.entrypoints=websecure"
+      - "traefik.http.routers.mvc_dev-secure.tls=true"
+      - "traefik.http.routers.mvc_dev-secure.tls.certresolver=le"
+      - "traefik.http.routers.mvc_dev-secure.service=mvc_dev"
+      - "traefik.http.routers.mvc_dev.rule=Host(`gauss.tcc.dev.br`)"
+      - "traefik.http.routers.mvc_dev.entrypoints=web"
+      - "traefik.http.routers.mvc_dev.middlewares=mvcdev"
+      - "traefik.http.middlewares.mvcdev.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.mvcdev.redirectscheme.permanent=true"
+    ports:
+      - "42080:8080"
     networks:
-      gauss.network:
+      gauss.external:
       gauss.internal:
-        ipv4_address: "172.20.18.3"
-  gauss.tccunifaat.api:
-    container_name: gauss_tccunifaat_api
-    image: ${DOCKER_REGISTRY-}gausstccunifaatapi
-    depends_on:
-        - gauss.sql
-    build:
-      context: .
-      target: 'final'
-      dockerfile: Gauss.TccUnifaat.API/Dockerfile
-    networks:
-      gauss.network:
-      gauss.internal:
-        ipv4_address: "172.20.18.4"
+        ipv4_address: "172.18.19.3"
 
-  gauss.seq:
+  gauss.api:     #4
+    container_name: gauss_api
+    image: gauss.azurecr.io/gauss-tccunifaat-api:latest
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.api_dev.loadbalancer.server.port=8080"
+      - "traefik.http.routers.api_dev-secure.rule=Host(`api.tcc.dev.br`)"
+      - "traefik.http.routers.api_dev-secure.entrypoints=websecure"
+      - "traefik.http.routers.api_dev-secure.tls=true"
+      - "traefik.http.routers.api_dev-secure.tls.certresolver=le"
+      - "traefik.http.routers.api_dev-secure.service=api_dev"
+      - "traefik.http.routers.api_dev.rule=Host(`api.tcc.dev.br`)"
+      - "traefik.http.routers.api_dev.entrypoints=web"
+      - "traefik.http.routers.api_dev.middlewares=apidev"
+      - "traefik.http.middlewares.apidev.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.apidev.redirectscheme.permanent=true"
+    ports:
+      - "43080:8080"
+    networks:
+      gauss.external:
+      gauss.internal:
+        ipv4_address: "172.18.19.4"
+
+  gauss.seq:    #40
     container_name: gauss_seq
     image: datalust/seq:latest
     restart: always
@@ -36,40 +57,63 @@ services:
     environment:
       - "TZ=America/Sao_Paulo"
       - "ACCEPT_EULA=Y"
+    volumes:
+      - seq-data:/data
     ports:
       - 21380:80
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.seq.loadbalancer.server.port=80"
+      - "traefik.http.routers.seq-secure.rule=Host(`seq.tcc.dev.br`)"
+      - "traefik.http.routers.seq-secure.entrypoints=websecure"
+      - "traefik.http.routers.seq-secure.tls=true"
+      - "traefik.http.routers.seq-secure.tls.certresolver=le"
+      - "traefik.http.routers.seq-secure.service=seq"
+      - "traefik.http.routers.seq.rule=Host(`seq.tcc.dev.br`)"
+      - "traefik.http.routers.seq.entrypoints=web"
+      - "traefik.http.routers.seq.middlewares=seq"
+      - "traefik.http.middlewares.seq.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.seq.redirectscheme.permanent=true"
     networks:
-      gauss.network:
+      gauss.external:
       gauss.internal:
-        ipv4_address: "172.20.18.40"
+        ipv4_address: "172.18.19.40"
 
-  gauss.glances:
-    container_name: gauss_glances
-    image: nicolargo/glances:latest
-    restart: always
-    pid: host
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "/run/user/1000/podman/podman.sock:/run/user/1000/podman/podman.sock:ro"
-      - "./glances.conf:/glances/conf/glances.conf"
-    environment:
-      - "TZ=America/Sao_Paulo"
-      - "GLANCES_OPT=-w -t 10"
+  portainer:    #70
+    container_name: portainer
+    image: portainer/portainer-ce:latest
     ports:
-      - 21181:61208
+      - 9443:9443
+    volumes:
+        - portainer-data:/data
+        - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+    environment:
+        - "--http-enabled"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.portainer.loadbalancer.server.port=9443"
+      - "traefik.http.routers.portainer-secure.rule=Host(`portainer.tcc.dev.br`)"
+      - "traefik.http.routers.portainer-secure.entrypoints=websecure"
+      - "traefik.http.routers.portainer-secure.tls=true"
+      - "traefik.http.routers.portainer-secure.tls.certresolver=le"
+      - "traefik.http.routers.portainer-secure.service=portainer"
+      - "traefik.http.routers.portainer.rule=Host(`portainer.tcc.dev.br`)"
+      - "traefik.http.routers.portainer.entrypoints=web"
+      - "traefik.http.routers.portainer.middlewares=portainer"
+      - "traefik.http.middlewares.portainer.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.portainer.redirectscheme.permanent=true"
     networks:
-      gauss.network:
+      gauss.external:
       gauss.internal:
-        ipv4_address: "172.20.18.50"
+        ipv4_address: "172.18.19.70"
 
-  gauss.sql:
+  gauss.sql:    #21
+    restart: always
     container_name: gauss_sql
     image: mcr.microsoft.com/mssql/server:2022-latest
-    user: root
     ports:
       - "1433:1433"
-    expose:
-      - "1433"
     environment:
       - "ACCEPT_EULA=Y"
       - "SA_PASSWORD=Gauss@2024%*#"
@@ -78,23 +122,96 @@ services:
       - "MSSQL_AGENT_ENABLED=true"
       - "TZ=America/Sao_Paulo"
     networks:
-      gauss.network:
+      gauss.external:
       gauss.internal:
-        ipv4_address: "172.20.18.60"
-
-  portainer:
-    container_name: gauss_portainer
-    image: portainer/portainer-ce:latest
-    ports:
-      - 9443:9443
+        ipv4_address: "172.18.19.21"
     volumes:
-        - data:/data
-        - /var/run/docker.sock:/var/run/docker.sock
-    restart: unless-stopped
+      - ./mssql:/var/opt/mssql
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.sqlserver_gauss.loadbalancer.server.port=1433"
+      - "traefik.http.routers.sqlserver_gauss-secure.rule=Host(`sql.tcc.dev.br`)"
+      - "traefik.http.routers.sqlserver_gauss-secure.entrypoints=websecure"
+      - "traefik.http.routers.sqlserver_gauss-secure.tls=true"
+      - "traefik.http.routers.sqlserver_gauss-secure.tls.certresolver=le"
+      - "traefik.http.routers.sqlserver_gauss-secure.service=sqlserver_gauss"
+      - "traefik.http.routers.sqlserver_gauss.rule=Host(`sql.tcc.dev.br`)"
+      - "traefik.http.routers.sqlserver_gauss.entrypoints=web"
+      - "traefik.http.routers.sqlserver_gauss.middlewares=sql"
+      - "traefik.http.middlewares.sql.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.sql.redirectscheme.permanent=true"
+
+  glances.gauss:    #23
+    container_name: glances_tcc_gauss
+    image: nicolargo/glances:latest
+    restart: always
+    pid: host
+    environment:
+      - "TZ=America/Sao_Paulo"
+      - "GLANCES_OPT=-w -t 10"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./.config/glances/glances.pwd:/root/.config/glances/glances.pwd
+      - ./.config/glances/glances.conf:/glances/conf/glances.conf
     networks:
-      gauss.network:
+      gauss.external:
       gauss.internal:
-        ipv4_address: "172.20.18.70"
+        ipv4_address: "172.18.19.23"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.glances_tcc_gauss.loadbalancer.server.port=61208"
+      - "traefik.http.routers.glances_tcc_gauss-secure.rule=Host(`glances.tcc.dev.br`)"
+      - "traefik.http.routers.glances_tcc_gauss-secure.entrypoints=websecure"
+      - "traefik.http.routers.glances_tcc_gauss-secure.tls=true"
+      - "traefik.http.routers.glances_tcc_gauss-secure.tls.certresolver=le"
+      - "traefik.http.routers.glances_tcc_gauss-secure.service=glances_tcc_gauss"
+      - "traefik.http.routers.glances_tcc_gauss-secure.middlewares=glances-tcc"
+      - "traefik.http.routers.glances_tcc_gauss.rule=Host(`glances.tcc.dev.br`)"
+      - "traefik.http.routers.glances_tcc_gauss.entrypoints=web"
+      - "traefik.http.routers.glances_tcc_gauss.middlewares=glances-tcc2"
+      - "traefik.http.middlewares.glances-tcc.basicauth.users=su:$$apr1$$Y0yEVD5Y$$cTTpmornPxvPGwlMxx.Na0"
+      - "traefik.http.middlewares.glances-tcc2.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.glances-tcc2.redirectscheme.permanent=true"
+
+  traefik: #2
+    container_name: traefik
+    image: traefik:latest
+    restart: always
+    environment:
+      - "TZ=America/Sao_Paulo"
+    command:
+      - "--api=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.traefik.address=:8080"
+      - "--certificatesResolvers.le.acme.email=leonardo@wmb.com.br"
+      - "--certificatesResolvers.le.acme.storage=acme.json"
+      - "--certificatesResolvers.le.acme.tlsChallenge=true"
+      - "--certificatesResolvers.le.acme.httpChallenge=true"
+      - "--certificatesResolvers.le.acme.httpChallenge.entryPoint=web"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    networks:
+      gauss.external:
+      gauss.internal:
+        ipv4_address: "172.18.19.2"
+    logging:
+      driver: none
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.tcc.dev.br`)"
+      - "traefik.http.routers.traefik.service=api@internal"
+      - "traefik.http.routers.traefik.middlewares=admin"
+      - "traefik.http.routers.traefik.tls.certresolver=le"
+      - "traefik.http.routers.traefik.entrypoints=websecure"
+      - "traefik.http.middlewares.admin.basicauth.users=su:$$apr1$$Y0yEVD5Y$$cTTpmornPxvPGwlMxx.Na0"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./data/acme.json:/acme.json
 
 networks:
   gauss.internal:
@@ -103,8 +220,10 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: 172.20.18.0/24
-  gauss.network:
+        - subnet: 172.18.19.0/24
+  gauss.external:
+
 
 volumes:
-  data:    
+  portainer-data:
+  seq-data:
