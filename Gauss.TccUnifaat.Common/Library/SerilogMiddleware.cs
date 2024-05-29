@@ -62,7 +62,6 @@ namespace Gauss.TccUnifaat.Common.Library
             var result = Log
                 .ForContext("RequestHeaders", loggedHeaders, destructureObjects: true)
                 .ForContext("RequestHost", request.Host)
-                .ForContext("SIGA:", request.Host)
                 .ForContext("RequestProtocol", request.Protocol);
 
             return result;
