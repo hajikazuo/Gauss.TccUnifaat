@@ -12888,3 +12888,9 @@ body {
     text-decoration: none; 
 }
 
+.video-title {
+    height: 50px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

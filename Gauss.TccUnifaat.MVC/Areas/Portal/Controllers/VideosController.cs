@@ -65,6 +65,13 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
         public async Task<IActionResult> CreateAsync()
         {
             var currentUser = await _userManager.GetUserAsync(User);
+            
+            if (currentUser.TurmaId == null)
+            {
+                this.MostrarMensagem($"Você não está associado a uma turma. Por favor, entre em contato com o administrador do sistema.", erro: true);
+                return RedirectToAction(nameof(Index));
+            }
+
             var disciplinas = _context.Disciplinas.Where(v => v.TurmaId == currentUser.TurmaId).ToList();
 
             if (disciplinas.Count == 0)

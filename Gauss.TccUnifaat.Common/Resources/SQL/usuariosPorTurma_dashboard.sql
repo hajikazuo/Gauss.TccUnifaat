@@ -3,9 +3,9 @@
     COUNT(u.Id) as QuantidadeUsuariosPorTurma
 FROM 
     Turmas t
-    LEFT JOIN AspNetUsers u ON t.TurmaId = u.TurmaId
+    LEFT JOIN AspNetUsers u ON t.TurmaId = u.TurmaId AND (u.Excluido = 0 OR u.Excluido IS NULL)
 WHERE 
-    u.Excluido = 0 OR u.Excluido IS NULL
+    t.Excluido = 0
 GROUP BY 
     t.Nome
 ORDER BY 
