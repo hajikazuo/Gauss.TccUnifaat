@@ -1,4 +1,5 @@
 ﻿using Gauss.TccUnifaat.Common.Models;
+using Gauss.TccUnifaat.Common.Services.Interface;
 using Gauss.TccUnifaat.Common.Services.Interfaces;
 using Gauss.TccUnifaat.Common.Settings;
 using Gauss.TccUnifaat.Data;

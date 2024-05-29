@@ -1,6 +1,6 @@
 ﻿using Gauss.TccUnifaat.Common.Extensions;
 using Gauss.TccUnifaat.Common.Models;
-using Gauss.TccUnifaat.Common.Services.Interfaces;
+using Gauss.TccUnifaat.Common.Services.Interface;
 using Gauss.TccUnifaat.Controllers;
 using Gauss.TccUnifaat.Data;
 using Gauss.TccUnifaat.MVC.Extensions;

@@ -2,7 +2,7 @@ using Gauss.TccUnifaat.Common.Extensions;
 using Gauss.TccUnifaat.Common.Library;
 using Gauss.TccUnifaat.Common.Models.Enums;
 using Gauss.TccUnifaat.Common.Services;
-using Gauss.TccUnifaat.Common.Services.Interfaces;
+using Gauss.TccUnifaat.Common.Services.Interface;
 using Gauss.TccUnifaat.Common.Settings;
 using Gauss.TccUnifaat.Data;
 using Microsoft.EntityFrameworkCore;

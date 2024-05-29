@@ -3,6 +3,7 @@ using Gauss.TccUnifaat.Common.Library;
 using Gauss.TccUnifaat.Common.Models;
 using Gauss.TccUnifaat.Common.Models.Enums;
 using Gauss.TccUnifaat.Common.Services;
+using Gauss.TccUnifaat.Common.Services.Interface;
 using Gauss.TccUnifaat.Common.Services.Interfaces;
 using Gauss.TccUnifaat.Common.Settings;
 using Gauss.TccUnifaat.Data;
@@ -32,6 +33,7 @@ try
     builder.Services.AddSingleton(RT.Comb.Provider.Sql);
     builder.Services.Configure<NewsApiSettings>(builder.Configuration.GetSection("NewsApi"));
     builder.Services.AddScoped<INoticiaService, NoticiaService>();
+    builder.Services.AddScoped<IAvisoService, AvisoService>();
     builder.Services.AddIdentity<Usuario, Funcao>(options => options.SignIn.RequireConfirmedAccount = true)
         .AddEntityFrameworkStores<ApplicationDbContext>()
         .AddDefaultTokenProviders();

@@ -1,4 +1,4 @@
-﻿using Gauss.TccUnifaat.Common.Services.Interfaces;
+﻿using Gauss.TccUnifaat.Common.Services.Interface;
 using Hangfire;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,6 +11,9 @@ namespace Gauss.TccUnifaat.Common.Extensions
             var recurringJobManager = serviceProvider.GetRequiredService<IRecurringJobManager>();
 
             recurringJobManager.AddOrUpdate("ObterNoticiasJob", () => serviceProvider.GetService<INoticiaService>().ObterNoticiasAsync(), "0 0 * * 0");
+
+            recurringJobManager.AddOrUpdate("ExcluirAvisosAntigosJob", () => serviceProvider.GetService<IAvisoService>().ExcluirAvisosAntigosAsync(), "0 0 * * *");
+
 
         }
     }
