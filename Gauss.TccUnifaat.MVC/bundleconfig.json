@@ -1,0 +1,17 @@
+﻿[
+  //css --------------------------------------------------
+  {
+    "outputFileName": "wwwroot/bundler/css/site.min.css",
+    "inputFiles": [
+      "wwwroot/css/site.css",
+      "wwwroot/lib/bootstrap/dist/css/bootstrap.min.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/bundler/css/admin.min.css",
+    "inputFiles": [
+      "wwwroot/lib/bootstrap/dist/css/bootstrap.min.css",
+      "wwwroot/css/admin.css"
+    ]
+  }
+]
