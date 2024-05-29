@@ -139,7 +139,7 @@ namespace Gauss.TccUnifaat.Common.Resources {
         ///    COUNT(u.Id) as QuantidadeUsuariosPorTurma
         ///FROM 
         ///    Turmas t
-        ///    LEFT JOIN AspNetUsers u ON t.TurmaId = u.TurmaId AND (u.Excluido = 0 OR u.Excluido IS NULL)
+        ///    LEFT JOIN AspNetUsers u ON t.TurmaId = u.TurmaId 
         ///WHERE 
         ///    t.Excluido = 0
         ///GROUP BY 
