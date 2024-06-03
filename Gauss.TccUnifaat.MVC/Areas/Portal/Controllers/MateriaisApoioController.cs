@@ -37,10 +37,17 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
         public async Task<IActionResult> Index()
         {
             var currentUser = await _userManager.GetUserAsync(User);
-            var materiaisApoioDaTurma = await _context.MateriaisApoio
-           .Where(m => m.Disciplina.TurmaId == currentUser.TurmaId)
-           .Include(m => m.Disciplina)
-           .ToListAsync();
+
+            bool isAdmin = await _userManager.IsInRoleAsync(currentUser, "Administrador");
+
+            IQueryable<MaterialApoio> materiaisQuery = _context.MateriaisApoio.Include(m => m.Disciplina);
+
+            if (!isAdmin)
+            {
+                materiaisQuery = materiaisQuery.Where(m => m.Disciplina.TurmaId == currentUser.TurmaId);
+            }
+
+            var materiaisApoioDaTurma = await materiaisQuery.ToListAsync();
 
             return View(materiaisApoioDaTurma);
         }
