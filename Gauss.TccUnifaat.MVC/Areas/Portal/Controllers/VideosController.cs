@@ -31,11 +31,16 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
 
             var currentUser = await _userManager.GetUserAsync(User);
 
-            var videosPorDisciplina = await _context.Videos
-                .Where(v => v.Disciplina.TurmaId == currentUser.TurmaId)
-                .Include(v => v.Disciplina)
-                .GroupBy(v => v.Disciplina.Nome)
-                .ToListAsync();
+            bool isAdmin = await _userManager.IsInRoleAsync(currentUser, "Administrador");
+
+            IQueryable<Video> videosQuery = _context.Videos.Include(v => v.Disciplina);
+
+            if (!isAdmin)
+            {
+                videosQuery = videosQuery.Where(v => v.Disciplina.TurmaId == currentUser.TurmaId);
+            }
+
+            var videosPorDisciplina = await videosQuery.GroupBy(v => v.Disciplina.Nome).ToListAsync();
 
             return View(videosPorDisciplina);
         }
