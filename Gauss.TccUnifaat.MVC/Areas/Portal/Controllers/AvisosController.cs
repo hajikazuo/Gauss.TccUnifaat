@@ -26,12 +26,9 @@ namespace Gauss.TccUnifaat.MVC.Areas.Portal.Controllers
         // GET: Portal/Avisos
         public async Task<IActionResult> Index()
         {
-            var currentUser = await _userManager.GetUserAsync(User);
             var avisosDaTurma = await _context.Avisos
-           .Where(m => m.TurmaId == currentUser.TurmaId)
            .Include(t => t.Turma)
            .ToListAsync();
-
 
             return View(avisosDaTurma);
         }
